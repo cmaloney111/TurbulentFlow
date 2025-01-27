@@ -152,7 +152,6 @@ df_inputs_scaled = pl.DataFrame({
     "s_cos_a"              : np.cosd(df["alpha"]),
     "s_1mcos2_a"           : 1 - np.cosd(df["alpha"]) ** 2,
     "s_Re"                 : (np.log(df["Re"]) - 12.5) / 3.5,
-    # No mach
     "s_n_crit"             : (df["n_crit"] - 9) / 4.5,
     "s_xtr_upper"          : df["xtr_upper"],
     "s_xtr_lower"          : df["xtr_lower"],

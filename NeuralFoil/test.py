@@ -30,7 +30,14 @@ for filename in airfoils_dir_files:
         ).alpha(alphas_xfoil)
         for Re in tqdm(Re_values_to_test, desc="XFoil")
     ]
-
+    xfoil_line2d, = plt.plot(
+        aeros["xfoil"][i]["CD"],
+        aeros["xfoil"][i]["CL"],
+        linestyle=(0, (1, 1.5)), linewidth=2.2,
+        # ".", markeredgewidth=0, markersize=4, alpha=0.8,
+        color=p.adjust_lightness(color, 0.4),
+        zorder=5,
+    )
     nf_model_sizes = [
         "large-ours-2000", "large-real", "small-ours-200", "small-real"
     ]

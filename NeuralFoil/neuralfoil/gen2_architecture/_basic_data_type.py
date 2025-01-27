@@ -362,7 +362,7 @@ class Data():
             *[f"lower_bl_theta_{i}" for i in range(cls.N)],
             *[f"lower_bl_H_{i}" for i in range(cls.N)],
             *[f"lower_bl_ue/vinf_{i}" for i in range(cls.N)],
-        ]
+        ] # Cb1, Cb2, Cw, fw, d, rho; NekRS; 
 
     @classmethod
     def get_vector_column_names(cls):

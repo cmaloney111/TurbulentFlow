@@ -25,7 +25,6 @@ n_hidden_layers = 5
 width = 512
 print("Cache file: ", cache_file)
 
-
 # Define the model
 class Net(torch.nn.Module):
     def __init__(self, mean_inputs_scaled, cov_inputs_scaled):
@@ -86,7 +85,7 @@ class Net(torch.nn.Module):
         y_unflipped[:, 1] = y_flipped[:, 1] * -1  # CL
         y_unflipped[:, 3] = y_flipped[:, 3] * -1  # CM
         y_unflipped[:, 4] = y_flipped[:, 5]  # switch Top_Xtr with Bot_Xtr
-        y_unflipped[:, 5] = y_flipped[:, 4]  # switch Bot_Xtr with Top_Xtr
+        y_unflipped[:, 5]    = y_flipped[:, 4]  # switch Bot_Xtr with Top_Xtr
 
         # switch upper and lower Ret, H
         y_unflipped[:, 6 + 32 * 0: 6 + 32 * 2] = y_flipped[:, 6 + 32 * 3: 6 + 32 * 5]
@@ -108,7 +107,6 @@ class Net(torch.nn.Module):
 if __name__ == '__main__':
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     print(device)
-
     net = Net(
         mean_inputs_scaled=torch.tensor(mean_inputs_scaled, dtype=torch.float32).to(device),
         cov_inputs_scaled=torch.tensor(cov_inputs_scaled, dtype=torch.float32).to(device),
