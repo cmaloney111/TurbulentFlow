@@ -1,0 +1,9 @@
+NEK_SOURCE_ROOT=/home/cmaloney1/Nek5000
+FC=mpif77
+FFLAGS=-fPIC
+FCPP=-fpp
+FR8=-r8 -fpconstant
+FF77=
+CC=mpicc
+CFLAGS=-fPIC
+PPLIST= MPI UNDERSCORE TIMER

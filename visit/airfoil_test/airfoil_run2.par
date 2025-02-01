@@ -1,0 +1,18 @@
+#
+# nek parameter file
+#
+[GENERAL]
+dt = 1.0e-03
+numsteps = 10000
+writeInterval = 100
+
+[PROBLEMTYPE]
+equation = incompNS
+
+[MESH]
+numberOfBCFields = 1
+
+
+[VELOCITY]
+density = 1.0
+viscosity = -150.0

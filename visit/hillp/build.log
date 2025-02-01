@@ -1,0 +1,16 @@
+ar -cr libblasLapack.a *.o
+
+make: Warning: File 'makefile' has modification time 3.4 s in the future
+mpif77  -O2 -fpp -r8 -fpconstant   -DMPI -DUNDERSCORE -DTIMER -I/home/cmaloney1/Nek5000/run/hillp -I/home/cmaloney1/Nek5000/core -I./ -I/home/cmaloney1/Nek5000/core/experimental -I/home/cmaloney1/Nek5000/run/hillp/obj  -c /home/cmaloney1/Nek5000/run/hillp/hillp.f -o /home/cmaloney1/Nek5000/run/hillp/obj/hillp.o
+done
+mpif77 -c  -O2 -fpp -r8 -fpconstant   -DMPI -DUNDERSCORE -DTIMER -I/home/cmaloney1/Nek5000/run/hillp -I/home/cmaloney1/Nek5000/core -I./ -I/home/cmaloney1/Nek5000/core/experimental -I/home/cmaloney1/Nek5000/run/hillp/obj /home/cmaloney1/Nek5000/core/drive.f
+mpif77  -O2 -fpp -r8 -fpconstant   -DMPI -DUNDERSCORE -DTIMER -I/home/cmaloney1/Nek5000/run/hillp -I/home/cmaloney1/Nek5000/core -I./ -I/home/cmaloney1/Nek5000/core/experimental -I/home/cmaloney1/Nek5000/run/hillp/obj -o nek5000 drive.o /home/cmaloney1/Nek5000/run/hillp/obj/hillp.o /home/cmaloney1/Nek5000/run/hillp/obj/libnek5000.a -L/home/cmaloney1/Nek5000/3rd_party/blasLapack -lblasLapack -L/home/cmaloney1/Nek5000/3rd_party/gslib/lib -lgs -Wl,--allow-multiple-definition
+
+
+#############################################################
+#                  Compilation successful!                  #
+#############################################################
+   text	   data	    bss	    dec	    hex	filename
+5894379	 167080	79002796	85064255	511fa3f	nek5000
+
+make: warning:  Clock skew detected.  Your build may be incomplete.
