@@ -1,6 +1,13 @@
+//mesh version
+Mesh.MshFileVersion = 2.2;
+//+
+Mesh.SaveAll = 0;
+Mesh.SaveParametric = 0;
+
 POINTS
 
-Spline(1000) = {1000:LAST_POINT_INDEX,1000};
+Spline(2000) = {1000:1034,1000};
+
 
 edge_lc = 0.2;
 Point(1900) = { 5, 5, 0, edge_lc};
@@ -14,14 +21,20 @@ Line(3) = {1902,1903};
 Line(4) = {1903,1900};
 
 Line Loop (1) = {1,2,3,4};
-Line Loop (2) = {1000};
-Plane Surface(3) = {1,2};
+Line Loop (2) = {2000};
+Plane Surface(3) = {2,1};
 
-Recombine Surface(3);
+Recombine Surface{3}; 
+
+
 
 Physical Curve("top", 1) = {4};
 Physical Curve("outflow", 2) = {1};
 Physical Curve("bottom", 3) = {2};
 Physical Curve("inflow", 4) = {3};
-Physical Curve("aerofoil", 5) = {1000};
+Physical Curve("aerofoil", 5) = {2000};
 Physical Surface("interior", 6) = {3};
+
+
+
+
