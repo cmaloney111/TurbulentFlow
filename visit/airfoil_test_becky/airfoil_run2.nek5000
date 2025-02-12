@@ -1,0 +1,3 @@
+filetemplate: airfoil_run2%01d.f%05d
+firsttimestep: 1
+numtimesteps: 1
