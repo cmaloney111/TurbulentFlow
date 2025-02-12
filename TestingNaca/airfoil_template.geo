@@ -1,5 +1,10 @@
 POINTS
 
+// NOTE: For certain dat files, to avoid Vanishing Jacobian errors,
+// We need to combine the two points on the trailing edge that are close together
+// into one point at 1, 0. In case some airfoils are not centered, this fix may not work
+// for all airfoils.
+
 Spline(1000) = {1000:LAST_POINT_INDEX,1000};
 
 edge_lc = 0.2;
