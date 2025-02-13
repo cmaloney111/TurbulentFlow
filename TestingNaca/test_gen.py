@@ -5,7 +5,7 @@ import numpy as np
 import shutil;
 
 
-samples           = 100           # no. of datasets to produce
+samples           = 10           # no. of datasets to produce
 freestream_angle  = math.pi / 8.  # -angle ... angle
 freestream_length = 10.           # len * (1. ... factor)
 freestream_length_factor = 10.    # length factor
@@ -22,8 +22,12 @@ def genMesh(airfoilFile):
     ar = np.loadtxt(airfoilFile, skiprows=1)
 
     # removing duplicate end point
-    if np.max(np.abs(ar[0] - ar[(ar.shape[0]-1)]))<1e-6:
+    if np.max(np.abs(ar[0] - ar[-1]))<1e-6:
         ar = ar[:-1]
+
+    if np.abs(ar[0][1]+ar[-1][1]) < 1e-6:
+        ar = ar[:-1]
+        ar[0][1] = 0.
 
     output = ""
     pointIndex = 1000
@@ -156,11 +160,10 @@ for n in range(samples):
     print("\tResulting freestream vel x,y: {},{}".format(fsX,fsY))
 
 
-    # if genMesh(airfoil_database + files[fileNumber]) != 0:
-    if genMesh(airfoil_database + 'naca0015.dat') != 0:
+    if genMesh(airfoil_database + files[fileNumber]) != 0:
+    # if genMesh(airfoil_database + 'goe304.dat') != 0:
         print("\tmesh generation failed, aborting")
         continue
-    break
 
     
     # runSim(fsX, fsY)
