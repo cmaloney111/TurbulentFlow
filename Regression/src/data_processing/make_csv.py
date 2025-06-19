@@ -67,5 +67,5 @@ parsed_data = parse_all_pd(all_pd_path, coordinates_dir)
 
 df = pd.DataFrame(parsed_data)
 
-output_path = 'training_data_stec8.csv'
+output_path = '../../training_data_stec8.csv'
 df.to_csv(output_path, index=False)

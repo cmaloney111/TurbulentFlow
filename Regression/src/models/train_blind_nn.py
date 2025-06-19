@@ -5,8 +5,8 @@ from xfoil import XFoil
 from xfoil.model import Airfoil
 from neuralfoil import get_aero_from_airfoil
 
-sys.path.append(str(Path(__file__).parent))
-from load_data import (
+sys.path.append(str(Path(__file__).parent.parent))
+from data_processing.load_data import (
     df_train_inputs_scaled,
     df_train_outputs_scaled,
     df_test_inputs_scaled,

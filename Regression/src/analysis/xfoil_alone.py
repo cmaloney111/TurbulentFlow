@@ -10,27 +10,30 @@ from xfoil.model import Airfoil
 
 
 
-airfoils_dir = "Stec8"
+airfoils_dir = "../TestingNaca/airfoil_database/"
 airfoils_dir_files = [airfoil_filename for airfoil_filename in os.listdir(airfoils_dir) if airfoil_filename.endswith('COR')]
 random.shuffle(airfoils_dir_files)
 
-
+airfoils_dir_files = ['n5h20.dat']
 for filename in airfoils_dir_files:
     coordinates = {'x': [], 'y': []}
     with open(os.path.join(airfoils_dir, filename), 'r') as f:
         next(f)
-        print(filename)
+        # print(filename)
         for line in f:
             x, y = line.split()
             coordinates["x"].append(x)
             coordinates["y"].append(y)
+    
 
     xf = XFoil()
     airfoil = Airfoil(np.array(coordinates["x"]), np.array(coordinates["y"]))
     xf.airfoil = airfoil
 
+
     alphas_xfoil = np.linspace(-5, 15, 50)
-    Re_values_to_test = [1e4, 8e4, 2e5, 1e6, 1e8]
+    # Re_values_to_test = [1e4, 8e4, 2e5, 1e6, 1e8]
+    Re_values_to_test = [150]
 
     # Obtain data
     aeros = []
@@ -38,7 +41,8 @@ for filename in airfoils_dir_files:
     for re in Re_values_to_test:
         xf.Re = re
         xf.max_iter = 1
-        a, cl, cd, cm, cp = xf.aseq(-5, 15, 0.4)
+        a, cl, cd, cm, cp = xf.aseq(-0.5, 0.5, 0.1)
+        # cl, cd, cm, cp = xf.a(0)
         aeros.append({"CD": cd, "CL": cl})
 
     # print(aeros)
@@ -47,10 +51,14 @@ for filename in airfoils_dir_files:
             aeros[i]["CD"],
             aeros[i]["CL"],
             linestyle=(0, (1, 1.5)), linewidth=2.2,
+            marker='o',
             # ".", markeredgewidth=0, markersize=4, alpha=0.8,
             zorder=5,
             label=Re_values_to_test[i]
         )
     plt.title(filename.split('.')[0])
+    plt.xlabel('CD')
+    plt.ylabel('CL')
+    plt.show()
 
 

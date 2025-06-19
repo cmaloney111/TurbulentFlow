@@ -10,7 +10,7 @@ from neuralfoil import get_aero_from_airfoil
 
 sys.path.append(str(Path(__file__).parent))
 
-from neuralfoil.gen2_architecture._basic_data_type import Data
+from data import Data
 
 cols = Data.get_vector_column_names()
 
@@ -18,91 +18,107 @@ data_directory = Path(__file__).parent
 
 raw_dfs = {}
 
-
 csv_file = 'test.csv'
 
 def extract_coordinates(coord_string):
-    coords = ast.literal_eval(coord_string)
-    
+    try:
+        coords = ast.literal_eval(coord_string)
+    except (ValueError, SyntaxError):
+        coords = []
+
+    # Separate x and y values
     x_values = [x for x, y in coords]
     y_values = [y for x, y in coords]
 
-    x_values = x_values + [0] * (69 - len(x_values))
-    y_values = y_values + [0] * (69 - len(y_values))
-    return x_values, y_values
+    # Pad to fixed length of 69
+    x_values += [0] * (69 - len(x_values))
+    y_values += [0] * (69 - len(y_values))
+    
+    return pd.Series([x_values, y_values])
 
-df = pd.read_csv("training_data_stec8.csv")
-df[['x_coords', 'y_coords']] = df['coordinates'].apply(lambda x: pd.Series(extract_coordinates(x)))
+df = pd.read_csv("../../training_data_stec8.csv")
+
+df[['x_coords', 'y_coords']] = df['coordinates'].apply(extract_coordinates)
 
 airfoils = df['airfoil_name'].unique()
 
-reynolds_to_angles = {
-    airfoil_name: df[df['airfoil_name'] == airfoil_name]['reynolds_number'].tolist()
-    for airfoil_name in airfoils
-}
-
 all_rows = []
-for airfoil_name in airfoils:
-    airfoil_data = df[df['airfoil_name'] == airfoil_name]
-    reynolds_numbers = airfoil_data['reynolds_number'].unique()
-    reynolds_to_angles = {
-        int(reynolds): airfoil_data[airfoil_data['reynolds_number'] == reynolds]['angle_of_attack'].tolist()
-        for reynolds in reynolds_numbers
-    }
-        
-    x_coords_df = pd.DataFrame(df['x_coords'].tolist(), index=df.index)
-    y_coords_df = pd.DataFrame(df['y_coords'].tolist(), index=df.index)
 
-
-    x_numpy = x_coords_df.iloc[0].to_numpy()
-    y_numpy = y_coords_df.iloc[0].to_numpy()
-    coords_numpy = np.stack((x_numpy, y_numpy), axis=-1)
-    coords_numpy = np.array([row for row in coords_numpy if not np.all(row == 0)])
-    airfoil = asb.Airfoil(name=airfoil_name, coordinates=coords_numpy).to_kulfan_airfoil()
-
-    normalization_outputs = airfoil.normalize(return_dict=True)
-    normalized_airfoil = normalization_outputs["airfoil"].to_kulfan_airfoil(
-        n_weights_per_side=8,
-        normalize_coordinates=False 
-    )
-    print(normalized_airfoil.kulfan_parameters)
-    # import os
-    # os._exit(0)
-
-    # preds = get_aero_from_airfoil(airfoil, np.array(reynolds_to_angles[reynolds]), reynolds, model_size='xxxlarge')
-
-    row_values = list(normalized_airfoil.kulfan_parameters['upper_weights']) + list(normalized_airfoil.kulfan_parameters['lower_weights']) + [normalized_airfoil.kulfan_parameters['leading_edge_weight'], normalized_airfoil.kulfan_parameters['TE_thickness']]
-    for reynolds in reynolds_numbers:
-        for alpha in reynolds_to_angles:
-            CL = airfoil_data.loc[
-                (airfoil_data['reynolds_number'] == reynolds) & 
-                (airfoil_data['angle_of_attack'] == alpha), 
-                'lift_coefficient'
-            ]
-            CD = airfoil_data.loc[
-                (airfoil_data['reynolds_number'] == reynolds) & 
-                (airfoil_data['angle_of_attack'] == alpha), 
-                'drag_coefficient'
-            ]
-            zeros_list = [0] * 32 * 6
-            row_values.append(alpha)
-            row_values.append(reynolds)
-            row_values.extend([0, 9, 1, 1, 0.1, CL, CD, 0, 0, 0])
-            row_values.extend(zeros_list)
-            all_rows.append(row_values)
-
-
-with open('test.csv', mode='w') as file:
-    for row in all_rows:
-        writer = csv.writer(file)
-        writer.writerow(row)
-
-import os
-os._exit(0)
+# Open CSV file once and create writer
+with open('test.csv', mode='w', newline='') as file:
+    writer = csv.writer(file)
     
+    for airfoil_name in airfoils:
+        airfoil_data = df[df['airfoil_name'] == airfoil_name]
+        reynolds_numbers = airfoil_data['reynolds_number'].unique()
+        
+        # Build dictionary mapping reynolds to angles for this airfoil
+        reynolds_to_angles = {
+            int(reynolds): airfoil_data[airfoil_data['reynolds_number'] == reynolds]['angle_of_attack'].tolist()
+            for reynolds in reynolds_numbers
+        }
+            
+        # Get coordinates for this airfoil (assuming all rows for same airfoil have same coordinates)
+        airfoil_rows = airfoil_data.iloc[0]  # Get first row for this airfoil
+        x_coords = airfoil_rows['x_coords']
+        y_coords = airfoil_rows['y_coords']
+        
+        # Convert to numpy arrays
+        x_numpy = np.array(x_coords)
+        y_numpy = np.array(y_coords)
+        coords_numpy = np.stack((x_numpy, y_numpy), axis=-1)
+        coords_numpy = np.array([row for row in coords_numpy if not np.all(row == 0)])
+        
+        # Create airfoil and get Kulfan parameters
+        airfoil = asb.Airfoil(name=airfoil_name, coordinates=coords_numpy).to_kulfan_airfoil()
+        normalization_outputs = airfoil.normalize(return_dict=True)
+        normalized_airfoil = normalization_outputs["airfoil"].to_kulfan_airfoil(
+            n_weights_per_side=8,
+            normalize_coordinates=False 
+        )
+        
+        # Base row values from Kulfan parameters (these stay constant for this airfoil)
+        base_row_values = (
+            list(normalized_airfoil.kulfan_parameters['upper_weights']) + 
+            list(normalized_airfoil.kulfan_parameters['lower_weights']) + 
+            [normalized_airfoil.kulfan_parameters['leading_edge_weight'], 
+             normalized_airfoil.kulfan_parameters['TE_thickness']]
+        )
+        
+        # Now iterate through Reynolds numbers and angles
+        for reynolds in reynolds_numbers:
+            for alpha in reynolds_to_angles[int(reynolds)]:  # Fixed: use reynolds as key, not iterate over keys
+                # Create a fresh copy of base row values for each combination
+                row_values = base_row_values.copy()
+                
+                # Get CL and CD values (extract scalar values, not Series)
+                cl_series = airfoil_data.loc[
+                    (airfoil_data['reynolds_number'] == reynolds) & 
+                    (airfoil_data['angle_of_attack'] == alpha), 
+                    'lift_coefficient'
+                ]
+                cd_series = airfoil_data.loc[
+                    (airfoil_data['reynolds_number'] == reynolds) & 
+                    (airfoil_data['angle_of_attack'] == alpha), 
+                    'drag_coefficient'
+                ]
+                
+                # Extract scalar values from Series
+                CL = cl_series.iloc[0] if len(cl_series) > 0 else 0.0
+                CD = cd_series.iloc[0] if len(cd_series) > 0 else 0.0
+                
+                # Add variable parameters
+                zeros_list = [0] * (32 * 6)
+                row_values.extend([alpha, reynolds, 0, 9, 1, 1, 0.1, CL, CD, 0, 0, 0])
+                row_values.extend(zeros_list)
+                
+                # Write row to CSV
+                writer.writerow(row_values)
+    
+csv_file = Path(csv_file)
 raw_dfs[csv_file.stem] = pl.read_csv(
     csv_file, has_header=False,
-    dtypes={
+    schema_overrides={
         col: pl.Float32
         for col in cols
     }
@@ -127,7 +143,6 @@ df = df.with_columns(
         for col in cols_to_nullify
     ]
 )
-
 c = pl.any_horizontal([
                           pl.col(f"upper_bl_theta_{i}") <= 0
                           for i in range(Data.N)
@@ -187,7 +202,6 @@ df = df.with_columns(
         for col in cols_to_nullify
     ]
 )
-
 c = pl.any_horizontal(
     pl.col("Top_Xtr") < 0,
     pl.col("Top_Xtr") > 1,
@@ -206,8 +220,8 @@ df = df.with_columns(
     ]
 )
 
-print("Dataset:")
-print(df)
+# print("Dataset:")
+# print(df)
 # print("Dataset statistics:")
 # print(df.describe())
 

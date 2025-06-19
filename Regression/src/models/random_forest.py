@@ -1,14 +1,11 @@
 import pandas as pd
 import numpy as np
 import ast
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import joblib
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 # Load data
 data = pd.read_csv('training_data_stec8.csv')
@@ -50,38 +47,27 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # Save the scaler to reuse when predicting
-joblib.dump(scaler, 'models/scaler_inputs_nn.pkl')
+joblib.dump(scaler, 'models/scaler_inputs_rf.pkl')
 
-# Define the neural network model
-model = Sequential([
-    Dense(128, activation='relu', input_shape=(X_train_scaled.shape[1],)),
-    Dropout(0.2),
-    Dense(64, activation='relu'),
-    Dropout(0.2),
-    Dense(32, activation='relu'),
-    Dense(2)  # Output layer for 2 target values
-])
-
-# Compile the model
-model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-
-# Define callbacks for early stopping and model checkpointing
-checkpoint_path = 'models/best_neural_network_model.keras'
-checkpoint = ModelCheckpoint(checkpoint_path, monitor='val_loss', save_best_only=True, mode='min')
-early_stop = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
-
-# Train the model with validation
-history = model.fit(
-    X_train_scaled, y_train,
-    validation_split=0.2,
-    epochs=100,
-    batch_size=32,
-    callbacks=[checkpoint, early_stop],
-    verbose=1
+model = RandomForestRegressor(
+    n_estimators=5000,          # Very large number of trees
+    max_depth=None,             # Allow trees to grow as deep as possible
+    min_samples_split=2,        # No minimum for splitting
+    min_samples_leaf=1,         # No minimum number of samples required in leaf
+    max_features=None,          # No restriction on number of features
+    random_state=42,            # For reproducibility
+    n_jobs=-1                   # Use all cores for faster training
 )
 
-# Load the best model after training
-model.load_weights(checkpoint_path)
+# model = RandomForestRegressor(n_estimators=100, random_state=42)
+
+# Train the model on the scaled data
+model.fit(X_train_scaled, y_train)
+
+# Perform cross-validation to assess model's complexity
+cv_scores = cross_val_score(model, X_train_scaled, y_train, cv=5)
+print(f"Cross-Validation Scores: {cv_scores}")
+print(f"Mean CV Score: {np.mean(cv_scores)}")
 
 # Predict on the test set
 y_pred = model.predict(X_test_scaled)
@@ -96,5 +82,5 @@ print(f"Mean Absolute Error: {mae}")
 print(f"Mean Squared Error: {mse}")
 print(f"R^2 Score: {r2}")
 
-# Save the model architecture and weights
-model.save('models/neural_network_model_final.keras')
+# Save the trained model
+joblib.dump(model, 'models/first_random_forest.pkl')

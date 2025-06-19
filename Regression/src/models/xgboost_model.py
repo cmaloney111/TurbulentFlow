@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import ast
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -102,4 +101,4 @@ print(f"Mean Squared Error: {mse}")
 print(f"R^2 Score: {r2}")
 
 # Save the trained model
-joblib.dump(best_model, 'models/first_xgboost_overfit.pkl')
+joblib.dump(best_model, 'models/first_xgboost.pkl')
