@@ -1,3 +1,0 @@
-filetemplate: eddy_uv%01d.f%05d
-firsttimestep: 1
-numtimesteps: 11
