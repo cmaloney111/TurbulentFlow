@@ -1,6 +1,6 @@
 Regression/test.csv
 Regression/models
-__pycache__
+__pycache__/
 Regression/figs/
 GenAirfoils/re2_files/
 GenAirfoils/airfoil_database/
