@@ -1,0 +1,282 @@
+c-----------------------------------------------------------------------c
+      subroutine userchk()
+
+c     implicit none
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      integer e
+
+      common /cdsmag/ ediff(lx1,ly1,lz1,lelv)
+
+      real x0(3)
+      data x0 /0.0, 0.0, 0.0/
+      save x0
+
+c     Save the boundary ID(1) with the iobj_wall so it can be used to compute wall shear
+      integer bIDs(1)
+      save iobj_wall
+
+
+c     This creates the object iobj_wall
+      if (istep.eq.0) then
+         bIDs(1) = 5
+         call create_obj(iobj_wall,bIDs,1)
+         nm = iglsum(nmember(iobj_wall),1)
+         if(nid.eq.0) write(6,*) 'obj_wall nmem:', nm 
+         call prepost(.true.,'rs_')
+      endif
+
+      scale = 2.0 ! CD = F/(.5 rho U^2 ) = 2*F using scale=2 gives us the coefficients      
+
+c     Computes drag over wall
+      if (istep.eq.0) call set_obj
+      call torque_calc(scale,x0,.true.,.false.)
+      dragx_avg = dragx(1)
+      dragy_avg = dragy(1)
+      drag_px = dragpx(1)
+      drag_py = dragpy(1)
+      drag_vx = dragvx(1)
+      drag_vy = dragvy(1)
+
+      open(unit=57,file='drag.txt')
+
+      write(57,*) "Time = ", time,
+     &            "Fx_p=", drag_px, "Fx_v=", drag_vx, "Fx=", dragx_avg,
+     &            "Fy_p=", drag_py, "Fy_v=", drag_vy, "Fy=", dragy_avg
+
+      nintv = 40000
+
+      if(istep.eq.0.or.(mod(istep,nintv).eq.0)) call write_soln(nintv)
+
+      return
+      end
+c-----------------------------------------------------------------------c
+
+
+
+c-----------------------------------------------------------------------c
+      subroutine set_obj
+c
+      include 'SIZE'
+      include 'TOTAL'
+      integer e,f
+
+c     Define new objects
+
+      nobj = 1                  ! for Periodic
+      iobj = 0
+      do ii=nhis+1,nhis+nobj
+         iobj = iobj+1
+         hcode(10,ii) = 'I'
+         hcode( 1,ii) = 'F' ! 'F'
+         hcode( 2,ii) = 'F' ! 'F'
+         hcode( 3,ii) = 'F' ! 'F'
+         lochis(1,ii) = iobj
+      enddo
+      nhis = nhis + nobj
+
+      if (maxobj.lt.nobj) write(6,*) 'increase maxobj in SIZEu. rm *.o'
+      if (maxobj.lt.nobj) call exitt
+
+      nxyz = nx1*ny1*nz1
+      do e=1,nelv
+      do f=1,2*ndim
+         id_face = boundaryID(f,e)
+          if (id_face.eq.5) then
+            iobj = 1
+             if (iobj.gt.0) then
+               nmember(iobj) = nmember(iobj) + 1
+               mem = nmember(iobj)
+               ieg = lglel(e)
+               object(iobj,mem,1) = ieg
+               object(iobj,mem,2) = f
+c              write(6,1) iobj,mem,f,ieg,e,nid,' OBJ'
+    1          format(6i9,a4)
+            endif
+
+         endif
+      enddo
+      enddo
+c     write(6,*) 'number',(nmember(k),k=1,4)
+
+      return
+      end
+
+c-----------------------------------------------------------------------c
+      subroutine write_soln(nintv)
+      include 'SIZE'
+      include 'TOTAL'
+
+      parameter (lt=lx1*ly1*lz1*lelv)
+      common /cdsmag/ ediff(lx1,ly1,lz1,lelv)
+      common /shear/ shs(lt,3),sh(lt,1)
+
+      integer e
+      character*72 fname,fname1
+
+           itt = istep/nintv
+
+           if(itt.lt.40000)then
+              write(fname,'("soln.",i3.3,".",i5.5,".dat")')
+     &              nid,itt
+            endif
+
+        open(unit=10,file=fname,status='unknown',form='formatted')
+
+        do e = 1,nelv
+
+        write(10,*)'VARIABLES = "X","Y","Z","U","V","W","P","T","NuT"'
+     &                          
+
+        write(10,'(a7,a1,i3,a2,3(a2,i2,a1),a21)')
+     $      "ZONE T=",'"',e,'",',"I=",lx1,",","J=",ly1,",","K=",lz1,","
+     $  ," DATAPACKING=POINT"
+
+         do kk = 1,nz1
+         do i = 1,nx1
+         do j = 1,ny1
+
+         write(10,'(8(1x,e15.5))')
+     $     (xm1(i,j,kk,e)),(ym1(i,j,kk,e)),(zm1(i,j,kk,e)),
+     $     (vx(i,j,kk,e)),(vy(i,j,kk,e)),(vz(i,j,kk,e)),
+     $     (pr(i,j,kk,e)), (t(i,j,kk,e,1)), (ediff(i,j,kk,e))
+
+
+         enddo
+         enddo
+         enddo
+
+         enddo
+         close(unit=10)
+
+c! ------ Finished Solution ----- !
+
+      return
+      end
+
+
+C----------------------------------------------------------------------
+      subroutine uservp (ix,iy,iz,ieg)
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e
+
+c      e = gllel(ieg)
+      udiff =0.
+      utrans=0.
+
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine userf  (ix,iy,iz,ieg)
+
+      include 'SIZE'
+      include 'TSTEP'
+      include 'NEKUSE'
+
+      FFY = 0.0
+      FFX = 0.0
+      FFZ = 0.0
+
+      return
+      end
+
+C-----------------------------------------------------------------------
+      subroutine userq  (ix,iy,iz,ieg)
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e
+
+      e = gllel(ieg)
+      qvol = 0.
+
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine userbc (ix,iy,iz,iside,ieg)
+C     NOTE ::: This subroutine MAY NOT be called by every process
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      ux=1.0
+      uy=0.0
+      uz=0.0
+      temp=0.0
+      
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine useric (ix,iy,iz,ieg)
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+      ux=0.0
+      uy=0.0
+      uz=0.0
+      temp=0.0
+      
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine usrdat
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+c     do i=1,nelt
+c     	 do j=1,2*ndim
+c           if(bc(5,j,i,1).eq.1) then
+c           	 cbc(j,i,1)='v  '
+c           elseif(bc(5,j,i,1).eq.2) then
+c           	cbc(j,i,1)='O  '
+c           elseif(bc(5,j,i,1).eq.3) then
+c           	cbc(j,i,1)='SYM'
+c           elseif(bc(5,j,i,1).eq.4) then
+c           	cbc(j,i,1)='SYM'
+c	    elseif(bc(5,j,i,1).eq.5) then
+c            	cbc(j,i,1)='W  '
+c            endif
+c            enddo
+c      enddo 
+
+      return
+      end
+C-----------------------------------------------------------------------
+      subroutine usrdat2
+
+      include 'SIZE'
+      include 'TOTAL'
+
+c      set velocity BCsc
+      call setbc(4,1,'v  ') ! inflow
+      call setbc(2,1,'O  ') ! outflow
+      call setbc(3,1,'SYM') ! bottom
+      call setbc(1,1,'W  ') ! top
+      call setbc(5,1,'W  ') ! airfoil
+
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine usrdat3
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      
+      return
+      end
+C-----------------------------------------------------------------------
