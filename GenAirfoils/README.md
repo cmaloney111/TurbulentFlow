@@ -1,6 +1,7 @@
 Usage Examples:
 
 ```bash
+pip install gmsh
 python test_gen.py --list                  # List available files
 python test_gen.py --airfoil NACA0012.dat  # Specific airfoil
 python test_gen.py --all                   # Process all airfoils

@@ -19,7 +19,7 @@ def parse_arguments():
         epilog='''
 Examples:
   %(prog)s --all                    # Process all airfoils
-  %(prog)s --airfoil NACA0012.dat   # Process specific airfoil
+  %(prog)s --airfoil NACA0012       # Process specific airfoil
   %(prog)s --samples 20             # Generate 20 random samples
   %(prog)s --seed 12345             # Use specific random seed
   %(prog)s --list                   # List available airfoils
@@ -104,7 +104,7 @@ def genMesh(airfoilFile, output_dir):
     responses = ["2", "airfoil", "0", "0", airfoilName]
     input_data = "\n".join(responses) + "\n"
     process = subprocess.Popen(
-        ["gmsh2nek"],
+        ["./gmsh2nek"],
         stdin=subprocess.PIPE, 
         stdout=subprocess.PIPE,  
         stderr=subprocess.PIPE,  
@@ -118,7 +118,6 @@ def genMesh(airfoilFile, output_dir):
         if os.path.exists(f"{airfoilName}.re2"):
             os.remove(f"{airfoilName}.re2")
 
-
     return 0
 
 def get_airfoil_files(database_path):
@@ -127,8 +126,7 @@ def get_airfoil_files(database_path):
         print(f"Error: Airfoil database directory '{database_path}' not found")
         sys.exit(1)
     
-    files = [f for f in os.listdir(database_path) 
-             if f.endswith(('.dat', '.txt', '.airfoil'))]
+    files = [f for f in os.listdir(database_path) if f.endswith('.dat')]
     files.sort()
     
     if len(files) == 0:
@@ -174,7 +172,7 @@ def process_all_airfoils(database_path, output_dir):
 
 def process_specific_airfoil(airfoil_name, database_path, output_dir):
     """Process a specific airfoil"""
-    airfoil_path = os.path.join(database_path, airfoil_name)
+    airfoil_path = os.path.join(database_path, airfoil_name + ".dat")
     
     if not os.path.exists(airfoil_path):
         print(f"Error: Airfoil file '{airfoil_name}' not found in {database_path}")
