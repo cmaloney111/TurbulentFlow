@@ -1,0 +1,6198 @@
+(base) cmaloney111@Camerons-MacBook-Pro-9 GenAirfoils % python test_gen.py --samples 5
+Seed: 1644569924
+Generating 5 random samples from 1492 available airfoils...
+Sample 1/5:
+  Using: goe599.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Sample 2/5:
+  Using: mh32.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Sample 3/5:
+  Using: naca16009.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Sample 4/5:
+  Using: naca63209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Sample 5/5:
+  Using: usa31.dat
+GMSH complete
+NEK complete
+  ✓ Success
+
+Completed: 5/5 successful, 0 failed
+(base) cmaloney111@Camerons-MacBook-Pro-9 GenAirfoils % python test_gen.py --all      
+Seed: 91708509
+Processing all 1492 airfoils...
+Processing 1/1492: 2032c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 2/1492: a18.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 3/1492: a18sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 4/1492: a63a108c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 5/1492: ag03.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 6/1492: ag04.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 7/1492: ag08.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 8/1492: ag10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 9/1492: ag11.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 10/1492: ag12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 11/1492: ag13.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 12/1492: ag14.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 13/1492: ag16.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 14/1492: ag17.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 15/1492: ag18.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 16/1492: ag19.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 17/1492: ag35.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 18/1492: ag36.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 19/1492: ag37.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 20/1492: ag38.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 21/1492: ag44ct02r.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 22/1492: ag455ct02r.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 23/1492: ag45c03.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 24/1492: ag45ct02r.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 25/1492: ag46c03.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 26/1492: ag46ct02r.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 27/1492: ag47c03.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 28/1492: ag47ct02r.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 29/1492: ah21-7.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 30/1492: ah21-9.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 31/1492: ah6407.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 32/1492: ah7476.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 33/1492: ah79100a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 34/1492: ah79100b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 35/1492: ah79100c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 36/1492: ah79k132.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 37/1492: ah79k135.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 38/1492: ah79k143.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 39/1492: ah80129.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 40/1492: ah80136.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 41/1492: ah80140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 42/1492: ah81131.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 43/1492: ah81k144.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 44/1492: ah81k144wfKlappe.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 45/1492: ah82150a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 46/1492: ah82150f.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 47/1492: ah83150q.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 48/1492: ah83159.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 49/1492: ah85l120.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 50/1492: ah88k130.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 51/1492: ah88k136.dat
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = 0.488966) for edge 526-527 parametrized with 0.467743 0.528655 on curve 1000
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 52/1492: ah93156.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 53/1492: ah93157.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 54/1492: ah93k130.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 55/1492: ah93k131.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 56/1492: ah93k132.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 57/1492: ah93w145.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 58/1492: ah93w174.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 59/1492: ah93w215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 60/1492: ah93w257.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 61/1492: ah93w300.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 62/1492: ah93w480b.dat
+Warning : Impossible to recover edge 924 924 (error tag -1)
+Warning : Impossible to recover edge 912 912 (error tag -1)
+Warning : Impossible to recover edge 912 912 (error tag -1)
+Warning : Impossible to recover edge 912 912 (error tag -1)
+Warning : Impossible to recover edge 926 926 (error tag -1)
+Warning : Impossible to recover edge 912 912 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 63/1492: ah94145.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 64/1492: ah94w301.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 65/1492: ah95160.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 66/1492: ames01.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 67/1492: ames02.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 68/1492: ames03.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 69/1492: amsoil1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 70/1492: amsoil2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 71/1492: apex16.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 72/1492: aquilasm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 73/1492: arad10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 74/1492: arad13.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 75/1492: arad20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 76/1492: arad6.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 77/1492: as5045.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 78/1492: as5046.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 79/1492: as5048.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 80/1492: atr72sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 81/1492: august160.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 82/1492: avistar.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 83/1492: b29root.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 84/1492: b29tip.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 85/1492: b540ols.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 86/1492: b707a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 87/1492: b707b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 88/1492: b707c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 89/1492: b707d.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 90/1492: b707e.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 91/1492: b737a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 92/1492: b737b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 93/1492: b737c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 94/1492: b737d.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 95/1492: bacj.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 96/1492: bacxxx.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 97/1492: bambino6.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 98/1492: be50.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 99/1492: be50sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 100/1492: boe106.dat
+Warning : Impossible to recover edge 735 735 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 101/1492: bqm34.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 102/1492: c141a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 103/1492: c141b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 104/1492: c141c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 105/1492: c141d.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 106/1492: c141e.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 107/1492: c141f.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 108/1492: c5a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 109/1492: c5b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 110/1492: c5c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 111/1492: c5d.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 112/1492: c5e.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 113/1492: cap21c.dat
+Warning : Impossible to recover edge 810 810 (error tag -1)
+Warning : Impossible to recover edge 810 810 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 114/1492: cast102.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 115/1492: ch10sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 116/1492: chen.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 117/1492: clarkk.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 118/1492: clarkv.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 119/1492: clarkw.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 120/1492: clarkx.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 121/1492: clarky.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 122/1492: clarkyh.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 123/1492: clarkys.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 124/1492: clarkysm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 125/1492: clarkz.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 126/1492: clarym15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 127/1492: coanda1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 128/1492: coanda2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 129/1492: coanda3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 130/1492: cootie.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 131/1492: cr001sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 132/1492: cr1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 133/1492: curtisc72.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 134/1492: dae11.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 135/1492: dae21.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 136/1492: dae31.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 137/1492: dae51.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 138/1492: davis.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 139/1492: davis_corrected.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 140/1492: davissm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 141/1492: daytonwright6.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 142/1492: daytonwrightt1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 143/1492: dbln526.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 144/1492: defcnd1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 145/1492: defcnd2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 146/1492: defcnd3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 147/1492: df101.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 148/1492: df102.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 149/1492: dfvlrr4.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 150/1492: dga1138.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 151/1492: dga1182.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 152/1492: dh4009sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 153/1492: doa5.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 154/1492: dormoy.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 155/1492: drgnfly.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 156/1492: dsma523a.dat
+Warning : Impossible to recover edge 813 813 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 157/1492: dsma523b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 158/1492: du8608418.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 159/1492: du861372.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 160/1492: e1098.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 161/1492: e1200.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 162/1492: e1210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 163/1492: e1211.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 164/1492: e1212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 165/1492: e1212mod.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 166/1492: e1213.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 167/1492: e1214.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 168/1492: e1230.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 169/1492: e1233.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 170/1492: e168.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 171/1492: e169.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 172/1492: e171.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 173/1492: e174.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 174/1492: e176.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 175/1492: e178.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 176/1492: e180.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 177/1492: e182.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 178/1492: e184.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 179/1492: e186.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 180/1492: e193.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 181/1492: e195.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 182/1492: e197.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 183/1492: e201.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 184/1492: e203.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 185/1492: e205.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 186/1492: e207.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 187/1492: e209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 188/1492: e210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 189/1492: e211.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 190/1492: e212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 191/1492: e214.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 192/1492: e216.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 193/1492: e220.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 194/1492: e222.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 195/1492: e224.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 196/1492: e226.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 197/1492: e228.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 198/1492: e230.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 199/1492: e231.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 200/1492: e266.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 201/1492: e297.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 202/1492: e325.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 203/1492: e326.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 204/1492: e327.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 205/1492: e328.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 206/1492: e329.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 207/1492: e330.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 208/1492: e331.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 209/1492: e332.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 210/1492: e333.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 211/1492: e334.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 212/1492: e335.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 213/1492: e336.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 214/1492: e337.dat
+Warning : Cannot apply Blossom: odd number of triangles (29691) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'e337.re2'
+Processing 215/1492: e338.dat
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = 0.437552) for edge 478-479 parametrized with 0.431814 0.455698 on curve 1000
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 216/1492: e339.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 217/1492: e340.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 218/1492: e341.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 219/1492: e343.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 220/1492: e344.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 221/1492: e360.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 222/1492: e361.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 223/1492: e374.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 224/1492: e376.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 225/1492: e377.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 226/1492: e377m.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 227/1492: e378.dat
+Warning : Impossible to recover edge 748 748 (error tag -1)
+Warning : Impossible to recover edge 748 748 (error tag -3)
+Warning : Impossible to recover edge 758 758 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 228/1492: e379.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 229/1492: e385.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 230/1492: e387.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 231/1492: e392.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 232/1492: e393.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 233/1492: e395.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 234/1492: e396.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 235/1492: e397.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 236/1492: e398.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 237/1492: e399.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 238/1492: e403.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 239/1492: e407.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 240/1492: e417.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 241/1492: e420.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 242/1492: e421.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 243/1492: e422.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 244/1492: e423.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 245/1492: e426.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 246/1492: e428.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 247/1492: e431.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 248/1492: e432.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 249/1492: e433.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 250/1492: e434.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 251/1492: e435.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 252/1492: e471.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 253/1492: e472.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 254/1492: e474.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 255/1492: e475.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 256/1492: e476.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 257/1492: e477.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 258/1492: e478.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 259/1492: e479.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 260/1492: e485.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 261/1492: e49.dat
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 262/1492: e502.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 263/1492: e520.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 264/1492: e521.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 265/1492: e540.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 266/1492: e541.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 267/1492: e542.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 268/1492: e543.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 269/1492: e544.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 270/1492: e545.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 271/1492: e546.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 272/1492: e547.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 273/1492: e548.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 274/1492: e549.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 275/1492: e550.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 276/1492: e551.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 277/1492: e552.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 278/1492: e553.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 279/1492: e554.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 280/1492: e555.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 281/1492: e556.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 282/1492: e557.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 283/1492: e558.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 284/1492: e559.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 285/1492: e560.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 286/1492: e561.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 287/1492: e562.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 288/1492: e58.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 289/1492: e580.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 290/1492: e582.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 291/1492: e583.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 292/1492: e584.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 293/1492: e585.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 294/1492: e587.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 295/1492: e591.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 296/1492: e593.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 297/1492: e603.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 298/1492: e604.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 299/1492: e61.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 300/1492: e62.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 301/1492: e625.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 302/1492: e63.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 303/1492: e635.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 304/1492: e636.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 305/1492: e637.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 306/1492: e638.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 307/1492: e639.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 308/1492: e64.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 309/1492: e642.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 310/1492: e654.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 311/1492: e655.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 312/1492: e656.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 313/1492: e657.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 314/1492: e66.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 315/1492: e662.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 316/1492: e664.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 317/1492: e664ex.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 318/1492: e668.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 319/1492: e67.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 320/1492: e678.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 321/1492: e68.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 322/1492: e682.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 323/1492: e694.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 324/1492: e71.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 325/1492: e715.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 326/1492: e748.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 327/1492: e793.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 328/1492: e817.dat
+Warning : Impossible to recover edge 753 753 (error tag -1)
+Warning : Impossible to recover edge 767 767 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 329/1492: e818.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 330/1492: e836.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 331/1492: e837.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 332/1492: e838.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 333/1492: e850.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 334/1492: e851.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 335/1492: e852.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 336/1492: e853.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 337/1492: e854.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 338/1492: e855.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 339/1492: e856.dat
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = 0.604288) for edge 482-483 parametrized with 0.589584 0.60877 on curve 1000
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 340/1492: e857.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 341/1492: e858.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 342/1492: e862.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 343/1492: e863.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 344/1492: e874.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 345/1492: e904.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 346/1492: e908.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 347/1492: ea61009.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 348/1492: ea61012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 349/1492: ea81006.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 350/1492: ebambino7.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 351/1492: ec863914.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 352/1492: eh1070.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 353/1492: eh1090.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 354/1492: eh1590.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 355/1492: eh2010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 356/1492: eh2012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 357/1492: eh2070.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 358/1492: eh2510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 359/1492: eh3012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 360/1492: eiffel10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 361/1492: eiffel371.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 362/1492: eiffel385.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 363/1492: eiffel428.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 364/1492: eiffel430.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 365/1492: esa40.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 366/1492: falcon.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 367/1492: fauvel.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 368/1492: fg1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 369/1492: fg2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 370/1492: fg3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 371/1492: fg4.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 372/1492: fx049915.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 373/1492: fx05188.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 374/1492: fx05191.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 375/1492: fx057816.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 376/1492: fx05h126.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 377/1492: fx082512.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 378/1492: fx08s176.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 379/1492: fx2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 380/1492: fx3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 381/1492: fx38153.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 382/1492: fx60100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 383/1492: fx601001.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 384/1492: fx60100sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 385/1492: fx60126.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 386/1492: fx601261.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 387/1492: fx60157.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 388/1492: fx60160.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 389/1492: fx60177.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 390/1492: fx61140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 391/1492: fx61147.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 392/1492: fx61163.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 393/1492: fx61168.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 394/1492: fx61184.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 395/1492: fx62k131.dat
+Warning : Impossible to recover edge 795 795 (error tag -1)
+Warning : Impossible to recover edge 793 793 (error tag -3)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 396/1492: fx62k153.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 397/1492: fx63100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 398/1492: fx63110.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 399/1492: fx63120.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 400/1492: fx63137.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 401/1492: fx63137sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 402/1492: fx63143.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 403/1492: fx63145.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 404/1492: fx63147.dat
+Warning : Impossible to recover edge 794 794 (error tag -1)
+Warning : Impossible to recover edge 800 800 (error tag -1)
+Error   : Unable to recover the edge 889 (474/506) on curve 1000 (on surface 3)
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 772-776 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 776-782 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 782-795 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 795-799 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 799-801 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 801-797 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 797-793 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 793-791 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 791-789 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 789-787 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 787-785 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 785-780 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 780-779 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 779-775 parametrized with 0.0316756 0.0316756 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 765-770 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 770-774 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 774-777 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 777-794 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 794-796 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = nan) for edge 796-800 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = nan) for edge 800-798 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 798-792 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 792-790 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 790-788 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 788-786 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 786-784 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 784-783 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 783-781 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 781-778 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = inf) for edge 778-773 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 773-769 parametrized with 0.968324 0.968324 on curve 1000
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = -inf) for edge 769-767 parametrized with 0.968324 0.968324 on curve 1000
+Error   : ------------------------------
+Error   : Mesh generation error summary
+Error   :    34 warnings
+Error   :     1 error
+Error   : Check the full log for details
+Error   : ------------------------------
+  ✗ Failed: GMSH failed to create mesh
+Processing 405/1492: fx63158.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 406/1492: fx6617a2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 407/1492: fx6617ai.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 408/1492: fx66182.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 409/1492: fx66196v.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 410/1492: fx66a175.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 411/1492: fx66h60.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 412/1492: fx66s161.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 413/1492: fx66s171.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 414/1492: fx66s196.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 415/1492: fx67k150.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 416/1492: fx67k170.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 417/1492: fx68h120.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 418/1492: fx69274.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 419/1492: fx69h083.dat
+Warning : Cannot apply Blossom: odd number of triangles (29561) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'fx69h083.re2'
+Processing 420/1492: fx69h098.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 421/1492: fx69pr281.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 422/1492: fx71089a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 423/1492: fx71120.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 424/1492: fx711520.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 425/1492: fx711525.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 426/1492: fx711530.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 427/1492: fx71l150.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 428/1492: fx72150a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 429/1492: fx72150b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 430/1492: fx72ls160.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 431/1492: fx73170.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 432/1492: fx73170a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 433/1492: fx73cl1152.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 434/1492: fx73cl2152.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 435/1492: fx73cl3152.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 436/1492: fx73k170.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 437/1492: fx74080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 438/1492: fx74130wp1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 439/1492: fx74130wp2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 440/1492: fx74130wp2mod.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 441/1492: fx74cl5140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 442/1492: fx74cl6140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 443/1492: fx74modsm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 444/1492: fx75193.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 445/1492: fx75vg166.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 446/1492: fx76100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 447/1492: fx76120.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 448/1492: fx76mp120.dat
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'fx76mp120.re2'
+Processing 449/1492: fx76mp140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 450/1492: fx76mp160.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 451/1492: fx77080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 452/1492: fx77w121.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 453/1492: fx77w153.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 454/1492: fx77w258.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 455/1492: fx77w270.dat
+Warning : Cannot apply Blossom: odd number of triangles (32171) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'fx77w270.re2'
+Processing 456/1492: fx77w270s.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 457/1492: fx77w343.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 458/1492: fx78k140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 459/1492: fx78k140a20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 460/1492: fx78k150.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 461/1492: fx78k161.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 462/1492: fx78pk188.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 463/1492: fx79k144.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 464/1492: fx79l100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 465/1492: fx79l120.dat
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'fx79l120.re2'
+Processing 466/1492: fx79w151a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 467/1492: fx79w470a.dat
+Warning : Cannot apply Blossom: odd number of triangles (29383) in surface 3
+Warning : Surface mesh: worst distortion = -2.01958 (avg = 0.998913, 1 elements with jac. < 0); worst gamma = 0.398066
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     2 warnings
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'fx79w470a.re2'
+Processing 468/1492: fx79w660a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 469/1492: fx80080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 470/1492: fx83w108.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 471/1492: fx83w160.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 472/1492: fx83w227.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 473/1492: fx84w127.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 474/1492: fx84w140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 475/1492: fx84w150.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 476/1492: fx84w175.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 477/1492: fx84w218.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 478/1492: fxl142k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 479/1492: fxlv152.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 480/1492: fxm2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 481/1492: fxs02196.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 482/1492: fxs03182.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 483/1492: fxs21158.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 484/1492: geminism.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 485/1492: giiia.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 486/1492: giiib.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 487/1492: giiic.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 488/1492: giiid.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 489/1492: giiie.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 490/1492: giiif.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 491/1492: giiig.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 492/1492: giiih.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 493/1492: giiii.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 494/1492: giiij.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 495/1492: giiik.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 496/1492: giiil.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 497/1492: giiim.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 498/1492: giiin.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 499/1492: glennmartin2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 500/1492: glennmartin3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 501/1492: glennmartin4.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 502/1492: gm15sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 503/1492: goe05k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 504/1492: goe06k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 505/1492: goe08k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 506/1492: goe09k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 507/1492: goe100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 508/1492: goe101.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 509/1492: goe10k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 510/1492: goe113.dat
+Warning : Cannot apply Blossom: odd number of triangles (28281) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'goe113.re2'
+Processing 511/1492: goe114.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 512/1492: goe115.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 513/1492: goe116.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 514/1492: goe117.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 515/1492: goe118.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 516/1492: goe11k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 517/1492: goe121.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 518/1492: goe122.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 519/1492: goe123.dat
+Warning : Cannot apply Blossom: odd number of triangles (30211) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'goe123.re2'
+Processing 520/1492: goe124.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 521/1492: goe12k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 522/1492: goe133.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 523/1492: goe134.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 524/1492: goe137.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 525/1492: goe13k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 526/1492: goe14.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 527/1492: goe140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 528/1492: goe142.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 529/1492: goe143.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 530/1492: goe144.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 531/1492: goe14k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 532/1492: goe15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 533/1492: goe155.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 534/1492: goe15k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 535/1492: goe164.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 536/1492: goe165.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 537/1492: goe167.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 538/1492: goe16k.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 539/1492: goe173.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 540/1492: goe174.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 541/1492: goe176.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 542/1492: goe177.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 543/1492: goe178.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 544/1492: goe180.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 545/1492: goe182.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 546/1492: goe184.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 547/1492: goe187.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 548/1492: goe188.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 549/1492: goe190.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 550/1492: goe195.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 551/1492: goe198.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 552/1492: goe199.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 553/1492: goe207.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 554/1492: goe210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 555/1492: goe217.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 556/1492: goe222.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 557/1492: goe223.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 558/1492: goe225.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 559/1492: goe226.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 560/1492: goe227.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 561/1492: goe228.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 562/1492: goe229.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 563/1492: goe233.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 564/1492: goe234.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 565/1492: goe235.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 566/1492: goe238.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 567/1492: goe239.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 568/1492: goe240.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 569/1492: goe241.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 570/1492: goe242.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 571/1492: goe243.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 572/1492: goe244.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 573/1492: goe255.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 574/1492: goe256.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 575/1492: goe257.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 576/1492: goe264.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 577/1492: goe269.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 578/1492: goe274.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 579/1492: goe275.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 580/1492: goe276.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 581/1492: goe277.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 582/1492: goe278.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 583/1492: goe279.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 584/1492: goe280.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 585/1492: goe281.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 586/1492: goe282.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 587/1492: goe284.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 588/1492: goe285.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 589/1492: goe286.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 590/1492: goe287.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 591/1492: goe288.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 592/1492: goe289.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 593/1492: goe290.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 594/1492: goe298.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 595/1492: goe29b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 596/1492: goe300.dat
+Warning : Cannot apply Blossom: odd number of triangles (29987) in surface 3
+Warning : Surface mesh: worst distortion = -0.595799 (avg = 0.999518, 1 elements with jac. < 0); worst gamma = 0.667855
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     2 warnings
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'goe300.re2'
+Processing 597/1492: goe301.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 598/1492: goe303.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 599/1492: goe304.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 600/1492: goe308.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 601/1492: goe309.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 602/1492: goe310.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 603/1492: goe311.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 604/1492: goe314.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 605/1492: goe315.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 606/1492: goe316.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 607/1492: goe318.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 608/1492: goe319.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 609/1492: goe320.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 610/1492: goe321.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 611/1492: goe322.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 612/1492: goe323.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 613/1492: goe324.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 614/1492: goe325.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 615/1492: goe326.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 616/1492: goe328.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 617/1492: goe329.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 618/1492: goe330.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 619/1492: goe332.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 620/1492: goe335.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 621/1492: goe336.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 622/1492: goe342.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 623/1492: goe344.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 624/1492: goe346.dat
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'goe346.re2'
+Processing 625/1492: goe358.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 626/1492: goe359.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 627/1492: goe360.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 628/1492: goe361.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 629/1492: goe362.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 630/1492: goe363.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 631/1492: goe364.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 632/1492: goe365.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 633/1492: goe366.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 634/1492: goe367.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 635/1492: goe368.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 636/1492: goe369.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 637/1492: goe370.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 638/1492: goe371.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 639/1492: goe372.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 640/1492: goe373.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 641/1492: goe374.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 642/1492: goe375.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 643/1492: goe376.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 644/1492: goe377.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 645/1492: goe379.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 646/1492: goe380.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 647/1492: goe381.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 648/1492: goe382.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 649/1492: goe383.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 650/1492: goe384.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 651/1492: goe385.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 652/1492: goe386.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 653/1492: goe387.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 654/1492: goe388.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 655/1492: goe389.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 656/1492: goe390.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 657/1492: goe391.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 658/1492: goe392.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 659/1492: goe393.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 660/1492: goe394.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 661/1492: goe395.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 662/1492: goe396.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 663/1492: goe397.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 664/1492: goe399.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 665/1492: goe400.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 666/1492: goe401.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 667/1492: goe402.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 668/1492: goe403.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 669/1492: goe404.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 670/1492: goe405.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 671/1492: goe406.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 672/1492: goe407.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 673/1492: goe408.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 674/1492: goe409.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 675/1492: goe410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 676/1492: goe411.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 677/1492: goe412.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 678/1492: goe413.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 679/1492: goe414.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 680/1492: goe415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 681/1492: goe416a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 682/1492: goe417.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 683/1492: goe417a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 684/1492: goe418.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 685/1492: goe419.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 686/1492: goe420.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 687/1492: goe421.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 688/1492: goe422.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 689/1492: goe423.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 690/1492: goe424.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 691/1492: goe425.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 692/1492: goe426.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 693/1492: goe427.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 694/1492: goe428.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 695/1492: goe429.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 696/1492: goe430.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 697/1492: goe431.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 698/1492: goe432.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 699/1492: goe433.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 700/1492: goe434.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 701/1492: goe435.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 702/1492: goe436.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 703/1492: goe437.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 704/1492: goe438.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 705/1492: goe440.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 706/1492: goe441.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 707/1492: goe442.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 708/1492: goe443.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 709/1492: goe444.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 710/1492: goe445.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 711/1492: goe446.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 712/1492: goe447.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 713/1492: goe448.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 714/1492: goe449.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 715/1492: goe450.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 716/1492: goe451.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 717/1492: goe456.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 718/1492: goe457.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 719/1492: goe458.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 720/1492: goe459.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 721/1492: goe460.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 722/1492: goe462.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 723/1492: goe464.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 724/1492: goe474.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 725/1492: goe476.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 726/1492: goe477.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 727/1492: goe478.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 728/1492: goe479.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 729/1492: goe480.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 730/1492: goe481.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 731/1492: goe481a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 732/1492: goe482.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 733/1492: goe483.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 734/1492: goe484.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 735/1492: goe488.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 736/1492: goe490.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 737/1492: goe491.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 738/1492: goe492.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 739/1492: goe493.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 740/1492: goe494.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 741/1492: goe495.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 742/1492: goe496.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 743/1492: goe497.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 744/1492: goe498.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 745/1492: goe499.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 746/1492: goe500.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 747/1492: goe502.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 748/1492: goe503.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 749/1492: goe504.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 750/1492: goe505.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 751/1492: goe506.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 752/1492: goe507.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 753/1492: goe508.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 754/1492: goe509.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 755/1492: goe510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 756/1492: goe511.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 757/1492: goe512.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 758/1492: goe513.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 759/1492: goe514.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 760/1492: goe515.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 761/1492: goe517.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 762/1492: goe518.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 763/1492: goe522.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 764/1492: goe523.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 765/1492: goe525.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 766/1492: goe526.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 767/1492: goe527.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 768/1492: goe528.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 769/1492: goe529.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 770/1492: goe530.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 771/1492: goe531.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 772/1492: goe532.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 773/1492: goe533.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 774/1492: goe534.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 775/1492: goe54.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 776/1492: goe546.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 777/1492: goe547.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 778/1492: goe548.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 779/1492: goe549.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 780/1492: goe55.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 781/1492: goe550.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 782/1492: goe553.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 783/1492: goe559.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 784/1492: goe561.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 785/1492: goe562.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 786/1492: goe563.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 787/1492: goe564.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 788/1492: goe565.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 789/1492: goe567.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 790/1492: goe57.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 791/1492: goe570.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 792/1492: goe571.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 793/1492: goe572.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 794/1492: goe573.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 795/1492: goe574.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 796/1492: goe575.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 797/1492: goe584.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 798/1492: goe585.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 799/1492: goe587.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 800/1492: goe590.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 801/1492: goe591.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 802/1492: goe592.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 803/1492: goe593.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 804/1492: goe595.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 805/1492: goe596.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 806/1492: goe598.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 807/1492: goe599.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 808/1492: goe600.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 809/1492: goe601.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 810/1492: goe602.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 811/1492: goe602m.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 812/1492: goe604.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 813/1492: goe610b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 814/1492: goe610bm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 815/1492: goe611.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 816/1492: goe612.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 817/1492: goe613.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 818/1492: goe614.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 819/1492: goe615.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 820/1492: goe617.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 821/1492: goe619.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 822/1492: goe620.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 823/1492: goe621.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 824/1492: goe622.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 825/1492: goe623.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 826/1492: goe624.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 827/1492: goe625.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 828/1492: goe627.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 829/1492: goe628.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 830/1492: goe629.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 831/1492: goe63.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 832/1492: goe630.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 833/1492: goe632.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 834/1492: goe633.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 835/1492: goe645.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 836/1492: goe646.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 837/1492: goe647.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 838/1492: goe650.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 839/1492: goe652.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 840/1492: goe654.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 841/1492: goe655.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 842/1492: goe670.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 843/1492: goe673.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 844/1492: goe675.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 845/1492: goe676.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 846/1492: goe677.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 847/1492: goe679.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 848/1492: goe681.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 849/1492: goe682.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 850/1492: goe683.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 851/1492: goe685.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 852/1492: goe692.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 853/1492: goe693.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 854/1492: goe701.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 855/1492: goe702.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 856/1492: goe703.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 857/1492: goe704.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 858/1492: goe711.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 859/1492: goe723.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 860/1492: goe735.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 861/1492: goe738.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 862/1492: goe741.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 863/1492: goe744.dat
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'goe744.re2'
+Processing 864/1492: goe746.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 865/1492: goe766.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 866/1492: goe767.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 867/1492: goe769.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 868/1492: goe770.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 869/1492: goe776.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 870/1492: goe777.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 871/1492: goe780.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 872/1492: goe79.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 873/1492: goe795.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 874/1492: goe796.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 875/1492: goe797.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 876/1492: goe798.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 877/1492: goe801.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 878/1492: goe802.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 879/1492: goe802a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 880/1492: goe802b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 881/1492: goe803h.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 882/1492: goe804.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 883/1492: goe81.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 884/1492: goe92.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 885/1492: griffith30SymSuction.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 886/1492: gs1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 887/1492: gu255118.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 888/1492: hh02.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 889/1492: hobie.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 890/1492: hobiesm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 891/1492: hq010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 892/1492: hq07.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 893/1492: hq09.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 894/1492: hq1010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 895/1492: hq1012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 896/1492: hq108.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 897/1492: hq109.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 898/1492: hq1510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 899/1492: hq1512.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 900/1492: hq158.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 901/1492: hq1585.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 902/1492: hq159.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 903/1492: hq159b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 904/1492: hq2010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 905/1492: hq2012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 906/1492: hq208.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 907/1492: hq209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 908/1492: hq2090sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 909/1492: hq2195.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 910/1492: hq2510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 911/1492: hq2511.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 912/1492: hq2512.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 913/1492: hq258.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 914/1492: hq259.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 915/1492: hq2590sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 916/1492: hq259b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 917/1492: hq300gd2.dat
+Warning : Cannot apply Blossom: odd number of triangles (31935) in surface 3
+Warning : Surface mesh: worst distortion = -2.23013 (avg = 0.998851, 1 elements with jac. < 0); worst gamma = 0.00698531
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     2 warnings
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'hq300gd2.re2'
+Processing 918/1492: hq3010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 919/1492: hq3011.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 920/1492: hq3012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 921/1492: hq3013.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 922/1492: hq3014.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 923/1492: hq3015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 924/1492: hq308.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 925/1492: hq309.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 926/1492: hq3510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 927/1492: hq3512.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 928/1492: hq3513.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 929/1492: hq3514.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 930/1492: hq3518.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 931/1492: hq358.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 932/1492: hq359.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 933/1492: hsnlf213.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 934/1492: ht05.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 935/1492: ht08.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 936/1492: ht12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 937/1492: ht22.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 938/1492: ht23.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 939/1492: isa571.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 940/1492: isa960.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 941/1492: isa961.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 942/1492: isa962.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 943/1492: j5012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 944/1492: jn153.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 945/1492: joukowsk.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 946/1492: k1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 947/1492: k2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 948/1492: k3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 949/1492: k3311.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 950/1492: k3311sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 951/1492: kc135a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 952/1492: kc135b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 953/1492: kc135c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 954/1492: kenmar.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 955/1492: l188root.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 956/1492: l188tip.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 957/1492: l7769.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 958/1492: la203a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 959/1492: la2573a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 960/1492: lds2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 961/1492: lg10sc.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 962/1492: lnv109a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 963/1492: lrn1007.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 964/1492: ls013.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 965/1492: ls413.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 966/1492: ls413mod.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 967/1492: ls417.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 968/1492: ls417mod.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 969/1492: ls421.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 970/1492: ls421mod.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 971/1492: lwk79100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 972/1492: lwk80080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 973/1492: lwk80100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 974/1492: lwk80120k25.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 975/1492: lwk80150k25.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 976/1492: m1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 977/1492: m10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 978/1492: m11.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 979/1492: m12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 980/1492: m13.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 981/1492: m14.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 982/1492: m15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 983/1492: m16.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 984/1492: m18.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 985/1492: m19.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 986/1492: m2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 987/1492: m20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 988/1492: m21.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 989/1492: m22.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 990/1492: m23.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 991/1492: m24.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 992/1492: m25.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 993/1492: m26.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 994/1492: m27.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 995/1492: m3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 996/1492: m4.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 997/1492: m5.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 998/1492: m6.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 999/1492: m665.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1000/1492: m685.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1001/1492: m7.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1002/1492: m8.dat
+Warning : Cannot apply Blossom: odd number of triangles (30365) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'm8.re2'
+Processing 1003/1492: m9.dat
+Warning : Cannot apply Blossom: odd number of triangles (30655) in surface 3
+Warning : Surface mesh: worst distortion = -0.832697 (avg = 0.999428, 1 elements with jac. < 0); worst gamma = 0.709272
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     2 warnings
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'm9.re2'
+Processing 1004/1492: ma409.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1005/1492: ma409sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1006/1492: marsden.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1007/1492: marske1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1008/1492: marske2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1009/1492: marske3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1010/1492: marske4.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1011/1492: marske5.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1012/1492: marske7.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1013/1492: mb253515sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1014/1492: mh102.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1015/1492: mh104.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1016/1492: mh106.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1017/1492: mh108.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1018/1492: mh110.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1019/1492: mh112.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1020/1492: mh113.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1021/1492: mh114.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1022/1492: mh115.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1023/1492: mh116.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1024/1492: mh117.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1025/1492: mh120.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1026/1492: mh121.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1027/1492: mh122.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1028/1492: mh150.dat
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 1029/1492: mh18.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1030/1492: mh20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1031/1492: mh200.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1032/1492: mh201.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1033/1492: mh22.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1034/1492: mh23.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1035/1492: mh24.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1036/1492: mh25.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1037/1492: mh26.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1038/1492: mh27.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1039/1492: mh30.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1040/1492: mh32.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1041/1492: mh38.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1042/1492: mh42.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1043/1492: mh43.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1044/1492: mh44.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1045/1492: mh45.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1046/1492: mh46.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1047/1492: mh60.dat
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = 0.581094) for edge 473-474 parametrized with 0.563306 0.586601 on curve 1000
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1048/1492: mh61.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1049/1492: mh62.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1050/1492: mh64.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1051/1492: mh70.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1052/1492: mh78.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1053/1492: mh80.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1054/1492: mh81.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1055/1492: mh82.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1056/1492: mh83.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1057/1492: mh84.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1058/1492: mh91.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1059/1492: mh92.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1060/1492: mh93.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1061/1492: mh94.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1062/1492: mh95.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1063/1492: miley.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1064/1492: mrc-16.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1065/1492: mrc-20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1066/1492: ms313.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1067/1492: ms317.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1068/1492: n0009sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1069/1492: n0011sc.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1070/1492: n0012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1071/1492: n10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1072/1492: n11.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1073/1492: n11h9.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1074/1492: n12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1075/1492: n13.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1076/1492: n14.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1077/1492: n1h15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1078/1492: n22.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1079/1492: n24.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1080/1492: n2414.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1081/1492: n2415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1082/1492: n2h15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1083/1492: n5h10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1084/1492: n5h15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1085/1492: n5h20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1086/1492: n63010a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1087/1492: n63012a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1088/1492: n63015a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1089/1492: n63210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1090/1492: n63212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1091/1492: n63215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1092/1492: n63215b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1093/1492: n63412.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1094/1492: n63415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1095/1492: n64008a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1096/1492: n64012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1097/1492: n64015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1098/1492: n64015a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1099/1492: n6409.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1100/1492: n64108.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1101/1492: n64110.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1102/1492: n64212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1103/1492: n64212ma.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1104/1492: n64212mb.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1105/1492: n64215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1106/1492: n66021.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1107/1492: n6h10.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1108/1492: n6h15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1109/1492: n6h20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1110/1492: n8h12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1111/1492: n9.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1112/1492: naca0006.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1113/1492: naca0008.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1114/1492: naca000834.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1115/1492: naca0010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1116/1492: naca001034.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1117/1492: naca001034a08cli0.2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1118/1492: naca001035.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1119/1492: naca001064.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1120/1492: naca001065.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1121/1492: naca001066.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1122/1492: naca001234.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1123/1492: naca001264.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1124/1492: naca001264a08cli0.2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1125/1492: naca0015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1126/1492: naca0018.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1127/1492: naca0021.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1128/1492: naca0024.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1129/1492: naca1408.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1130/1492: naca1410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1131/1492: naca1412.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1132/1492: naca16006.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1133/1492: naca16009.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1134/1492: naca16012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1135/1492: naca16015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1136/1492: naca16018.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1137/1492: naca16021.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1138/1492: naca23012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1139/1492: naca2408.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1140/1492: naca2410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1141/1492: naca2411.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1142/1492: naca4415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1143/1492: naca63206.dat
+Warning : Cannot apply Blossom: odd number of triangles (30701) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'naca63206.re2'
+Processing 1144/1492: naca63209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1145/1492: naca632615.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1146/1492: naca632a015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1147/1492: naca633018.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1148/1492: naca633218.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1149/1492: naca633418.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1150/1492: naca633618.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1151/1492: naca634221.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1152/1492: naca634421.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1153/1492: naca63a210.dat
+Warning : Cannot apply Blossom: odd number of triangles (29439) in surface 3
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'naca63a210.re2'
+Processing 1154/1492: naca641112.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1155/1492: naca6412.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1156/1492: naca64206.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1157/1492: naca64208.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1158/1492: naca64209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1159/1492: naca64210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1160/1492: naca642215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1161/1492: naca642415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1162/1492: naca643218.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1163/1492: naca643418.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1164/1492: naca643618.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1165/1492: naca644221.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1166/1492: naca644421.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1167/1492: naca64a210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1168/1492: naca64a410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1169/1492: naca651212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1170/1492: naca651212a06.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1171/1492: naca651412.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1172/1492: naca65206.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1173/1492: naca65209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1174/1492: naca65210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1175/1492: naca652215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1176/1492: naca652415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1177/1492: naca652415a05.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1178/1492: naca653218.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1179/1492: naca65410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1180/1492: naca654221.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1181/1492: naca654421.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1182/1492: naca654421a05.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1183/1492: naca66-018.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1184/1492: naca661212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1185/1492: naca66206.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1186/1492: naca66209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1187/1492: naca66210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1188/1492: naca662215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1189/1492: naca662415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1190/1492: naca663218.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1191/1492: naca663418.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1192/1492: naca664221.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1193/1492: naca671215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1194/1492: naca747a315.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1195/1492: naca747a415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1196/1492: nacacyh.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1197/1492: nacam12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1198/1492: nacam18.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1199/1492: nacam2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1200/1492: nacam3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1201/1492: nacam6.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1202/1492: ncambre.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1203/1492: nl722343.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1204/1492: nl722362.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1205/1492: nlf0115.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1206/1492: nlf0215f.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1207/1492: nlf1015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1208/1492: nlf414f.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1209/1492: nlf415.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1210/1492: nlf416.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1211/1492: nlr1t.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1212/1492: nlr7301.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1213/1492: nn7mk20.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1214/1492: npl9510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1215/1492: npl9615.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1216/1492: npl9626.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1217/1492: npl9627.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1218/1492: npl9660.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1219/1492: nplx.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1220/1492: oa206.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1221/1492: oa209.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1222/1492: oa212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1223/1492: oa213.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1224/1492: oaf095.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1225/1492: oaf102.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1226/1492: oaf117.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1227/1492: oaf128.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1228/1492: oaf139.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1229/1492: p51droot.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1230/1492: p51dtip.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1231/1492: p51hroot.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1232/1492: p51htip.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1233/1492: pfcm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1234/1492: pmc19sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1235/1492: psu-90-125wl.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1236/1492: psu94097.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1237/1492: pt40.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1238/1492: r1046.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1239/1492: r1080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1240/1492: r1082.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1241/1492: r1082t.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1242/1492: r140.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1243/1492: r140sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1244/1492: rae100.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1245/1492: rae101.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1246/1492: rae102.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1247/1492: rae103.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1248/1492: rae104.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1249/1492: rae2822.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1250/1492: rae5212.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1251/1492: rae5213.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1252/1492: rae5214.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1253/1492: rae5215.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1254/1492: rae69ck.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1255/1492: raf15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1256/1492: raf19.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1257/1492: raf25.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1258/1492: raf26.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1259/1492: raf27.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1260/1492: raf28.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1261/1492: raf30.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1262/1492: raf30md.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1263/1492: raf31.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1264/1492: raf32.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1265/1492: raf32md.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1266/1492: raf33.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1267/1492: raf34.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1268/1492: raf38.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1269/1492: raf48.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1270/1492: raf6.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1271/1492: raf69.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1272/1492: raf89.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1273/1492: rc0864c.dat
+Warning : Failed to compute equidistant parameters (relax = 0.0078125, value = 0.619354) for edge 488-489 parametrized with 0.615457 0.630729 on curve 1000
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1274/1492: rc08b3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1275/1492: rc08n1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1276/1492: rc1064c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1277/1492: rc10b3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1278/1492: rc10n1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1279/1492: rc1264c.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1280/1492: rc12b3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1281/1492: rc12n1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1282/1492: rc410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1283/1492: rc510.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1284/1492: rcsc2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1285/1492: rg12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1286/1492: rg12a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1287/1492: rg12a189.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1288/1492: rg14.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1289/1492: rg1410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1290/1492: rg149.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1291/1492: rg1495.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1292/1492: rg14a147.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1293/1492: rg15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1294/1492: rg15a111.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1295/1492: rg15a213.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1296/1492: rg8.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1297/1492: rhodesg30.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1298/1492: rhodesg32.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1299/1492: rhodesg34.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1300/1492: rhodesg36.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1301/1492: s1010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1302/1492: s1012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1303/1492: s1014.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1304/1492: s1016.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1305/1492: s1020.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1306/1492: s1046.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1307/1492: s1048.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1308/1492: s1091.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1309/1492: s1210.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1310/1492: s1223.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1311/1492: s1223rtl.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1312/1492: s2027.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1313/1492: s2046.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1314/1492: s2048.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1315/1492: s2050.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1316/1492: s2055.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1317/1492: s2060.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1318/1492: s2062.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1319/1492: s2091.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1320/1492: s3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1321/1492: s3002.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1322/1492: s3010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1323/1492: s3014.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1324/1492: s3016.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1325/1492: s3021.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1326/1492: s3024.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1327/1492: s3025.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1328/1492: s4022.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1329/1492: s4053.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1330/1492: s4061.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1331/1492: s4062.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1332/1492: s4083.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1333/1492: s4110.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1334/1492: s4158.dat
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 's4158.re2'
+Processing 1335/1492: s4180.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1336/1492: s4233.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1337/1492: s4310.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1338/1492: s4320.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1339/1492: s5010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1340/1492: s5020.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1341/1492: s6061.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1342/1492: s6062.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1343/1492: s6063.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1344/1492: s7012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1345/1492: s7055.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1346/1492: s7075.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1347/1492: s8025.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1348/1492: s8035.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1349/1492: s8036.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1350/1492: s8037.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1351/1492: s8038.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1352/1492: s8052.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1353/1492: s8055.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1354/1492: s9000.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1355/1492: s9026.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1356/1492: s9027.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1357/1492: s9032.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1358/1492: s9033.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1359/1492: s9037.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1360/1492: sa7035.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1361/1492: sa7036.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1362/1492: sa7038.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1363/1492: saratov.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1364/1492: sc1012r8.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1365/1492: sc1094r8.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1366/1492: sc1095.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1367/1492: sc1095r8.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1368/1492: sc20010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1369/1492: sc20012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1370/1492: sc20402.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1371/1492: sc20403.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1372/1492: sc20404.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1373/1492: sc20406.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1374/1492: sc20410.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1375/1492: sc20412.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1376/1492: sc20414.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1377/1492: sc20503.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1378/1492: sc20518.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1379/1492: sc20606.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1380/1492: sc20610.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1381/1492: sc20612.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1382/1492: sc20614.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1383/1492: sc20706.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1384/1492: sc20710.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1385/1492: sc20712.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1386/1492: sc20714.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1387/1492: sc21006.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1388/1492: sc21010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1389/1492: sc2110.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1390/1492: sd2030.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1391/1492: sd2083.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1392/1492: sd5060.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1393/1492: sd6060.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1394/1492: sd6080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1395/1492: sd7003.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1396/1492: sd7032.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1397/1492: sd7034.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1398/1492: sd7037.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1399/1492: sd7043.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1400/1492: sd7062.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1401/1492: sd7080.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1402/1492: sd7084.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1403/1492: sd7090.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1404/1492: sd8000.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1405/1492: sd8020.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1406/1492: sd8040.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1407/1492: sg6040.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1408/1492: sg6041.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1409/1492: sg6042.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1410/1492: sg6043.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1411/1492: sg6050.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1412/1492: sg6051.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1413/1492: sm701.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1414/1492: sokolov.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1415/1492: spicasm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1416/1492: ssca07.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1417/1492: ssca09.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1418/1492: stcyr171.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1419/1492: stcyr172.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1420/1492: stcyr234.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1421/1492: stcyr24.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1422/1492: ste87151.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1423/1492: ste87391.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1424/1492: stf86361.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1425/1492: strand.dat
+Warning : Impossible to recover edge 732 732 (error tag -1)
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 1426/1492: tempest1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1427/1492: tempest2.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1428/1492: tempest3.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1429/1492: th25816.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1430/1492: trainer60.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1431/1492: tsagi12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1432/1492: tsagi8.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1433/1492: ua2-180.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1434/1492: ua2-180sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1435/1492: ua79sf18.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1436/1492: ua79sff.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1437/1492: ua79sfm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1438/1492: uag8814320.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1439/1492: ui1720.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1440/1492: ultimate.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1441/1492: us1000root.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1442/1492: usa22.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1443/1492: usa25.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1444/1492: usa26.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1445/1492: usa27.dat
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 1446/1492: usa27m2.dat
+^C  ✗ Failed: GMSH failed to create mesh
+Processing 1447/1492: usa28.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1448/1492: usa29.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1449/1492: usa31.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1450/1492: usa32.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1451/1492: usa33.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1452/1492: usa34.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1453/1492: usa35.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1454/1492: usa35a.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1455/1492: usa35b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1456/1492: usa40.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1457/1492: usa40b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1458/1492: usa41.dat
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'usa41.re2'
+Processing 1459/1492: usa45.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1460/1492: usa45m.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1461/1492: usa46.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1462/1492: usa48.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1463/1492: usa49.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1464/1492: usa5.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1465/1492: usa50.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1466/1492: usa51.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1467/1492: usa98.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1468/1492: usnps4.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1469/1492: v13006.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1470/1492: v13009.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1471/1492: v23010.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1472/1492: v43012.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1473/1492: v43015.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1474/1492: vr1.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1475/1492: vr11x.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1476/1492: vr12.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1477/1492: vr13.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1478/1492: vr14.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1479/1492: vr15.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1480/1492: vr5.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1481/1492: vr7.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1482/1492: vr7b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1483/1492: vr8.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1484/1492: vr8b.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1485/1492: vr9.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1486/1492: waspsm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1487/1492: wb13535sm.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1488/1492: wb140.dat
+Warning : Surface mesh: worst distortion = -0.943261 (avg = 0.0283696, 1 elements with jac. < 0); worst gamma = 0.484058
+Warning : ------------------------------
+Warning : Mesh generation error summary
+Warning :     1 warning
+Warning :     0 errors
+Warning : Check the full log for details
+Warning : ------------------------------
+GMSH complete
+NEK complete
+  ✗ Unexpected error: [Errno 2] No such file or directory: 'wb140.re2'
+Processing 1489/1492: whitcomb.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1490/1492: ys900.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1491/1492: ys915.dat
+GMSH complete
+NEK complete
+  ✓ Success
+Processing 1492/1492: ys930.dat
+GMSH complete
+NEK complete
+  ✓ Success
+
+Failed to process 32 files:
+  - ah93w480b.dat
+  - boe106.dat
+  - cap21c.dat
+  - dsma523a.dat
+  - e337.dat
+  - e378.dat
+  - e49.dat
+  - e817.dat
+  - fx62k131.dat
+  - fx63147.dat
+  - fx69h083.dat
+  - fx76mp120.dat
+  - fx77w270.dat
+  - fx79l120.dat
+  - fx79w470a.dat
+  - goe113.dat
+  - goe123.dat
+  - goe300.dat
+  - goe346.dat
+  - goe744.dat
+  - hq300gd2.dat
+  - m8.dat
+  - m9.dat
+  - mh150.dat
+  - naca63206.dat
+  - naca63a210.dat
+  - s4158.dat
+  - strand.dat
+  - usa27.dat
+  - usa27m2.dat
+  - usa41.dat
+  - wb140.dat
