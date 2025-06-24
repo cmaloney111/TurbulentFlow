@@ -6,3 +6,4 @@ GenAirfoils/re2_files/
 GenAirfoils/airfoil_database/
 .DS_Store
 *.csv
+visit/
