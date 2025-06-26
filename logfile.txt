@@ -1,0 +1,688 @@
+/----------------------------------------------------------\\
+|      _   __ ______ __ __  ______  ____   ____   ____     |
+|     / | / // ____// //_/ / ____/ / __ \\/ __ \\/ __ \\   |
+|    /  |/ // __/  / ,<   /___ \\ / / / // / / // / / /    |
+|   / /|  // /___ / /| | ____/ / / /_/ // /_/ // /_/ /     |
+|  /_/ |_//_____//_/ |_|/_____/  \\___/ \\___/ \\___/      |
+|                                                          |
+|----------------------------------------------------------|
+|                                                          |
+| COPYRIGHT (c) 2008-2020 UCHICAGO ARGONNE, LLC            |
+| Version:  20.0-dev                                       |
+| Web:      https://nek5000.mcs.anl.gov                    |
+|                                                          |
+\\----------------------------------------------------------/
+
+ Number of MPI ranks :           2
+  
+ Reading m24_focused.par                                                                                                                     
+general = [(null)]
+general:dt = [1.0e-7]
+general:numsteps = [50000]
+general:writeinterval = [50]
+problemtype = [(null)]
+problemtype:equation = [incompNS]
+problemtype:variableproperties = [yes]
+problemtype:stressformulation = [yes]
+mesh = [(null)]
+mesh:numberofbcfields = [1]
+pressure = [(null)]
+pressure:residualtol = [1.0e-5]
+velocity = [(null)]
+velocity:density = [1.0]
+velocity:viscosity = [-10000.0]
+velocity:residualtol = [1.0e-6]
+scalar01 = [(null)]
+scalar01:density = [1.0]
+scalar01:diffusivity = [-10000.0]
+scalar01:residualtol = [1.0e-6]
+scalar02 = [(null)]
+scalar02:density = [1.0]
+scalar02:diffusivity = [-10000.0]
+scalar02:residualtol = [1.0e-6]
+scalar03 = [(null)]
+scalar03:solver = [none]
+scalar03:writetofieldfile = [yes]
+ reading m24_focused.re2                                                                                                                     
+ hdr:#v004           14554  2           14554   1 hdr                                
+ partioning elements to MPI ranks
+ reading mesh 
+   readp_re2_mesh:pack/cr/unpack : 0.19E-03 0.39E-03 0.15E-03
+   readp_re2_mesh:byte_read_mpi  : 0.24E-01
+ reading boundary faces                  612 for ifield   1
+   readp_re2_bc:pack/cr/unpack : 0.89E-05 0.22E-04 0.62E-04
+   readp_re2_bc:byte_read_mpi  : 0.95E-02
+ done :: read .re2 file    0.47E-01 sec
+
+ Reading m24_focused.ma2                                                                                                                     
+ done :: partioning   0.58940E-01 sec
+
+ reading mesh 
+   readp_re2_mesh:pack/cr/unpack : 0.79E-04 0.54E-03 0.14E-03
+   readp_re2_mesh:byte_read_mpi  : 0.22E-01
+ reading curved sides                    340
+   readp_re2_curve:pack/cr/unpack : 0.54E-05 0.35E-04 0.17E-03
+   readp_re2_curve:byte_read_mpi  : 0.93E-02
+ reading boundary faces                  612 for ifield   1
+   readp_re2_bc:pack/cr/unpack : 0.88E-05 0.22E-04 0.53E-04
+   readp_re2_bc:byte_read_mpi  : 0.94E-02
+ done :: read .re2 file    0.55E-01 sec
+
+ nelgt/nelgv/lelt:       14554       14554        7500
+ lx1/lx2/lx3/lxd:            8           8           8          12
+ 
+ setup mesh topology
+   Right-handed check complete for       14554 elements. OK.
+   setvert2d:   8      191344      715288      191344      191344
+gs_setup: 1332 unique labels shared
+   pairwise times (avg, min, max): 2.31743e-06 2.31643e-06 2.31843e-06
+   crystal router                : 1.68919e-06 1.6842e-06 1.69417e-06
+   all reduce                    : 3.68252e-06 3.68101e-06 3.68403e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 2.44843e+06 2446380 2450476
+   buffer bytes (avg, min, max): 42624 42624 42624
+   setupds time 4.7929E-02 seconds   0  8      191344       14554
+ 
+ nElements   max/min/bal: 7277 7277 1.00
+ nMessages   max/min/avg: 1 1 1.00
+ msgSize     max/min/avg: 1332 1332 1332.00
+ msgSizeSum  max/min/avg: 1332 1332 1332.00
+ 
+ max multiplicity            6
+ done :: setup mesh topology
+  
+ call usrdat
+ done :: usrdat
+
+ generate geometry data
+ done :: generate geometry data
+  
+ call usrdat2
+ initialize RANS model
+  model: standard k-tau                      
+   ifrans_diag:  T
+ Using kw06 coeffs
+ beta_0, alp_inf   7.080000000000000E-002  0.520000000000000     
+ BC for distance , w_id W             2
+        1       37487  9.0112E-03 max wall distance 2
+        2       51976  1.7923E-02 max wall distance 2
+        3       59057  2.8252E-02 max wall distance 2
+        4       62880  3.9765E-02 max wall distance 2
+        5       63267  4.8063E-02 max wall distance 2
+        6       64434  6.2607E-02 max wall distance 2
+        7       62336  8.0049E-02 max wall distance 2
+        8       60368  1.0436E-01 max wall distance 2
+        9       60930  1.2892E-01 max wall distance 2
+       10       61673  1.5162E-01 max wall distance 2
+       11       60648  1.8604E-01 max wall distance 2
+       12       59727  2.2659E-01 max wall distance 2
+       13       59263  2.5900E-01 max wall distance 2
+       14       56681  2.8103E-01 max wall distance 2
+       15       56699  3.2221E-01 max wall distance 2
+       16       54985  3.8823E-01 max wall distance 2
+       17       53154  4.3112E-01 max wall distance 2
+       18       52891  4.8197E-01 max wall distance 2
+       19       53724  5.2893E-01 max wall distance 2
+       20       52769  5.9654E-01 max wall distance 2
+       21       50715  6.4248E-01 max wall distance 2
+       22       49847  7.3038E-01 max wall distance 2
+       23       49218  7.8527E-01 max wall distance 2
+       24       49491  8.8062E-01 max wall distance 2
+       25       47671  9.9370E-01 max wall distance 2
+       26       45510  1.1141E+00 max wall distance 2
+       27       44350  1.2309E+00 max wall distance 2
+       28       45690  1.3392E+00 max wall distance 2
+       29       44855  1.4620E+00 max wall distance 2
+       30       44418  1.5624E+00 max wall distance 2
+       31       43088  1.7045E+00 max wall distance 2
+       32       43953  1.7940E+00 max wall distance 2
+       33       44739  1.9211E+00 max wall distance 2
+       34       43810  2.1101E+00 max wall distance 2
+       35       44230  2.2821E+00 max wall distance 2
+       36       43632  2.4552E+00 max wall distance 2
+       37       43606  2.6101E+00 max wall distance 2
+       38       42224  2.8591E+00 max wall distance 2
+       39       40763  3.1106E+00 max wall distance 2
+       40       40488  3.3448E+00 max wall distance 2
+       41       42257  3.5748E+00 max wall distance 2
+       42       41341  3.7003E+00 max wall distance 2
+       43       41013  3.9418E+00 max wall distance 2
+       44       42986  4.0780E+00 max wall distance 2
+       45       41205  4.2265E+00 max wall distance 2
+       46       40043  4.4782E+00 max wall distance 2
+       47       39306  4.8032E+00 max wall distance 2
+       48       40956  4.9957E+00 max wall distance 2
+       49       40283  5.1537E+00 max wall distance 2
+       50       40296  5.3079E+00 max wall distance 2
+       51       40603  5.4748E+00 max wall distance 2
+       52       41292  5.6895E+00 max wall distance 2
+       53       40554  5.9798E+00 max wall distance 2
+       54       38712  6.2361E+00 max wall distance 2
+       55       36323  6.4074E+00 max wall distance 2
+       56       36072  6.5334E+00 max wall distance 2
+       57       33586  6.7921E+00 max wall distance 2
+       58       33327  6.9288E+00 max wall distance 2
+       59       29627  7.0686E+00 max wall distance 2
+       60       28701  6.9194E+00 max wall distance 2
+       61       25874  7.0626E+00 max wall distance 2
+       62       22532  6.9148E+00 max wall distance 2
+       63       20470  6.7791E+00 max wall distance 2
+       64       18578  6.7880E+00 max wall distance 2
+       65       17459  7.0600E+00 max wall distance 2
+       66       16804  6.9119E+00 max wall distance 2
+       67       16147  6.8841E+00 max wall distance 2
+       68       15188  6.8926E+00 max wall distance 2
+       69       13852  6.9285E+00 max wall distance 2
+       70       13065  7.0683E+00 max wall distance 2
+       71       12437  6.9193E+00 max wall distance 2
+       72       11592  7.0600E+00 max wall distance 2
+       73       10692  6.8999E+00 max wall distance 2
+       74       10495  6.7539E+00 max wall distance 2
+       75       10447  6.5429E+00 max wall distance 2
+       76       10312  6.5484E+00 max wall distance 2
+       77       10115  6.5575E+00 max wall distance 2
+       78        9404  6.5738E+00 max wall distance 2
+       79        9121  5.6688E+00 max wall distance 2
+       80        9075  5.6876E+00 max wall distance 2
+       81        9329  5.8298E+00 max wall distance 2
+       82        8358  6.0149E+00 max wall distance 2
+       83        7904  6.0605E+00 max wall distance 2
+       84        7808  6.1063E+00 max wall distance 2
+       85        7613  6.1503E+00 max wall distance 2
+       86        7155  6.1758E+00 max wall distance 2
+       87        7209  6.2229E+00 max wall distance 2
+       88        6647  6.2609E+00 max wall distance 2
+       89        6641  6.2785E+00 max wall distance 2
+       90        6401  6.2953E+00 max wall distance 2
+       91        6116  6.3448E+00 max wall distance 2
+       92        6526  6.4774E+00 max wall distance 2
+       93        6183  6.3932E+00 max wall distance 2
+       94        5941  5.8278E+00 max wall distance 2
+       95        5657  5.9322E+00 max wall distance 2
+       96        5626  6.0509E+00 max wall distance 2
+       97        5513  6.2734E+00 max wall distance 2
+       98        5487  6.2911E+00 max wall distance 2
+       99        5408  6.3212E+00 max wall distance 2
+      100        5247  5.9834E+00 max wall distance 2
+      101        4608  6.1485E+00 max wall distance 2
+      102        4582  6.3094E+00 max wall distance 2
+      103        4957  6.5231E+00 max wall distance 2
+      104        4678  6.5604E+00 max wall distance 2
+      105        4748  6.7910E+00 max wall distance 2
+      106        4797  6.8238E+00 max wall distance 2
+      107        4475  6.8737E+00 max wall distance 2
+      108        4203  6.9109E+00 max wall distance 2
+      109        4128  7.0125E+00 max wall distance 2
+      110        4111  6.4096E+00 max wall distance 2
+      111        4129  6.4155E+00 max wall distance 2
+      112        3927  6.5329E+00 max wall distance 2
+      113        4182  6.7917E+00 max wall distance 2
+      114        3910  6.8194E+00 max wall distance 2
+      115        3855  6.6496E+00 max wall distance 2
+      116        3509  6.6312E+00 max wall distance 2
+      117        3146  6.7879E+00 max wall distance 2
+      118        3457  7.0599E+00 max wall distance 2
+      119        3496  6.9032E+00 max wall distance 2
+      120        3199  6.9118E+00 max wall distance 2
+      121        2945  6.8840E+00 max wall distance 2
+      122        2944  6.8925E+00 max wall distance 2
+      123        3156  6.8579E+00 max wall distance 2
+      124        3280  6.8664E+00 max wall distance 2
+      125        2961  6.8295E+00 max wall distance 2
+      126        2741  6.8378E+00 max wall distance 2
+      127        2730  6.7569E+00 max wall distance 2
+      128        2559  6.6955E+00 max wall distance 2
+      129        2571  6.7035E+00 max wall distance 2
+      130        2461  6.9193E+00 max wall distance 2
+      131        2084  6.9477E+00 max wall distance 2
+      132        2096  6.7728E+00 max wall distance 2
+      133        2021  6.7538E+00 max wall distance 2
+      134        1869  6.3094E+00 max wall distance 2
+      135        1886  6.5231E+00 max wall distance 2
+      136        1815  6.5769E+00 max wall distance 2
+      137        1701  6.6120E+00 max wall distance 2
+      138        1722  6.6424E+00 max wall distance 2
+      139        1669  6.7634E+00 max wall distance 2
+      140        1726  6.0346E+00 max wall distance 2
+      141        1609  5.9975E+00 max wall distance 2
+      142        1584  5.8229E+00 max wall distance 2
+      143        1537  6.1568E+00 max wall distance 2
+      144        1498  6.1808E+00 max wall distance 2
+      145        1362  5.9744E+00 max wall distance 2
+      146        1295  5.9744E+00 max wall distance 2
+      147        1274  5.9172E+00 max wall distance 2
+      148        1290  6.0568E+00 max wall distance 2
+      149        1155  6.1704E+00 max wall distance 2
+      150        1304  6.2570E+00 max wall distance 2
+      151        1167  6.2819E+00 max wall distance 2
+      152        1078  6.3072E+00 max wall distance 2
+      153        1170  6.3390E+00 max wall distance 2
+      154        1055  6.3824E+00 max wall distance 2
+      155         919  6.4982E+00 max wall distance 2
+      156         765  6.5063E+00 max wall distance 2
+      157         831  6.5526E+00 max wall distance 2
+      158        1020  6.5999E+00 max wall distance 2
+      159         830  6.6351E+00 max wall distance 2
+      160         842  6.6513E+00 max wall distance 2
+      161         754  6.6820E+00 max wall distance 2
+      162         736  6.7312E+00 max wall distance 2
+      163         743  6.7676E+00 max wall distance 2
+      164         689  6.7848E+00 max wall distance 2
+      165         778  6.8119E+00 max wall distance 2
+      166         882  6.4031E+00 max wall distance 2
+      167         583  6.2119E+00 max wall distance 2
+      168         462  6.1629E+00 max wall distance 2
+      169         452  6.1294E+00 max wall distance 2
+      170         389  6.1446E+00 max wall distance 2
+      171         473  6.1521E+00 max wall distance 2
+      172         402  6.1687E+00 max wall distance 2
+      173         333  6.1915E+00 max wall distance 2
+      174         380  6.2166E+00 max wall distance 2
+      175         453  6.2396E+00 max wall distance 2
+      176         419  6.2566E+00 max wall distance 2
+      177         365  6.2644E+00 max wall distance 2
+      178         320  5.6640E+00 max wall distance 2
+      179         282  5.6940E+00 max wall distance 2
+      180         237  5.7077E+00 max wall distance 2
+      181         247  5.7141E+00 max wall distance 2
+      182         281  5.7282E+00 max wall distance 2
+      183         260  5.2010E+00 max wall distance 2
+      184         201  5.2378E+00 max wall distance 2
+      185         166  5.2678E+00 max wall distance 2
+      186         159  5.3536E+00 max wall distance 2
+      187         170  5.3595E+00 max wall distance 2
+      188         225  5.3955E+00 max wall distance 2
+      189         164  5.4301E+00 max wall distance 2
+      190         160  5.4575E+00 max wall distance 2
+      191          91  5.4829E+00 max wall distance 2
+      192          75  5.5209E+00 max wall distance 2
+      193          84  5.5584E+00 max wall distance 2
+      194          82  5.5867E+00 max wall distance 2
+      195          76  5.6092E+00 max wall distance 2
+      196          70  5.6409E+00 max wall distance 2
+      197          81  5.6687E+00 max wall distance 2
+      198          78  5.6875E+00 max wall distance 2
+      199          68  5.5435E+00 max wall distance 2
+      200          98  5.5939E+00 max wall distance 2
+      201         103  5.6324E+00 max wall distance 2
+      202         100  5.6621E+00 max wall distance 2
+      203          87  5.6698E+00 max wall distance 2
+      204          60  5.7097E+00 max wall distance 2
+      205          67  5.7320E+00 max wall distance 2
+      206          80  5.9050E+00 max wall distance 2
+      207          84  5.9823E+00 max wall distance 2
+      208         113  5.9896E+00 max wall distance 2
+      209          93  6.0280E+00 max wall distance 2
+      210          69  6.0665E+00 max wall distance 2
+      211          47  6.0984E+00 max wall distance 2
+      212          23  6.1206E+00 max wall distance 2
+      213          15  5.9242E+00 max wall distance 2
+      214          14  5.0147E+00 max wall distance 2
+      215          27  5.0248E+00 max wall distance 2
+      216          79  4.8416E+00 max wall distance 2
+      217          85  5.0063E+00 max wall distance 2
+      218          40  5.0136E+00 max wall distance 2
+      219          24  5.0324E+00 max wall distance 2
+      220          15  5.1108E+00 max wall distance 2
+      221          12  5.1785E+00 max wall distance 2
+      222           9  5.2252E+00 max wall distance 2
+      223          13  5.2130E+00 max wall distance 2
+      224          26  4.1353E+00 max wall distance 2
+      225          26  4.1514E+00 max wall distance 2
+      226          20  4.2369E+00 max wall distance 2
+      227           9  4.2738E+00 max wall distance 2
+      228           6  4.2960E+00 max wall distance 2
+      229           7  4.3062E+00 max wall distance 2
+      230           5  4.3170E+00 max wall distance 2
+      231           6  4.3407E+00 max wall distance 2
+      232          18  4.3855E+00 max wall distance 2
+      233          11  4.4238E+00 max wall distance 2
+      234           7  4.4589E+00 max wall distance 2
+      235           7  4.5066E+00 max wall distance 2
+      236          12  4.5193E+00 max wall distance 2
+      237          20  4.5292E+00 max wall distance 2
+      238          40  4.5718E+00 max wall distance 2
+      239          27  4.7131E+00 max wall distance 2
+      240          28  4.8992E+00 max wall distance 2
+      241          14  4.7239E+00 max wall distance 2
+      242          36  4.8097E+00 max wall distance 2
+      243          10  4.8519E+00 max wall distance 2
+      244          18  4.9212E+00 max wall distance 2
+      245           8  4.9254E+00 max wall distance 2
+      246           4  4.9684E+00 max wall distance 2
+      247           3  5.0113E+00 max wall distance 2
+      248           4  5.0337E+00 max wall distance 2
+      249           8  5.0440E+00 max wall distance 2
+      250          14  5.0548E+00 max wall distance 2
+      251           1  5.0784E+00 max wall distance 2
+      252           2  5.1586E+00 max wall distance 2
+      253           2  5.1908E+00 max wall distance 2
+      254           1  5.2143E+00 max wall distance 2
+      255           1  5.2251E+00 max wall distance 2
+      256           0  0.0000E+00 max wall distance 2
+ done :: init RANS
+ done :: usrdat2
+
+  Found the following boundary conditions
+
+    for velocity:
+
+            "O  "           50
+            "SYM"          100
+            "v  "           50
+            "W  "          412
+ 
+    for scalar 1:
+
+            "I  "          150
+            "t  "          462
+ 
+    for scalar 2:
+
+            "I  "          150
+            "t  "          462
+ 
+  8.8818E-16  8.8818E-16  0.0000E+00  8.8818E-16  8.8818E-16  0.0000E+00 xyz repair 1
+  4.4409E-16  8.8818E-16  0.0000E+00  4.4409E-16  8.8818E-16  0.0000E+00 xyz repair 2
+  0.0000E+00  1.3878E-17  0.0000E+00  0.0000E+00  1.3878E-17  0.0000E+00 xyz repair 3
+ regenerate geometry data           1
+ done :: regenerate geometry data           1
+  
+ verify mesh topology
+  -5.00000000000000        5.00000000000000       Xrange
+  -5.00000000000000        5.00000000000000       Yrange
+  0.000000000000000E+000  0.000000000000000E+000  Zrange
+ done :: verify mesh topology
+  
+ mesh metrics:
+ GLL grid spacing min/max    : 1.77E-04 5.64E-02
+ scaled Jacobian  min/max/avg: 2.35E-01 1.00E+00 7.24E-01
+ aspect ratio     min/max/avg: 1.01E+00 2.43E+00 1.31E+00
+ 
+ IFTRAN    = T
+ IFFLOW    = T
+ IFHEAT    = T
+ IFSPLIT   = T
+ IFLOMACH  = F
+ IFUSERVP  = T
+ IFUSERMV  = F
+ IFPERT    = F
+ IFADJ     = F
+ IFSTRS    = T
+ IFCHAR    = F
+ IFCYCLIC  = F
+ IFAXIS    = F
+ IFMVBD    = F
+ IFMELT    = F
+ IFNEKNEK  = F
+ IFNEKNEKC = F
+ IFSYNC    = F
+   
+ IFVCOR    = F
+ IFINTQ    = F
+ IFGEOM    = F
+ IFSURT    = F
+ IFWCNO    = F
+   
+ IFTMSH for field           1    =  F
+ IFADVC for field           1    =  T
+ IFNONL for field           1    =  F
+   
+ IFTMSH for field           2    =  F
+ IFADVC for field           2    =  T
+ IFNONL for field           2    =  F
+   
+ IFTMSH for field           3    =  F
+ IFADVC for field           3    =  T
+ IFNONL for field           3    =  F
+   
+ IFTMSH for field           4    =  F
+ IFADVC for field           4    =  T
+ IFNONL for field           4    =  F
+   
+ IFTMSH for field           5    =  F
+ IFADVC for field           5    =  T
+ IFNONL for field           5    =  F
+   
+ Dealiasing enabled, nxd=          12
+  
+ Estimated eigenvalues
+ EIGAA =   9.869604401089359E-002
+ EIGGA =    800636220.295944     
+ EIGAE =   9.869604401089359E-002
+ EIGAS =   0.125000000000000     
+ EIGGE =    800636220.295944     
+ EIGGS =    2.00000000000000     
+  
+ initialize pressure solver
+ mg_nx:           1           3           7
+ mg_ny:           1           3           7
+ mg_nz:           0           0           0
+gs_setup: 192 unique labels shared
+   pairwise times (avg, min, max): 5.64614e-07 5.64102e-07 5.65127e-07
+   crystal router                : 9.93419e-07 9.90927e-07 9.9591e-07
+   all reduce                    : 9.2478e-07 9.21777e-07 9.27784e-07
+   used all_to_all method: pairwise
+   handle bytes (avg, min, max): 296916 296804 297028
+   buffer bytes (avg, min, max): 3072 3072 3072
+   setupds time 2.9124E-03 seconds   1  2       14860       14554
+   setvert2d:   4       73688      131904       73688       73688
+gs_setup: 572 unique labels shared
+   pairwise times (avg, min, max): 1.36604e-06 1.36048e-06 1.37161e-06
+   crystal router                : 1.34804e-06 1.34748e-06 1.3486e-06
+   all reduce                    : 1.94272e-06 1.93771e-06 1.94772e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 1.02033e+06 1019724 1020940
+   buffer bytes (avg, min, max): 18304 18304 18304
+   setupds time 2.6171E-02 seconds   2  4       73688       14554
+   setvert2d:   4       73688      131904       73688       73688
+gs_setup: 572 unique labels shared
+   pairwise times (avg, min, max): 1.30504e-06 1.3045e-06 1.30557e-06
+   crystal router                : 1.25542e-06 1.25342e-06 1.25743e-06
+   all reduce                    : 2.05091e-06 2.04993e-06 2.05189e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 1.02033e+06 1019724 1020940
+   buffer bytes (avg, min, max): 18304 18304 18304
+   setupds time 2.6757E-02 seconds   3  4       73688       14554
+   setvert2d:   6      132516      365380      132516      132516
+gs_setup: 952 unique labels shared
+   pairwise times (avg, min, max): 1.57906e-06 1.56402e-06 1.5941e-06
+   crystal router                : 1.4443e-06 1.44383e-06 1.44476e-06
+   all reduce                    : 2.54428e-06 2.53976e-06 2.5488e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 1.73438e+06 1733052 1735708
+   buffer bytes (avg, min, max): 30464 30464 30464
+   setupds time 3.5344E-02 seconds   4  6      132516       14554
+ regenerate geometry data           1
+ done :: regenerate geometry data           1
+  
+ h1_mg_nx:           1           3           7
+ h1_mg_ny:           1           3           7
+ h1_mg_nz:           0           0           0
+gs_setup: 192 unique labels shared
+   pairwise times (avg, min, max): 6.30715e-07 6.28224e-07 6.33206e-07
+   crystal router                : 5.64032e-07 5.61029e-07 5.67036e-07
+   all reduce                    : 8.76654e-07 8.74605e-07 8.78703e-07
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 306284 306172 306396
+   buffer bytes (avg, min, max): 6144 6144 6144
+   setupds time 2.4899E-03 seconds   5  2       14860       14554
+   setvert2d:   4       73688      131904       73688       73688
+gs_setup: 572 unique labels shared
+   pairwise times (avg, min, max): 1.28795e-06 1.28238e-06 1.29351e-06
+   crystal router                : 1.28648e-06 1.2815e-06 1.29147e-06
+   all reduce                    : 2.5013e-06 2.4958e-06 2.50679e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 1.02033e+06 1019724 1020940
+   buffer bytes (avg, min, max): 18304 18304 18304
+   setupds time 2.6585E-02 seconds   6  4       73688       14554
+   setvert2d:   4       73688      131904       73688       73688
+gs_setup: 572 unique labels shared
+   pairwise times (avg, min, max): 1.31505e-06 1.30748e-06 1.32262e-06
+   crystal router                : 1.30597e-06 1.30348e-06 1.30846e-06
+   all reduce                    : 2.03636e-06 2.0348e-06 2.03792e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 1.02033e+06 1019724 1020940
+   buffer bytes (avg, min, max): 18304 18304 18304
+   setupds time 2.5548E-02 seconds   7  4       73688       14554
+   setvert2d:   6      132516      365380      132516      132516
+gs_setup: 952 unique labels shared
+   pairwise times (avg, min, max): 1.48232e-06 1.4808e-06 1.48383e-06
+   crystal router                : 1.53347e-06 1.53193e-06 1.53501e-06
+   all reduce                    : 2.54638e-06 2.54088e-06 2.55187e-06
+   used all_to_all method: pairwise
+   handle bytes (avg, min, max): 1.68853e+06 1687204 1689860
+   buffer bytes (avg, min, max): 15232 15232 15232
+   setupds time 3.4752E-02 seconds   8  6      132516       14554
+   setvert2d:   8      191344      715288      191344      191344
+gs_setup: 1332 unique labels shared
+   pairwise times (avg, min, max): 1.79841e-06 1.79741e-06 1.79941e-06
+   crystal router                : 1.70376e-06 1.70129e-06 1.70623e-06
+   all reduce                    : 3.675e-06 3.673e-06 3.677e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 2.44843e+06 2446380 2450476
+   buffer bytes (avg, min, max): 42624 42624 42624
+   setupds time 4.9220E-02 seconds   9  8      191344       14554
+   setvert2d:  10      250172     1181628      250172      250172
+gs_setup: 1712 unique labels shared
+   pairwise times (avg, min, max): 1.94171e-06 1.9256e-06 1.95783e-06
+   crystal router                : 1.93422e-06 1.9297e-06 1.93873e-06
+   all reduce                    : 4.09335e-06 4.09288e-06 4.09381e-06
+   used all_to_all method: crystal router
+   handle bytes (avg, min, max): 3.16248e+06 3159708 3165244
+   buffer bytes (avg, min, max): 54784 54784 54784
+   setupds time 5.8511E-02 seconds  10 10      250172       14554
+ setup h1 coarse grid, nx_crs=           2
+gs_setup: 192 unique labels shared
+   pairwise times (avg, min, max): 5.67059e-07 5.621e-07 5.72018e-07
+   crystal router                : 5.84614e-07 5.83101e-07 5.86128e-07
+   all reduce                    : 8.80146e-07 8.76607e-07 8.83685e-07
+   used all_to_all method: pairwise
+   handle bytes (avg, min, max): 296916 296804 297028
+   buffer bytes (avg, min, max): 3072 3072 3072
+ done :: setup h1 coarse grid   0.239189506974071       sec
+  
+ call usrdat3
+ done :: usrdat3
+
+ set initial conditions
+ nekuic (1) for ifld            1
+ nekuic (1) for ifld            2
+ nekuic (1) for ifld            3
+ nekuic (1) for ifld            4
+ nekuic (1) for ifld            5
+ call nekuic for ifld            2
+ call nekuic for ifld            3
+ call nekuic for ifld            4
+ call nekuic for ifld            5
+ call nekuic for vel  
+ xyz min    -5.0000      -5.0000       0.0000    
+ uvwpt min   1.0000       0.0000       0.0000       0.0000       0.0000    
+ PS min     0.10000E-01  0.20000       0.0000    
+ xyz max     5.0000       5.0000       0.0000    
+ uvwpt max   1.0000       0.0000       0.0000       0.0000       0.0000    
+ PS max     0.10000E-01  0.20000       0.0000    
+ done :: set initial conditions
+  
+ call userchk
+ obj_wall nmem:         412
+
+        0  0.0000E+00 Write checkpoint
+ Full file name (with spaces visible): "
+ m24_focused.nek5000                                                            
+                                                      "
+ Opening file: m24_focused.nek5000
+ Length of name:          132
+ Length after trim:           19
+       FILE:
+ m24_focused0.f00001                                                            
+                                                      
+
+        0  0.0000E+00 done :: Write checkpoint
+                              file size =     299.E-04GB
+                              avg data-throughput =     0.1GB/s
+                              io-nodes =     2
+
+       0  0.00000000000E+00  1.42279535894E-15  0.00000000000E+00  1.42279535894E-15      1dragx
+       0  0.00000000000E+00  1.05813729955E-17  0.00000000000E+00  1.05813729955E-17      1dragy
+ done :: userchk
+
+gridpoints unique/tot:        715288       931456
+dofs vel/pr:                  711353       714937
+  
+ Initialization successfully completed    10.338     sec
+
+Starting time loop ...
+
+ hi
+ hi
+     DT/DTCFL/DTFS/DTINIT   0.100E-06   0.000E+00   0.192-314   0.100E-06
+Step      1, t= 1.0000000E-07, DT= 1.0000000E-07, C=  0.001 0.0000E+00 0.0000E+00
+             Solving for Hmholtz scalars
+          1  Hmholtz PS 1       1   4.1020E-01   1.3000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 1       2   5.6963E-04   1.3000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 1       3   1.4502E-06   1.3000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 1       4   8.2404E-09   1.3000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 1       3   8.2404E-09   4.1020E-01   1.0000E-06
+          1  Hmholtz PS 2       1   6.9413E+00   1.1000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 2       2   8.1616E-03   1.1000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 2       3   1.7610E-05   1.1000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 2       4   8.5096E-08   1.1000E-03   1.0000E-06   1.0000E+07   F
+          1  Hmholtz PS 2       3   8.5096E-08   6.9413E+00   1.0000E-06
+          1  Scalars done  1.0000E-07  1.9572E-01
+             Solving for fluid
+    1 1.00000E-05 5.30771E+03 8.79001E+03 6.03834E-01       1 Divergence
+    2 1.00000E-05 5.19219E+03 8.79001E+03 5.90692E-01       1 Divergence
+    3 1.00000E-05 2.89646E+03 8.79001E+03 3.29517E-01       1 Divergence
+    4 1.00000E-05 1.30064E+03 8.79001E+03 1.47967E-01       1 Divergence
+    5 1.00000E-05 5.55781E+02 8.79001E+03 6.32287E-02       1 Divergence
+    6 1.00000E-05 2.60054E+02 8.79001E+03 2.95852E-02       1 Divergence
+    7 1.00000E-05 1.32014E+02 8.79001E+03 1.50186E-02       1 Divergence
+    8 1.00000E-05 6.82236E+01 8.79001E+03 7.76149E-03       1 Divergence
+    9 1.00000E-05 3.15720E+01 8.79001E+03 3.59181E-03       1 Divergence
+   10 1.00000E-05 1.40102E+01 8.79001E+03 1.59388E-03       1 Divergence
+   11 1.00000E-05 6.20889E+00 8.79001E+03 7.06357E-04       1 Divergence
+   12 1.00000E-05 2.79649E+00 8.79001E+03 3.18144E-04       1 Divergence
+   13 1.00000E-05 1.26111E+00 8.79001E+03 1.43471E-04       1 Divergence
+   14 1.00000E-05 5.88397E-01 8.79001E+03 6.69393E-05       1 Divergence
+   15 1.00000E-05 2.70747E-01 8.79001E+03 3.08017E-05       1 Divergence
+   16 1.00000E-05 1.21980E-01 8.79001E+03 1.38772E-05       1 Divergence
+   17 1.00000E-05 5.79541E-02 8.79001E+03 6.59318E-06       1 Divergence
+   18 1.00000E-05 2.87544E-02 8.79001E+03 3.27126E-06       1 Divergence
+   19 1.00000E-05 1.45881E-02 8.79001E+03 1.65963E-06       1 Divergence
+   20 1.00000E-05 7.33439E-03 8.79001E+03 8.34400E-07       1 Divergence
+   21 1.00000E-05 3.81301E-03 8.79001E+03 4.33789E-07       1 Divergence
+   22 1.00000E-05 1.90655E-03 8.79001E+03 2.16900E-07       1 Divergence
+   23 1.00000E-05 9.55271E-04 8.79001E+03 1.08677E-07       1 Divergence
+   24 1.00000E-05 5.02329E-04 8.79001E+03 5.71477E-08       1 Divergence
+   25 1.00000E-05 2.65169E-04 8.79001E+03 3.01671E-08       1 Divergence
+   26 1.00000E-05 1.43107E-04 8.79001E+03 1.62806E-08       1 Divergence
+   27 1.00000E-05 7.57886E-05 8.79001E+03 8.62213E-09       1 Divergence
+   28 1.00000E-05 4.03217E-05 8.79001E+03 4.58722E-09       1 Divergence
+   29 1.00000E-05 2.15180E-05 8.79001E+03 2.44801E-09       1 Divergence
+   30 1.00000E-05 1.14833E-05 8.79001E+03 1.30640E-09       1 Divergence
+   31 1.00000E-05 7.41474E-06 8.79001E+03 8.43542E-10       1 Divergence
+          1  PRES gmres        31   7.4147E-06   8.7900E+03   1.0000E-05   1.0173E+00   1.7977E+00    F
+          1  Helmh3 fluid       6   2.7313E-07   1.7544E+02   1.0000E-06
+             L1/L2 DIV(V)          -2.5400E-17   2.2369E-01
+             L1/L2 QTL              0.0000E+00   0.0000E+00
+             L1/L2 DIV(V)-QTL      -2.5400E-17   2.2369E-01
+             WARNING: DIV(V)-QTL too large!
+          1  Fluid done  1.0000E-07  2.1998E+00
+       1  1.00000000000E-07  5.01806633379E+05  5.01801346069E+05  5.28731062375E+00      1dragx
+       1  1.00000000000E-07  5.09027108003E+05  5.09027167652E+05 -5.96491854758E-02      1dragy
+Step      2, t= 2.0000000E-07, DT= 1.0000000E-07, C=  0.002 3.0223E+00 3.0223E+00
+             Solving for Hmholtz scalars
+          2  Hmholtz PS 1       3   5.8684E-07   3.4056E+01   1.0000E-06
+          2  Hmholtz PS 2       4   2.4343E-09   1.9278E+02   1.0000E-06
+          2  Scalars done  2.0000E-07  2.0201E-01
+             Solving for fluid
+          2  PRES gmres        32   6.2114E-06   1.3153E+04   1.0000E-05   1.0078E+00   1.7799E+00    F
+          2  Helmh3 fluid       5   1.1335E-07   3.8642E+00   1.0000E-06
+             L1/L2 DIV(V)           2.3918E-17   1.7882E-01
+             L1/L2 QTL              0.0000E+00   0.0000E+00
+             L1/L2 DIV(V)-QTL       2.3918E-17   1.7882E-01
+             WARNING: DIV(V)-QTL too large!
+          2  Fluid done  2.0000E-07  2.1472E+00
+       2  2.00000000000E-07 -2.49049284805E+05 -2.49054569719E+05  5.28491400363E+00      1dragx
+       2  2.00000000000E-07 -2.53341505778E+05 -2.53341443581E+05 -6.21968519692E-02      1dragy
