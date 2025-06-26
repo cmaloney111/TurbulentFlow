@@ -6,7 +6,7 @@ GenAirfoils/re2_files/
 GenAirfoils/airfoil_database/
 GenAirfoils/airfoil_database_test/
 GenAirfoils/airfoil_rot_database/
-GenAirfoils/gmsh2nek
 .DS_Store
 *.csv
 visit/
+GenAirfoils/gmsh2nek

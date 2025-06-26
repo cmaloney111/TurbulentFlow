@@ -1,23 +1,4 @@
 #!/usr/bin/env python3
-# 
-#
-# How to use:
-#
-# default database (input) is './airfoil_database/'
-# default output directory is './airfoil_database/'
-#
-# List all available airfoils   
-# python3 rotate_dat.py --list
-#
-# # Rotate all airfoils by 15 degrees
-# python3 rotate_dat.py --all 15
-#
-# # Rotate a specific airfoil by 30 degrees
-# python3 rotate_dat.py --airfoil a18 30
-#
-# # Use custom directories (for specific output into ./airfoil_rot_database/)
-# python3 rotate_dat.py --all 45 --database ./my_airfoils/ --output ./airfoil_rot_database/
-
 import argparse
 import os
 import sys
