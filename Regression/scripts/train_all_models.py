@@ -25,10 +25,10 @@ def main():
     base_dir = os.path.join(os.path.dirname(__file__), '..', 'src', 'models')
     
     models = [
-        # ('random_forest.py', 'Random Forest'),
+        ('random_forest.py', 'Random Forest'),
         ('xgboost_model.py', 'XGBoost'),
-        # ('neuralfoil_ann.py', 'Neural Network'),
-        # ('train_blind_nn.py', 'Neural Network')
+        ('neuralfoil_ann.py', 'Neural Network'),
+        ('train_blind_nn.py', 'Neural Network')
     ]
     
     success_count = 0

@@ -41,7 +41,7 @@ Error files:
 - goe113 (goes through, but warning)
 - goe123 (goes through, but warning)
 - goe300 (goes through, but warning)
-- goe346 (no such file?)
+- goe346 (no such file)
 - goe744 (no such file)
 - hq300gd2 (goes through, but warning)
 - m8 (goes through, but warning)
