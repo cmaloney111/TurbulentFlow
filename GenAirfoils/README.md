@@ -6,14 +6,12 @@ python test_gen.py --list                  # List available files
 python test_gen.py --airfoil NACA0012      # Specific airfoil
 python test_gen.py --all                   # Process all airfoils
 python test_gen.py --samples 20            # 20 random samples
-
-
+```
 
 How to use rotate_dat.py:
-
-# Default database (input) is './airfoil_database/'
-# Default output directory is './airfoil_database/'
-  
+Default database (input) is './airfoil_database/'
+Default output directory is './airfoil_database/'
+```bash
 python3 rotate_dat.py --list                                                                    # List all available airfoils 
 python3 rotate_dat.py --all 15                                                                  # Rotate all airfoils by 15 degrees
 python3 rotate_dat.py --airfoil a18 30                                                          # Rotate a specific airfoil by 30 degrees
