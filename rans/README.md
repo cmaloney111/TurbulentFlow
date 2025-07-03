@@ -7,6 +7,7 @@ Steps:
 
 
 nekmpi:
+```bash
 #!/bin/bash
 echo $1        >  SESSION.NAME
 echo `pwd`'/' >>  SESSION.NAME
@@ -14,3 +15,4 @@ rm -f logfile
 rm -f ioinfo
 mv $1.log.$2 $1.log1.$2 2>/dev/null
 mpiexec -np $2 ./nek5000 > logfile
+```
