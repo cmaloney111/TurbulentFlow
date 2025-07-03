@@ -1,0 +1,13 @@
+ar -cr libblasLapack.a *.o
+
+mpif77  -O2 -fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused -fpp -r8 -fpconstant  -fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused -DMPI -DUNDERSCORE -DTIMER -I/home/cmaloney1/Nek5000/run/rans/rans_test -I/home/cmaloney1/Nek5000/core -I./ -I/home/cmaloney1/Nek5000/core/experimental -I/home/cmaloney1/Nek5000/run/rans/rans_test/obj  -c /home/cmaloney1/Nek5000/run/rans/rans_test/rans.f -o /home/cmaloney1/Nek5000/run/rans/rans_test/obj/rans.o
+mpif77 -c  -O2 -fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused -fpp -r8 -fpconstant  -fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused -DMPI -DUNDERSCORE -DTIMER -I/home/cmaloney1/Nek5000/run/rans/rans_test -I/home/cmaloney1/Nek5000/core -I./ -I/home/cmaloney1/Nek5000/core/experimental -I/home/cmaloney1/Nek5000/run/rans/rans_test/obj /home/cmaloney1/Nek5000/core/drive.f
+mpif77  -O2 -fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused -fpp -r8 -fpconstant  -fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused -DMPI -DUNDERSCORE -DTIMER -I/home/cmaloney1/Nek5000/run/rans/rans_test -I/home/cmaloney1/Nek5000/core -I./ -I/home/cmaloney1/Nek5000/core/experimental -I/home/cmaloney1/Nek5000/run/rans/rans_test/obj -o nek5000 drive.o /home/cmaloney1/Nek5000/run/rans/rans_test/obj/rans.o /home/cmaloney1/Nek5000/run/rans/rans_test/obj/libnek5000.a -L/home/cmaloney1/Nek5000/3rd_party/blasLapack -lblasLapack -L/home/cmaloney1/Nek5000/3rd_party/gslib/lib -lgs -Wl,--no-relax -Wl,--no-relax -Wl,--allow-multiple-definition
+
+
+#############################################################
+#                  Compilation successful!                  #
+#############################################################
+   text	   data	    bss	    dec	    hex	filename
+3426279	 178624	3949524556	3953129459	eb9ff7f3	nek5000
+
