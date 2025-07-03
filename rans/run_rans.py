@@ -193,8 +193,8 @@ content = re.sub(r'#startFrom = rans0.f00001', 'startFrom = {job_info['rotated_n
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
 content = re.sub(r'#targetCFL = 3.5.', 'targetCFL = 3.5.', content)
-content = re.sub(r'numsteps = 2', 'numsteps = 3', content)
-content = re.sub(r'writeInterval = 2', 'writeInterval = 3', content)
+content = re.sub(r'numsteps = 2', 'numsteps = 5', content)
+content = re.sub(r'writeInterval = 2', 'writeInterval = 5', content)
 
 with open(par_file, 'w') as f:
     f.write(content)
