@@ -257,7 +257,6 @@ def prepare_all_simulations(airfoil_name, df):
             job_file = create_slurm_job(job_info)
             job_files.append(job_file)
             print(f"  Created job script: {job_file.name}")
-        # TODO: Remove (for testing):
     return job_files
 
 def submit_jobs(job_files, dependency_type='singleton'):
