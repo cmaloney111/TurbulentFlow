@@ -16,8 +16,7 @@ import json
 
 # Configuration - List of airfoils to process
 AIRFOILS_TO_PROCESS = [
-    "s4180",
-    "sd2030"
+    "s4180"
 ]
 
 # Directory paths
@@ -189,12 +188,13 @@ with open(par_file, 'r') as f:
 # Update for restart
 content = re.sub(r'-10000\.0', '-{job_info['reynolds']}', content)
 content = re.sub(r'-10000', '-{job_info['reynolds']}', content)
-content = re.sub(r'#startFrom = rans0.f00001', 'startFrom = {job_info['rotated_name']}0.f00001', content)
+content = re.sub(r'#startFrom = rans0.f00001', 'startFrom = {job_info['rotated_name']}0.f00002', content)
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
 content = re.sub(r'#targetCFL = 3.5.', 'targetCFL = 3.5.', content)
-content = re.sub(r'numsteps = 2', 'numsteps = 5', content)
-content = re.sub(r'writeInterval = 2', 'writeInterval = 5', content)
+content = re.sub(r'dt = 1.0e-6', 'dt = 1.0e-4', content)
+content = re.sub(r'numsteps = 10000', 'numsteps = 50000', content)
+content = re.sub(r'writeInterval = 10000', 'writeInterval = 10000', content)
 
 with open(par_file, 'w') as f:
     f.write(content)
@@ -210,7 +210,7 @@ EOF
     job_script = SLURM_TEMPLATE.format(
         job_name=job_name,
         output_file=output_file,
-        time_limit="00:15:00",
+        time_limit="06:00:00",
         work_dir=job_info['work_dir'],
         commands='\n'.join(commands)
     )
