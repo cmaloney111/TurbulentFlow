@@ -16,7 +16,15 @@ import json
 
 # Configuration - List of airfoils to process
 AIRFOILS_TO_PROCESS = [
-    "s4180"
+    "aquila",
+    "clark-y",
+    "dae51",
+    "df101",
+    "df102",
+    "e193",
+    "fx60-100",
+    "j5012",
+    "mb253515",
 ]
 
 # Directory paths
@@ -133,9 +141,15 @@ def prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds):
     """Prepare all files needed for simulation."""
     # Copy all files from rans_base
     for file in RANS_BASE_DIR.iterdir():
+        dest = rans_dir / file.name
         if file.is_file():
-            shutil.copy2(file, rans_dir)
-    
+            if file.name == "Nek5000":
+                if dest.exists() or dest.is_symlink():
+                    dest.unlink()
+                # Create symlink
+                os.symlink(file.resolve(), dest)
+            else:
+                shutil.copy2(file, dest) 
     # Determine the RE2 filename
     if angle == 0:
         re2_name = f"{airfoil_name}.re2"

@@ -2,6 +2,7 @@ Regression/test.csv
 Regression/models
 __pycache__/
 Regression/figs/
+rans/GenAirfoils/
 GenAirfoils/re2_files/
 GenAirfoils/airfoil_database/
 GenAirfoils/airfoil_database_test/
@@ -10,3 +11,7 @@ GenAirfoils/airfoil_rot_database/
 *.csv
 visit/
 GenAirfoils/gmsh2nek
+rans/GenAirfoils/airfoil.geo
+rans/GenAirfoils/airfoil.msh
+rans/rans_runs/
+rans/slurm_jobs/
