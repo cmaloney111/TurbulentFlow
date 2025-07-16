@@ -17,14 +17,14 @@ import json
 # Configuration - List of airfoils to process
 AIRFOILS_TO_PROCESS = [
     "aquila",
-    "clark-y",
-    "dae51",
-    "df101",
-    "df102",
-    "e193",
-    "fx60-100",
-    "j5012",
-    "mb253515",
+    #"clark-y",
+    #"dae51",
+    #"df101",
+    #"df102",
+    #"e193",
+    #"fx60-100",
+    #"j5012",
+    #"mb253515",
 ]
 
 # Directory paths
@@ -143,7 +143,7 @@ def prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds):
     for file in RANS_BASE_DIR.iterdir():
         dest = rans_dir / file.name
         if file.is_file():
-            if file.name == "Nek5000":
+            if file.name == "nek5000":
                 if dest.exists() or dest.is_symlink():
                     dest.unlink()
                 # Create symlink
@@ -206,9 +206,9 @@ content = re.sub(r'#startFrom = rans0.f00001', 'startFrom = {job_info['rotated_n
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
 content = re.sub(r'#targetCFL = 3.5.', 'targetCFL = 3.5.', content)
-content = re.sub(r'dt = 1.0e-6', 'dt = 1.0e-4', content)
-content = re.sub(r'numsteps = 10000', 'numsteps = 50000', content)
-content = re.sub(r'writeInterval = 10000', 'writeInterval = 10000', content)
+content = re.sub(r'dt = 1.0e-7', 'dt = 1.0e-5', content)
+content = re.sub(r'numsteps = 10', 'numsteps = 100', content)
+content = re.sub(r'writeInterval = 10', 'writeInterval = 100', content)
 
 with open(par_file, 'w') as f:
     f.write(content)
@@ -224,7 +224,7 @@ EOF
     job_script = SLURM_TEMPLATE.format(
         job_name=job_name,
         output_file=output_file,
-        time_limit="06:00:00",
+        time_limit="00:30:00",
         work_dir=job_info['work_dir'],
         commands='\n'.join(commands)
     )
@@ -300,7 +300,7 @@ def submit_jobs(job_files, dependency_type='singleton'):
             job_ids.append(job_id)
             print(f"Submitted job {job_file.name} with ID: {job_id}")
         else:
-            print(f"Failed to submit job {job_file.name}")
+            print(f"Failed to submit job {job_file.name}: {result.stderr}")
     
     return job_ids
 
