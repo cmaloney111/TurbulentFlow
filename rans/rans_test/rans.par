@@ -1,0 +1,55 @@
+#
+# nek parameter file
+#
+#For RANS simulations it is critical to include two additional scalars which correspond to the 𝑘 and 𝜏 fields respectively. Here, they are included as the [SCALAR01] and [SCALAR02] cards.
+#In addition, it is essential to also include the [PROBLEMTYPE] card and enable variableProperties and stressFormulation.
+#NOTE--- Right now this is set up to run you "start up" flow at lower Re (10000).
+
+[GENERAL]
+#startFrom = kickstart.fld #UNCOMMENT WHEN RESTARTING THE FLOW AT HIGHER RE. Create kickstart.fld by renaming the last .f0000.. file 
+dt = 1.0e-7 #when running at high Re, can change this to 1.0e-4
+numsteps = 50000 #can play around with this
+writeInterval = 50 #can change 2500
+#timeStepper = BDF2 #UNCOMMENT FOR HIGH RE
+#extrapolation = OIFS  #UNCOMMENT FOR HIGH RE
+#targetCFL = 3.5. #UNCOMMENT FOR HIGH RE
+
+[PROBLEMTYPE]
+equation = incompNS
+variableProperties = yes
+stressFormulation = yes
+
+[MESH]
+numberOfBCFields = 1
+
+[PRESSURE]
+#preconditioner = fem_amg_hypre #We may need this for 3D, but not right now
+residualTol = 1.0e-5
+#residualProj = yes
+
+[VELOCITY]
+density = 1.0
+viscosity = -10000.0 #USE 10000.0 FOR STARTUP, THEN CHANGE TO HIGHER RE ---NOTE THAT THIS SHOWS UP 3 TIMES
+residualTol = 1.0e-6
+
+#tke
+[SCALAR01]
+density = 1.0 #not used by solver, but should be equal to quantity above
+diffusivity = -10000.0 #USE 10000.0 FOR STARTUP, THEN CHANGE TO HIGHER RE
+residualTol = 1.0e-6
+#solver = cvode
+#absoluteTol = 1.0e-5
+
+#tau
+[SCALAR02]
+density = 1.0 #not used by solver, but should be equal to quantity above
+diffusivity = -10000.0 #USE 10000.0 FOR STARTUP, THEN CHANGE TO HIGHER RE
+residualTol = 1.0e-6
+#solver = cvode
+#absoluteTol = 1.0e-5
+#Note that these scalars will actually be set in the .usr file
+#
+
+[SCALAR03] # eddy viscosity ---NOT SURE EXACTLY WHAT THIS IS, BUT HAS SOMETHING TO DO WITH WRITING THE SOLUTION. CAME FROM A FILE I COPIED. IF YOU CAN FIGURE OUT HOW TO REMOVE IT, GREAT!
+solver = none
+writeToFieldFile = yes
