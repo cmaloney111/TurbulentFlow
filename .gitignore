@@ -14,4 +14,9 @@ GenAirfoils/gmsh2nek
 rans/GenAirfoils/airfoil.geo
 rans/GenAirfoils/airfoil.msh
 rans/rans_runs/
+rans/rans_test/Miniconda3-latest-Linux-x86_64.sh
 rans/slurm_jobs/
+rans/rans_base/nek5000
+rans/rans_test/nek5000
+rans/rans_test/SESSION.NAME
+
