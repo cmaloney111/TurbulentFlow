@@ -19,4 +19,6 @@ rans/slurm_jobs/
 rans/rans_base/nek5000
 rans/rans_test/nek5000
 rans/rans_test/SESSION.NAME
-
+rans/pbs_jobs/
+rans/rans_batch_1.o
+rans/rans_batch_1.e*

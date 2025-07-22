@@ -66,23 +66,23 @@ run_simulation() {{
     local work_dir=$1
     local rotated_name=$2
     local reynolds=$3
-    
+
     echo "=============================================="
     echo "Starting simulation: $rotated_name at Re=$reynolds"
     echo "Working directory: $work_dir"
     echo "=============================================="
-    
+
     cd "$work_dir"
-    
+
     # Run genmap
     echo "Running genmap..."
     genmap < genmap_input.txt
-    
+
     if [ $? -ne 0 ]; then
         echo "ERROR: genmap failed for $rotated_name"
         return 1
     fi
-    
+
     # Initial run
     echo "Starting initial run..."
     nekmpi $rotated_name 2
@@ -90,19 +90,19 @@ run_simulation() {{
         echo "ERROR: Initial run failed for $rotated_name"
         return 1
     fi
-    
+
     # Update par file for restart
     echo "Updating par file for restart..."
-    python3 << 'EOF'
+    python3 << EOF
 import re
 
-par_file = '$rotated_name.par'
+par_file = '${{rotated_name}}.par'
 with open(par_file, 'r') as f:
     content = f.read()
 
 # Update for restart
-content = re.sub(r'-10000.0', '-$reynolds', content)
-content = re.sub(r'-10000', '-$reynolds', content)
+content = re.sub(r'-10000.0', '-${{reynolds}}', content)
+content = re.sub(r'-10000', '-${{reynolds}}', content)
 content = re.sub(r'#startFrom = rans0.f00001', 'startFrom = ${{rotated_name}}0.f00001', content)
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
@@ -113,7 +113,7 @@ content = re.sub(r'writeInterval = 2', 'writeInterval = 5', content)
 with open(par_file, 'w') as f:
     f.write(content)
 EOF
-    
+
     # Restart run
     echo "Starting restart run at Re=$reynolds..."
     nekmpi $rotated_name 2
@@ -121,10 +121,10 @@ EOF
         echo "ERROR: Restart run failed for $rotated_name"
         return 1
     fi
-    
+
     echo "Simulation completed successfully: $rotated_name at Re=$reynolds"
     echo ""
-    
+
     return 0
 }}
 
@@ -141,7 +141,7 @@ def run_command(cmd, cwd=None, input_text=None, check=True):
     print(f"Running: {' '.join(cmd) if isinstance(cmd, list) else cmd}")
     try:
         result = subprocess.run(cmd, cwd=cwd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, input=input_text)
-        
+
         if check and result.returncode != 0:
             print(f"Error running command: {result.stderr}")
             sys.exit(1)
@@ -163,40 +163,40 @@ def get_angles_and_reynolds(airfoil_name, df):
     """Get angles of attack for each Reynolds number for an airfoil."""
     airfoil_data = df[df['airfoil_name'] == airfoil_name.upper()]
     reynolds_to_angles = {}
-    
+
     for reynolds in airfoil_data['reynolds_number'].unique():
         reynolds_data = airfoil_data[airfoil_data['reynolds_number'] == reynolds]
         angles_rad = reynolds_data['angle_of_attack'].unique()
         angles_deg = [int(np.floor(angle)) for angle in angles_rad]
         reynolds_to_angles[reynolds] = sorted(angles_deg)
-    
+
     return reynolds_to_angles
 
 def rotate_airfoil(airfoil_name, angle):
     """Rotate an airfoil using rotate_dat.py."""
     if angle == 0:
         return airfoil_name
-    
+
     # Check if rotated file already exists
     rotated_name = f"{airfoil_name}_rot{angle}"
     rotated_file = AIRFOIL_DB_DIR / f"{rotated_name}.dat"
-    
+
     if not rotated_file.exists():
         cmd = [
-            "python", 
+            "python",
             str(GENAIRFOILS_DIR / "rotate_dat.py"),
             "--airfoil", airfoil_name,
             str(angle)
         ]
         run_command(cmd, cwd=GENAIRFOILS_DIR)
-    
+
     return rotated_name
 
 def convert_to_re2(airfoil_name):
     """Convert airfoil to RE2 format using test_gen.py."""
     # Check if RE2 file already exists
     re2_file = RE2_FILES_DIR / f"{airfoil_name}.re2"
-    
+
     if not re2_file.exists():
         cmd = [
             "python",
@@ -218,7 +218,7 @@ def prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds):
     for file in RANS_BASE_DIR.iterdir():
         if file.is_file():
             shutil.copy2(file, rans_dir)
-    
+
     # Determine the RE2 filename
     if angle == 0:
         re2_name = f"{airfoil_name}.re2"
@@ -226,45 +226,45 @@ def prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds):
     else:
         rotated_name = f"{airfoil_name}_rot{angle}"
         re2_name = f"{rotated_name}.re2"
-    
+
     # Copy RE2 file
     re2_source = RE2_FILES_DIR / re2_name
     shutil.copy2(re2_source, rans_dir)
-    
+
     # Create genmap input file
     genmap_input_file = rans_dir / "genmap_input.txt"
     with open(genmap_input_file, 'w') as f:
         f.write(f"{rotated_name}\n0.05\n")
-    
+
     # Prepare initial par file
     old_par = rans_dir / "rans.par"
     new_par = rans_dir / f"{rotated_name}.par"
     shutil.copy2(old_par, new_par)
     old_par.unlink()
-    
+
     return rotated_name
 
 def create_batch_job(all_job_infos):
     """Create a single PBS job script that runs all simulations."""
     batch_id = "1"
-    
+
     # Create simulation calls
     simulation_calls = []
     for job_info in all_job_infos:
         call = f"run_simulation '{job_info['work_dir']}' '{job_info['rotated_name']}' '{job_info['reynolds']}'"
         simulation_calls.append(call)
-    
+
     # Create job script
     job_script = PBS_TEMPLATE.format(
         batch_id=batch_id,
         simulation_calls='\n'.join(simulation_calls)
     )
-    
+
     # Save job script
     job_file = PBS_JOBS_DIR / f"rans_batch_{batch_id}.pbs"
     with open(job_file, 'w') as f:
         f.write(job_script)
-    
+
     return [job_file]
 
 def prepare_all_simulations(airfoil_name, df):
@@ -272,10 +272,10 @@ def prepare_all_simulations(airfoil_name, df):
     print(f"\n{'='*60}")
     print(f"Preparing simulations for: {airfoil_name}")
     print(f"{'='*60}")
-    
+
     reynolds_to_angles = get_angles_and_reynolds(airfoil_name, df)
     job_infos = []
-    
+
     # First pass: rotate airfoils and convert to RE2
     print("\nPhase 1: Rotating airfoils and converting to RE2...")
     for reynolds, angles in reynolds_to_angles.items():
@@ -283,14 +283,14 @@ def prepare_all_simulations(airfoil_name, df):
             print(f"  Preparing {airfoil_name} at {angle}° for Re={reynolds}")
             rotated_name = rotate_airfoil(airfoil_name, angle)
             convert_to_re2(rotated_name)
-    
+
     # Second pass: prepare simulation directories
     print("\nPhase 2: Preparing simulation directories...")
     for reynolds, angles in reynolds_to_angles.items():
         for angle in angles:
             rans_dir = create_rans_directory(airfoil_name, angle, reynolds)
             rotated_name = prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds)
-            
+
             job_info = {
                 'airfoil': airfoil_name,
                 'angle': angle,
@@ -298,21 +298,21 @@ def prepare_all_simulations(airfoil_name, df):
                 'rotated_name': rotated_name,
                 'work_dir': str(rans_dir)
             }
-            
+
             job_infos.append(job_info)
             print(f"  Prepared simulation: {rotated_name} at Re={reynolds}")
-    
+
     return job_infos
 
 def submit_jobs(job_files):
     """Submit PBS jobs."""
     job_ids = []
-    
+
     for job_file in job_files:
         cmd = ["qsub", str(job_file)]
-        
+
         result = run_command(cmd, check=False)
-        
+
         if result and result.returncode == 0:
             # Extract job ID from output
             job_id = result.stdout.strip()
@@ -322,24 +322,24 @@ def submit_jobs(job_files):
             print(f"Failed to submit job {job_file.name}")
             if result:
                 print(f"Error: {result.stderr}")
-    
+
     return job_ids
 
 def main():
     """Main function to orchestrate the workflow."""
     print("Parallelized RANS Simulation Automation Script for Polaris")
     print("========================================================")
-    
+
     # Create necessary directories
     RANS_RUNS_DIR.mkdir(exist_ok=True)
     PBS_JOBS_DIR.mkdir(exist_ok=True)
-    
+
     # Load CSV data
     print(f"Loading data from {CSV_FILE}...")
     df = pd.read_csv(CSV_FILE)
-    
+
     all_job_infos = []
-    
+
     # Prepare all simulations
     for airfoil_name in AIRFOILS_TO_PROCESS:
         if check_airfoil_exists(airfoil_name, df):
@@ -347,23 +347,23 @@ def main():
             all_job_infos.extend(job_infos)
         else:
             print(f"\nSkipping {airfoil_name}: Not found in both CSV and database")
-    
+
     if all_job_infos:
         print(f"\n{'='*60}")
         print(f"Prepared {len(all_job_infos)} simulations")
         print(f"Creating single batch job for all simulations...")
         print(f"{'='*60}")
-        
+
         # Create single batch job
         batch_files = create_batch_job(all_job_infos)
         print(f"\nCreated 1 batch job with {len(all_job_infos)} simulations")
-        
+
         # Ask user about job submission
         response = input("\nSubmit batch job to PBS? (y/n): ").lower()
         if response == 'y':
             print("\nSubmitting job...")
             job_ids = submit_jobs(batch_files)
-            
+
             print(f"\n{'='*60}")
             print(f"Submitted batch job successfully!")
             print("Monitor progress with: qstat -u $USER")
