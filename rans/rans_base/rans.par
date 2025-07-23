@@ -6,10 +6,10 @@
 #NOTE--- Right now this is set up to run you "start up" flow at lower Re (10000).
 
 [GENERAL]
-#startFrom = rans0.f00001 #UNCOMMENT WHEN RESTARTING THE FLOW AT HIGHER RE. Create kickstart.fld by renaming the last .f0000.. file 
+#startFrom = rans0.f00002 #UNCOMMENT WHEN RESTARTING THE FLOW AT HIGHER RE. Create kickstart.fld by renaming the last .f0000.. file 
 dt = 1.0e-7 #when running at high Re, can change this to 1.0e-4
-numsteps = 10 #can play around with this
-writeInterval = 10  #can change 2500
+numsteps = 10000 #can play around with this
+writeInterval = 10000  #can change 2500
 #timeStepper = BDF2 #UNCOMMENT FOR HIGH RE
 #extrapolation = OIFS  #UNCOMMENT FOR HIGH RE
 #targetCFL = 3.5. #UNCOMMENT FOR HIGH RE
