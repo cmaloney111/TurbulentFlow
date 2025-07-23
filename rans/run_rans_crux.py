@@ -17,8 +17,15 @@ import math
 
 # Configuration - List of airfoils to process
 AIRFOILS_TO_PROCESS = [
-    "s4180",
-    #"sd2030"
+    "aquila",
+    "clark-y",
+    "dae51",
+    "df101",
+    "df102",
+    "e193",
+    "fx60-100",
+    "j5012",
+    "mb253515",
 ]
 
 # Directory paths
@@ -31,11 +38,11 @@ RANS_RUNS_DIR = SCRIPT_DIR / "rans_runs"
 CSV_FILE = SCRIPT_DIR / "training_data_stec8.csv"
 PBS_JOBS_DIR = SCRIPT_DIR / "pbs_jobs"
 
-CORES_PER_NODE = 64
+CORES_PER_NODE = 128
 TASKS_PER_SIMULATION = 2
 MAX_NODES = 184  # Maximum for workq-route
-DEFAULT_NODES = 8  # Default number of nodes to request
-DEFAULT_WALLTIME = "00:10:00"  # Default walltime
+DEFAULT_NODES = 2  # Default number of nodes to request
+DEFAULT_WALLTIME = "00:05:00"  # Default walltime
 
 PBS_TEMPLATE = """#!/bin/bash
 #PBS -N rans_batch_{batch_id}
@@ -74,47 +81,94 @@ STATUS_FILE="{pbs_jobs_dir}/status_{batch_id}.txt"
 touch "$COMPLETED_FILE"
 touch "$STATUS_FILE"
 
-# Function to run a single simulation
-run_simulation() {{
-    local job_id=$1
-    local work_dir=$2
-    local rotated_name=$3
-    local reynolds=$4
+# Write job information to file
+cat > "$JOBS_FILE" << 'JOBSEOF'
+{jobs_data}
+JOBSEOF
 
-    echo "[Job $job_id] Starting simulation: $rotated_name at Re=$reynolds" | tee -a "$STATUS_FILE"
-    echo "[Job $job_id] Working directory: $work_dir" | tee -a "$STATUS_FILE"
+# Get total number of nodes
+NNODES=`wc -l < $PBS_NODEFILE`
 
-    cd "$work_dir" || {{
-        echo "[Job $job_id] ERROR: Cannot access directory $work_dir" | tee -a "$STATUS_FILE"
-        echo "$job_id|FAILED|Cannot access directory" >> "$COMPLETED_FILE"
-        return 1
-    }}
+# Settings for each simulation
+NRANKS_PER_NODE={tasks_per_simulation}       # MPI ranks per simulation
+CORES_PER_NODE={cores_per_node}              # Total cores per node
+SIMS_PER_NODE=$((CORES_PER_NODE / NRANKS_PER_NODE))  # Calculate simulations per node
+NDEPTH=$((CORES_PER_NODE / SIMS_PER_NODE))   # Cores per simulation
 
-    # Run genmap
-    echo "[Job $job_id] Running genmap..." | tee -a "$STATUS_FILE"
-    genmap < genmap_input.txt > genmap_${{job_id}}.log 2>&1
+echo "NUM_OF_NODES= ${{NNODES}}"
+echo "SIMULATIONS_PER_NODE= ${{SIMS_PER_NODE}}"
+echo "RANKS_PER_SIMULATION= ${{NRANKS_PER_NODE}}"
+echo "CORES_PER_SIMULATION= ${{NDEPTH}}"
 
-    if [ $? -ne 0 ]; then
-        echo "[Job $job_id] ERROR: genmap failed for $rotated_name" | tee -a "$STATUS_FILE"
-        echo "$job_id|FAILED|genmap failed" >> "$COMPLETED_FILE"
-        return 1
-    fi
+# Read all jobs into an array
+mapfile -t JOBS_ARRAY < "$JOBS_FILE"
+TOTAL_JOBS=${{#JOBS_ARRAY[@]}}
 
-    # Initial run
-    echo "[Job $job_id] Starting initial run..." | tee -a "$STATUS_FILE"
-    echo $rotated_name >  SESSION.NAME
-    echo `pwd`'/' >>  SESSION.NAME
-    mpiexec -n 2 ./nek5000 $rotated_name > nek_initial.log 2>&1
-    
-    if [ $? -ne 0 ]; then
-        echo "[Job $job_id] ERROR: Initial run failed for $rotated_name" | tee -a "$STATUS_FILE"
-        echo "$job_id|FAILED|Initial run failed" >> "$COMPLETED_FILE"
-        return 1
-    fi
+# Read nodes into an array
+mapfile -t NODES_ARRAY < $PBS_NODEFILE
 
-    # Update par file for restart
-    echo "[Job $job_id] Updating par file for restart..." | tee -a "$STATUS_FILE"
-    python3 << EOF
+# Distribute jobs across all nodes in round-robin fashion
+JOB_INDEX=0
+while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
+    # Loop through each node
+    for NODE_INDEX in $(seq 0 $((NNODES - 1))); do
+        NODE="${{NODES_ARRAY[$NODE_INDEX]}}"
+        
+        # Launch simulations on this node
+        for sim_on_node in $(seq 0 $((SIMS_PER_NODE - 1))); do
+            # Check if we have more jobs to process
+            if [ $JOB_INDEX -ge $TOTAL_JOBS ]; then
+                break 2  # Break out of both loops
+            fi
+            
+            # Parse job information
+            IFS='|' read -r job_id work_dir rotated_name reynolds <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
+            
+            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting job $job_id: $rotated_name at Re=$reynolds on $NODE"
+            
+            # Launch the simulation with proper CPU binding
+            (
+                cd "$work_dir" || {{
+                    echo "[Job $job_id] ERROR: Cannot access directory $work_dir" | tee -a "$STATUS_FILE"
+                    echo "$job_id|FAILED|Cannot access directory" >> "$COMPLETED_FILE"
+                    exit 1
+                }}
+                
+                # Run genmap
+                echo "[Job $job_id] Running genmap..." >> "$STATUS_FILE"
+                genmap < genmap_input.txt > genmap_${{job_id}}.log 2>&1
+                
+                if [ $? -ne 0 ]; then
+                    echo "[Job $job_id] ERROR: genmap failed for $rotated_name" | tee -a "$STATUS_FILE"
+                    echo "$job_id|FAILED|genmap failed" >> "$COMPLETED_FILE"
+                    exit 1
+                fi
+                
+                # Initial run with CPU binding
+                echo "[Job $job_id] Starting initial run..." >> "$STATUS_FILE"
+                echo $rotated_name > SESSION.NAME
+                echo `pwd`'/' >> SESSION.NAME
+                
+                # Create a hostfile for this specific simulation containing just this node
+                echo "$NODE" > hostfile_job_${{job_id}}
+                
+                # Calculate CPU binding offset for this simulation on the node
+                CPU_OFFSET=$((sim_on_node * NDEPTH))
+                
+                MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
+                
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_initial_${{job_id}}.log 2>&1
+                
+                if [ $? -ne 0 ]; then
+                    echo "[Job $job_id] ERROR: Initial run failed for $rotated_name" | tee -a "$STATUS_FILE"
+                    echo "$job_id|FAILED|Initial run failed" >> "$COMPLETED_FILE"
+                    rm -f hostfile_job_${{job_id}}
+                    exit 1
+                fi
+                
+                # Update par file for restart
+                echo "[Job $job_id] Updating par file for restart..." >> "$STATUS_FILE"
+                python3 << EOF
 import re
 
 par_file = '${{rotated_name}}.par'
@@ -124,6 +178,7 @@ with open(par_file, 'r') as f:
 # Update for restart
 content = re.sub(r'-10000.0', '-${{reynolds}}', content)
 content = re.sub(r'-10000', '-${{reynolds}}', content)
+content = re.sub(r'dt = 5.0e-7', 'dt = 1.0e-4', content)
 content = re.sub(r'#startFrom = rans0.f00002', 'startFrom = ${{rotated_name}}0.f00002', content)
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
@@ -134,65 +189,39 @@ content = re.sub(r'writeInterval = 10000', 'writeInterval = 50000', content)
 with open(par_file, 'w') as f:
     f.write(content)
 EOF
-
-    # Restart run
-    echo "[Job $job_id] Starting restart run at Re=$reynolds..." | tee -a "$STATUS_FILE"
-    mpiexec -n 2 ./nek5000 $rotated_name > nek_restart_${{job_id}}.log 2>&1
-    
-    if [ $? -ne 0 ]; then
-        echo "[Job $job_id] ERROR: Restart run failed for $rotated_name" | tee -a "$STATUS_FILE"
-        echo "$job_id|FAILED|Restart run failed" >> "$COMPLETED_FILE"
-        return 1
-    fi
-
-    echo "[Job $job_id] Simulation completed successfully: $rotated_name at Re=$reynolds" | tee -a "$STATUS_FILE"
-    echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
-
-    return 0
-}}
-
-# Write job information to file
-cat > "$JOBS_FILE" << 'JOBSEOF'
-{jobs_data}
-JOBSEOF
-
-# Process jobs in parallel using GNU parallel or xargs
-echo "Processing {total_jobs} simulations in parallel..."
-
-# Method 1: Using GNU parallel if available
-if command -v parallel &> /dev/null; then
-    echo "Using GNU parallel for job distribution"
-    
-    # Read jobs and run them in parallel
-    cat "$JOBS_FILE" | parallel -j {jobs_per_batch} --colsep '\\|' run_simulation {{1}} {{2}} {{3}} {{4}}
-else
-    # Method 2: Using background processes with job control
-    echo "Using background processes for parallel execution"
-    
-    MAX_PARALLEL={jobs_per_batch}
-    current_jobs=0
-    
-    while IFS='|' read -r job_id work_dir rotated_name reynolds; do
-        # Wait if we've reached the maximum number of parallel jobs
-        while [ $current_jobs -ge $MAX_PARALLEL ]; do
-            wait -n  # Wait for any background job to finish
-            current_jobs=$((current_jobs - 1))
+                
+                # Restart run with CPU binding
+                echo "[Job $job_id] Starting restart run at Re=$reynolds..." >> "$STATUS_FILE"
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_restart_${{job_id}}.log 2>&1
+                
+                if [ $? -ne 0 ]; then
+                    echo "[Job $job_id] ERROR: Restart run failed for $rotated_name" | tee -a "$STATUS_FILE"
+                    echo "$job_id|FAILED|Restart run failed" >> "$COMPLETED_FILE"
+                    rm -f hostfile_job_${{job_id}}
+                    exit 1
+                fi
+                
+                echo "[Job $job_id] Simulation completed successfully: $rotated_name at Re=$reynolds" | tee -a "$STATUS_FILE"
+                echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
+                
+                # Clean up hostfile
+                rm -f hostfile_job_${{job_id}}
+            ) &
+            
+            JOB_INDEX=$((JOB_INDEX + 1))
+            
+            # Brief pause between launching jobs to avoid overwhelming the system
+            sleep 0.05
         done
-        
-        # Launch the simulation in the background
-        (
-            run_simulation "$job_id" "$work_dir" "$rotated_name" "$reynolds"
-        ) &
-        
-        current_jobs=$((current_jobs + 1))
-        
-        # Brief pause to avoid overwhelming the system
-        sleep 0.1
-    done < "$JOBS_FILE"
+    done
     
-    # Wait for all remaining jobs to complete
-    wait
-fi
+    # Optional: Add a small wait every round of nodes to avoid too many concurrent launches
+    sleep 0.1
+done
+
+# Wait for all simulations to complete
+echo "Waiting for all simulations to complete..."
+wait
 
 echo "=============================================="
 echo "All simulations have been processed"
@@ -345,24 +374,26 @@ def create_batch_jobs(all_job_infos, num_nodes=None, walltime=None, queue="workq
     if num_nodes is None:
         # Calculate optimal number of nodes
         total_sims = len(all_job_infos)
-        # Be conservative with parallelism to avoid overloading
-        sims_per_node = CORES_PER_NODE // (TASKS_PER_SIMULATION * 2)  # Factor of 2 for safety
+        # Calculate simulations per node based on available cores and MPI ranks needed
+        sims_per_node = CORES_PER_NODE // TASKS_PER_SIMULATION
         num_nodes = min(DEFAULT_NODES, math.ceil(total_sims / sims_per_node))
         num_nodes = max(1, num_nodes)  # At least 1 node
     
     if walltime is None:
         walltime = DEFAULT_WALLTIME
     
-    # Calculate jobs per batch based on available resources
-    total_cores = num_nodes * CORES_PER_NODE
-    # Conservative estimate: each simulation needs 2 cores, plus overhead
-    jobs_per_batch = min(len(all_job_infos), total_cores // (TASKS_PER_SIMULATION * 2))
+    # Calculate actual parallelism based on cores per node
+    sims_per_node = CORES_PER_NODE // TASKS_PER_SIMULATION
+    max_parallel_sims = num_nodes * sims_per_node
     
     print(f"\nCreating PBS job for {len(all_job_infos)} simulations")
     print(f"  Nodes: {num_nodes}")
     print(f"  Queue: {queue}")
     print(f"  Walltime: {walltime}")
-    print(f"  Max parallel simulations: {jobs_per_batch}")
+    print(f"  Cores per node: {CORES_PER_NODE}")
+    print(f"  MPI ranks per simulation: {TASKS_PER_SIMULATION}")
+    print(f"  Simulations per node: {sims_per_node}")
+    print(f"  Max total parallel simulations: {max_parallel_sims}")
     
     # Create job data string
     job_data_lines = []
@@ -381,10 +412,10 @@ def create_batch_jobs(all_job_infos, num_nodes=None, walltime=None, queue="workq
         walltime=walltime,
         jobs_data=jobs_data,
         total_jobs=len(all_job_infos),
-        jobs_per_batch=jobs_per_batch,
-        pbs_jobs_dir=str(PBS_JOBS_DIR)
-    )
-    
+        pbs_jobs_dir=str(PBS_JOBS_DIR),
+        tasks_per_simulation=TASKS_PER_SIMULATION,
+        cores_per_node=CORES_PER_NODE
+    ) 
     # Save job script
     job_file = PBS_JOBS_DIR / f"rans_batch_{batch_id}.pbs"
     with open(job_file, 'w') as f:
