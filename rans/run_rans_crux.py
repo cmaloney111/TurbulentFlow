@@ -31,14 +31,11 @@ RANS_RUNS_DIR = SCRIPT_DIR / "rans_runs"
 CSV_FILE = SCRIPT_DIR / "training_data_stec8.csv"
 PBS_JOBS_DIR = SCRIPT_DIR / "pbs_jobs"
 
-# PBS configuration for Polaris
-# Since nekmpi uses 2 tasks per node, we need to account for this
-# Polaris has 64 cores per node
-CORES_PER_NODE = 256
+CORES_PER_NODE = 64
 TASKS_PER_SIMULATION = 2
 MAX_NODES = 184  # Maximum for workq-route
 DEFAULT_NODES = 8  # Default number of nodes to request
-DEFAULT_WALLTIME = "4:00:00"  # Default walltime
+DEFAULT_WALLTIME = "00:10:00"  # Default walltime
 
 PBS_TEMPLATE = """#!/bin/bash
 #PBS -N rans_batch_{batch_id}
@@ -107,7 +104,7 @@ run_simulation() {{
     echo "[Job $job_id] Starting initial run..." | tee -a "$STATUS_FILE"
     echo $rotated_name >  SESSION.NAME
     echo `pwd`'/' >>  SESSION.NAME
-    mpiexec -n 2 ./nek5000 $rotated_name > nek_initial_${{job_id}}.log 2>&1
+    mpiexec -n 2 ./nek5000 $rotated_name > nek_initial.log 2>&1
     
     if [ $? -ne 0 ]; then
         echo "[Job $job_id] ERROR: Initial run failed for $rotated_name" | tee -a "$STATUS_FILE"
