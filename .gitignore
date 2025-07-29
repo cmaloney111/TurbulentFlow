@@ -13,7 +13,8 @@ visit/
 GenAirfoils/gmsh2nek
 rans/GenAirfoils/airfoil.geo
 rans/GenAirfoils/airfoil.msh
-rans/rans_runs/
+rans/initial_rans_runs/
+rans/restart_rans_runs/
 rans/rans_test/
 rans/rans_base/
 rans/rans_test/Miniconda3-latest-Linux-x86_64.sh
