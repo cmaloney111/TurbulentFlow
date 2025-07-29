@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Parallelized RANS Simulation Automation Script for Polaris
-Creates PBS batch jobs for parallel execution of RANS simulations
+Optimized Parallelized RANS Simulation Automation Script for Polaris
+Separates initial runs (Re=10k) from restart runs to avoid redundant computations
 """
 
 import os
@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import json
 import math
+from collections import defaultdict
 
 # Configuration - List of airfoils to process
 AIRFOILS_TO_PROCESS = [
@@ -34,7 +35,8 @@ GENAIRFOILS_DIR = SCRIPT_DIR / "GenAirfoils"
 AIRFOIL_DB_DIR = GENAIRFOILS_DIR / "airfoil_database"
 RE2_FILES_DIR = GENAIRFOILS_DIR / "re2_files"
 RANS_BASE_DIR = SCRIPT_DIR / "rans_base"
-RANS_RUNS_DIR = SCRIPT_DIR / "rans_runs"
+INITIAL_RANS_RUNS_DIR = SCRIPT_DIR / "initial_rans_runs"
+RESTART_RANS_RUNS_DIR = SCRIPT_DIR / "restart_rans_runs"
 CSV_FILE = SCRIPT_DIR / "training_data_stec8.csv"
 PBS_JOBS_DIR = SCRIPT_DIR / "pbs_jobs"
 
@@ -43,11 +45,12 @@ TASKS_PER_SIMULATION = 2
 MAX_NODES = 184  # Maximum for workq-route
 DEFAULT_NODES = 2  # Default number of nodes to request
 DEFAULT_WALLTIME = "00:05:00"  # Default walltime
+INITIAL_REYNOLDS = 10000  # Reynolds number for initial runs
 
-PBS_TEMPLATE = """#!/bin/bash
-#PBS -N rans_batch_{batch_id}
-#PBS -o {pbs_jobs_dir}/rans_batch_{batch_id}.o
-#PBS -e {pbs_jobs_dir}/rans_batch_{batch_id}.e
+PBS_INITIAL_TEMPLATE = """#!/bin/bash
+#PBS -N rans_initial_{batch_id}
+#PBS -o {pbs_jobs_dir}/rans_initial_{batch_id}.o
+#PBS -e {pbs_jobs_dir}/rans_initial_{batch_id}.e
 #PBS -q {queue}
 #PBS -A UncertaintyDL
 #PBS -l select={num_nodes}
@@ -58,26 +61,15 @@ PBS_TEMPLATE = """#!/bin/bash
 # Change to submission directory
 cd $PBS_O_WORKDIR
 
-# Load modules (adjust these based on your Polaris setup)
-#module purge
-#module load PrgEnv-gnu
-#module load cray-mpich
-#module load craype-x86-milan
-#module load libfabric
-
-# Set environment variables
-#export MPICH_OFI_VERBOSE=1
-#export MPICH_GPU_SUPPORT_ENABLED=0
-
 echo "=============================================="
-echo "Starting batch job on {num_nodes} nodes"
+echo "Starting INITIAL runs on {num_nodes} nodes"
 echo "Total simulations: {total_jobs}"
 echo "=============================================="
 
 # Create files to track job completion
-JOBS_FILE="{pbs_jobs_dir}/jobs_list_{batch_id}.txt"
-COMPLETED_FILE="{pbs_jobs_dir}/completed_{batch_id}.txt"
-STATUS_FILE="{pbs_jobs_dir}/status_{batch_id}.txt"
+JOBS_FILE="{pbs_jobs_dir}/initial_jobs_list_{batch_id}.txt"
+COMPLETED_FILE="{pbs_jobs_dir}/initial_completed_{batch_id}.txt"
+STATUS_FILE="{pbs_jobs_dir}/initial_status_{batch_id}.txt"
 touch "$COMPLETED_FILE"
 touch "$STATUS_FILE"
 
@@ -90,10 +82,10 @@ JOBSEOF
 NNODES=`wc -l < $PBS_NODEFILE`
 
 # Settings for each simulation
-NRANKS_PER_NODE={tasks_per_simulation}       # MPI ranks per simulation
-CORES_PER_NODE={cores_per_node}              # Total cores per node
-SIMS_PER_NODE=$((CORES_PER_NODE / NRANKS_PER_NODE))  # Calculate simulations per node
-NDEPTH=$((CORES_PER_NODE / SIMS_PER_NODE))   # Cores per simulation
+NRANKS_PER_NODE={tasks_per_simulation}
+CORES_PER_NODE={cores_per_node}
+SIMS_PER_NODE=$((CORES_PER_NODE / NRANKS_PER_NODE))
+NDEPTH={tasks_per_simulation}
 
 echo "NUM_OF_NODES= ${{NNODES}}"
 echo "SIMULATIONS_PER_NODE= ${{SIMS_PER_NODE}}"
@@ -107,26 +99,23 @@ TOTAL_JOBS=${{#JOBS_ARRAY[@]}}
 # Read nodes into an array
 mapfile -t NODES_ARRAY < $PBS_NODEFILE
 
-# Distribute jobs across all nodes in round-robin fashion
+# Distribute jobs across all nodes
 JOB_INDEX=0
 while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
-    # Loop through each node
     for NODE_INDEX in $(seq 0 $((NNODES - 1))); do
         NODE="${{NODES_ARRAY[$NODE_INDEX]}}"
         
-        # Launch simulations on this node
         for sim_on_node in $(seq 0 $((SIMS_PER_NODE - 1))); do
-            # Check if we have more jobs to process
             if [ $JOB_INDEX -ge $TOTAL_JOBS ]; then
-                break 2  # Break out of both loops
+                break 2
             fi
             
             # Parse job information
-            IFS='|' read -r job_id work_dir rotated_name reynolds <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
+            IFS='|' read -r job_id work_dir rotated_name <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
             
-            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting job $job_id: $rotated_name at Re=$reynolds on $NODE"
+            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting initial job $job_id: $rotated_name on $NODE"
             
-            # Launch the simulation with proper CPU binding
+            # Launch the initial simulation
             (
                 cd "$work_dir" || {{
                     echo "[Job $job_id] ERROR: Cannot access directory $work_dir" | tee -a "$STATUS_FILE"
@@ -144,20 +133,17 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
                     exit 1
                 fi
                 
-                # Initial run with CPU binding
-                echo "[Job $job_id] Starting initial run..." >> "$STATUS_FILE"
+                # Initial run at Re=10000
+                echo "[Job $job_id] Starting initial run at Re=10000..." >> "$STATUS_FILE"
                 echo $rotated_name > SESSION.NAME
                 echo `pwd`'/' >> SESSION.NAME
                 
-                # Create a hostfile for this specific simulation containing just this node
+                # Create a hostfile for this specific simulation
                 echo "$NODE" > hostfile_job_${{job_id}}
-                
-                # Calculate CPU binding offset for this simulation on the node
-                CPU_OFFSET=$((sim_on_node * NDEPTH))
                 
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
                 
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_initial_${{job_id}}.log 2>&1
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_initial.log 2>&1
                 
                 if [ $? -ne 0 ]; then
                     echo "[Job $job_id] ERROR: Initial run failed for $rotated_name" | tee -a "$STATUS_FILE"
@@ -166,8 +152,111 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
                     exit 1
                 fi
                 
+                echo "[Job $job_id] Initial simulation completed successfully: $rotated_name" | tee -a "$STATUS_FILE"
+                echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
+                
+                # Clean up hostfile
+                rm -f hostfile_job_${{job_id}}
+            ) &
+            
+            JOB_INDEX=$((JOB_INDEX + 1))
+            sleep 0.05
+        done
+    done
+    sleep 0.1
+done
+
+# Wait for all simulations to complete
+echo "Waiting for all initial simulations to complete..."
+wait
+
+echo "=============================================="
+echo "All initial simulations completed"
+echo "=============================================="
+"""
+
+PBS_RESTART_TEMPLATE = """#!/bin/bash
+#PBS -N rans_restart_{batch_id}
+#PBS -o {pbs_jobs_dir}/rans_restart_{batch_id}.o
+#PBS -e {pbs_jobs_dir}/rans_restart_{batch_id}.e
+#PBS -q {queue}
+#PBS -A UncertaintyDL
+#PBS -l select={num_nodes}
+#PBS -l place=scatter
+#PBS -l walltime={walltime}
+#PBS -l filesystems=home
+
+# Change to submission directory
+cd $PBS_O_WORKDIR
+
+echo "=============================================="
+echo "Starting RESTART runs on {num_nodes} nodes"
+echo "Total simulations: {total_jobs}"
+echo "=============================================="
+
+# Create files to track job completion
+JOBS_FILE="{pbs_jobs_dir}/restart_jobs_list_{batch_id}.txt"
+COMPLETED_FILE="{pbs_jobs_dir}/restart_completed_{batch_id}.txt"
+STATUS_FILE="{pbs_jobs_dir}/restart_status_{batch_id}.txt"
+touch "$COMPLETED_FILE"
+touch "$STATUS_FILE"
+
+# Write job information to file
+cat > "$JOBS_FILE" << 'JOBSEOF'
+{jobs_data}
+JOBSEOF
+
+# Get total number of nodes
+NNODES=`wc -l < $PBS_NODEFILE`
+
+# Settings for each simulation
+NRANKS_PER_NODE={tasks_per_simulation}
+CORES_PER_NODE={cores_per_node}
+SIMS_PER_NODE=$((CORES_PER_NODE / NRANKS_PER_NODE))
+NDEPTH=$((CORES_PER_NODE / SIMS_PER_NODE))
+
+echo "NUM_OF_NODES= ${{NNODES}}"
+echo "SIMULATIONS_PER_NODE= ${{SIMS_PER_NODE}}"
+echo "RANKS_PER_SIMULATION= ${{NRANKS_PER_NODE}}"
+echo "CORES_PER_SIMULATION= ${{NDEPTH}}"
+
+# Read all jobs into an array
+mapfile -t JOBS_ARRAY < "$JOBS_FILE"
+TOTAL_JOBS=${{#JOBS_ARRAY[@]}}
+
+# Read nodes into an array
+mapfile -t NODES_ARRAY < $PBS_NODEFILE
+
+# Distribute jobs across all nodes
+JOB_INDEX=0
+while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
+    for NODE_INDEX in $(seq 0 $((NNODES - 1))); do
+        NODE="${{NODES_ARRAY[$NODE_INDEX]}}"
+        
+        for sim_on_node in $(seq 0 $((SIMS_PER_NODE - 1))); do
+            if [ $JOB_INDEX -ge $TOTAL_JOBS ]; then
+                break 2
+            fi
+            
+            # Parse job information
+            IFS='|' read -r job_id work_dir rotated_name reynolds initial_dir <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
+            
+            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting restart job $job_id: $rotated_name at Re=$reynolds on $NODE"
+            
+            # Launch the restart simulation
+            (
+                cd "$work_dir" || {{
+                    echo "[Job $job_id] ERROR: Cannot access directory $work_dir" | tee -a "$STATUS_FILE"
+                    echo "$job_id|FAILED|Cannot access directory" >> "$COMPLETED_FILE"
+                    exit 1
+                }}
+                
+                # Copy files from initial run
+                echo "[Job $job_id] Copying files from initial run..." >> "$STATUS_FILE"
+                cp -r "$initial_dir"/* . 2>/dev/null || true
+                
                 # Update par file for restart
-                echo "[Job $job_id] Updating par file for restart..." >> "$STATUS_FILE"
+                echo "[Job $job_id] Updating par file for restart at Re=$reynolds..." >> "$STATUS_FILE"
                 python3 << EOF
 import re
 
@@ -190,9 +279,17 @@ with open(par_file, 'w') as f:
     f.write(content)
 EOF
                 
-                # Restart run with CPU binding
+                # Restart run
                 echo "[Job $job_id] Starting restart run at Re=$reynolds..." >> "$STATUS_FILE"
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_restart_${{job_id}}.log 2>&1
+                echo $rotated_name > SESSION.NAME
+                echo `pwd`'/' >> SESSION.NAME
+                
+                # Create a hostfile for this specific simulation
+                echo "$NODE" > hostfile_job_${{job_id}}
+                
+                MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
+                
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_restart.log 2>&1
                 
                 if [ $? -ne 0 ]; then
                     echo "[Job $job_id] ERROR: Restart run failed for $rotated_name" | tee -a "$STATUS_FILE"
@@ -201,7 +298,7 @@ EOF
                     exit 1
                 fi
                 
-                echo "[Job $job_id] Simulation completed successfully: $rotated_name at Re=$reynolds" | tee -a "$STATUS_FILE"
+                echo "[Job $job_id] Restart simulation completed successfully: $rotated_name at Re=$reynolds" | tee -a "$STATUS_FILE"
                 echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
                 
                 # Clean up hostfile
@@ -209,55 +306,18 @@ EOF
             ) &
             
             JOB_INDEX=$((JOB_INDEX + 1))
-            
-            # Brief pause between launching jobs to avoid overwhelming the system
             sleep 0.05
         done
     done
-    
-    # Optional: Add a small wait every round of nodes to avoid too many concurrent launches
     sleep 0.1
 done
 
 # Wait for all simulations to complete
-echo "Waiting for all simulations to complete..."
+echo "Waiting for all restart simulations to complete..."
 wait
 
 echo "=============================================="
-echo "All simulations have been processed"
-echo "Generating summary..."
-echo "=============================================="
-
-# Count successes and failures
-if [ -f "$COMPLETED_FILE" ]; then
-    SUCCESS_COUNT=$(grep "|SUCCESS|" "$COMPLETED_FILE" 2>/dev/null | wc -l | tr -d ' ')
-    FAILED_COUNT=$(grep "|FAILED|" "$COMPLETED_FILE" 2>/dev/null | wc -l | tr -d ' ')
-else
-    SUCCESS_COUNT=0
-    FAILED_COUNT=0
-fi
-TOTAL_PROCESSED=$((SUCCESS_COUNT + FAILED_COUNT))
-
-echo "Summary of results:" | tee -a "$STATUS_FILE"
-echo "  Successful simulations: $SUCCESS_COUNT" | tee -a "$STATUS_FILE"
-echo "  Failed simulations: $FAILED_COUNT" | tee -a "$STATUS_FILE"
-echo "  Total processed: $TOTAL_PROCESSED" | tee -a "$STATUS_FILE"
-echo "  Total expected: {total_jobs}" | tee -a "$STATUS_FILE"
-
-# List failed jobs if any
-if [ $FAILED_COUNT -gt 0 ]; then
-    echo "" | tee -a "$STATUS_FILE"
-    echo "Failed simulations:" | tee -a "$STATUS_FILE"
-    grep "|FAILED|" "$COMPLETED_FILE" | while IFS='|' read -r job_id status reason; do
-        echo "  Job $job_id: $reason" | tee -a "$STATUS_FILE"
-    done
-fi
-
-echo "=============================================="
-echo "Batch job completed"
-echo "Check the following files for details:"
-echo "  - $COMPLETED_FILE"
-echo "  - $STATUS_FILE"
+echo "All restart simulations completed"
 echo "=============================================="
 """
 
@@ -265,8 +325,9 @@ def run_command(cmd, cwd=None, input_text=None, check=True):
     """Run a shell command and handle errors."""
     print(f"Running: {' '.join(cmd) if isinstance(cmd, list) else cmd}")
     try:
-        result = subprocess.run(cmd, cwd=cwd, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, input=input_text)
-
+        result = subprocess.run(cmd, cwd=cwd, universal_newlines=True, 
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, 
+                              input=input_text)
         if check and result.returncode != 0:
             print(f"Error running command: {result.stderr}")
             sys.exit(1)
@@ -288,21 +349,22 @@ def get_angles_and_reynolds(airfoil_name, df):
     """Get angles of attack for each Reynolds number for an airfoil."""
     airfoil_data = df[df['airfoil_name'] == airfoil_name.upper()]
     reynolds_to_angles = {}
+    all_angles = set()
 
     for reynolds in airfoil_data['reynolds_number'].unique():
         reynolds_data = airfoil_data[airfoil_data['reynolds_number'] == reynolds]
         angles_rad = reynolds_data['angle_of_attack'].unique()
         angles_deg = [int(np.floor(angle)) for angle in angles_rad]
         reynolds_to_angles[reynolds] = sorted(angles_deg)
+        all_angles.update(angles_deg)
 
-    return reynolds_to_angles
+    return reynolds_to_angles, sorted(all_angles)
 
 def rotate_airfoil(airfoil_name, angle):
     """Rotate an airfoil using rotate_dat.py."""
     if angle == 0:
         return airfoil_name
 
-    # Check if rotated file already exists
     rotated_name = f"{airfoil_name}_rot{angle}"
     rotated_file = AIRFOIL_DB_DIR / f"{rotated_name}.dat"
 
@@ -319,7 +381,6 @@ def rotate_airfoil(airfoil_name, angle):
 
 def convert_to_re2(airfoil_name):
     """Convert airfoil to RE2 format using test_gen.py."""
-    # Check if RE2 file already exists
     re2_file = RE2_FILES_DIR / f"{airfoil_name}.re2"
 
     if not re2_file.exists():
@@ -330,19 +391,26 @@ def convert_to_re2(airfoil_name):
         ]
         run_command(cmd, cwd=GENAIRFOILS_DIR)
 
-def create_rans_directory(airfoil_name, angle, reynolds):
-    """Create directory structure for RANS run."""
+def create_initial_directory(airfoil_name, angle):
+    """Create directory structure for initial RANS run."""
     angle_dir = str(angle).replace("-", "neg")
-    rans_dir = RANS_RUNS_DIR / airfoil_name / f"Re{int(reynolds)}" / angle_dir
-    rans_dir.mkdir(parents=True, exist_ok=True)
-    return rans_dir
+    initial_dir = INITIAL_RANS_RUNS_DIR / airfoil_name / angle_dir
+    initial_dir.mkdir(parents=True, exist_ok=True)
+    return initial_dir
 
-def prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds):
-    """Prepare all files needed for simulation."""
+def create_restart_directory(airfoil_name, angle, reynolds):
+    """Create directory structure for restart RANS run."""
+    angle_dir = str(angle).replace("-", "neg")
+    restart_dir = RESTART_RANS_RUNS_DIR / airfoil_name / f"Re{int(reynolds)}" / angle_dir
+    restart_dir.mkdir(parents=True, exist_ok=True)
+    return restart_dir
+
+def prepare_initial_simulation_files(initial_dir, airfoil_name, angle):
+    """Prepare files for initial simulation at Re=10000."""
     # Copy all files from rans_base
     for file in RANS_BASE_DIR.iterdir():
         if file.is_file():
-            shutil.copy2(file, rans_dir)
+            shutil.copy2(file, initial_dir)
 
     # Determine the RE2 filename
     if angle == 0:
@@ -354,162 +422,234 @@ def prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds):
 
     # Copy RE2 file
     re2_source = RE2_FILES_DIR / re2_name
-    shutil.copy2(re2_source, rans_dir)
+    shutil.copy2(re2_source, initial_dir)
 
     # Create genmap input file
-    genmap_input_file = rans_dir / "genmap_input.txt"
+    genmap_input_file = initial_dir / "genmap_input.txt"
     with open(genmap_input_file, 'w') as f:
         f.write(f"{rotated_name}\n0.05\n")
 
-    # Prepare initial par file
-    old_par = rans_dir / "rans.par"
-    new_par = rans_dir / f"{rotated_name}.par"
+    # Prepare initial par file (with Re=10000)
+    old_par = initial_dir / "rans.par"
+    new_par = initial_dir / f"{rotated_name}.par"
     shutil.copy2(old_par, new_par)
     old_par.unlink()
 
     return rotated_name
 
-def create_batch_jobs(all_job_infos, num_nodes=None, walltime=None, queue="workq-route"):
-    """Create PBS job scripts that distribute simulations across nodes."""
+def create_batch_jobs(initial_job_infos, restart_job_infos, num_nodes=None, 
+                     walltime=None, queue="workq-route"):
+    """Create PBS job scripts for initial and restart runs."""
     if num_nodes is None:
-        # Calculate optimal number of nodes
-        total_sims = len(all_job_infos)
-        # Calculate simulations per node based on available cores and MPI ranks needed
-        sims_per_node = CORES_PER_NODE // TASKS_PER_SIMULATION
-        num_nodes = min(DEFAULT_NODES, math.ceil(total_sims / sims_per_node))
-        num_nodes = max(1, num_nodes)  # At least 1 node
+        num_nodes = DEFAULT_NODES
     
     if walltime is None:
         walltime = DEFAULT_WALLTIME
     
-    # Calculate actual parallelism based on cores per node
     sims_per_node = CORES_PER_NODE // TASKS_PER_SIMULATION
     max_parallel_sims = num_nodes * sims_per_node
     
-    print(f"\nCreating PBS job for {len(all_job_infos)} simulations")
-    print(f"  Nodes: {num_nodes}")
-    print(f"  Queue: {queue}")
-    print(f"  Walltime: {walltime}")
-    print(f"  Cores per node: {CORES_PER_NODE}")
-    print(f"  MPI ranks per simulation: {TASKS_PER_SIMULATION}")
-    print(f"  Simulations per node: {sims_per_node}")
-    print(f"  Max total parallel simulations: {max_parallel_sims}")
+    job_files = []
     
-    # Create job data string
-    job_data_lines = []
-    for i, job_info in enumerate(all_job_infos):
-        line = f"{i}|{job_info['work_dir']}|{job_info['rotated_name']}|{job_info['reynolds']}"
-        job_data_lines.append(line)
+    # Create initial runs job if needed
+    if initial_job_infos:
+        print(f"\nCreating PBS job for {len(initial_job_infos)} initial simulations")
+        print(f"  Nodes: {num_nodes}")
+        print(f"  Queue: {queue}")
+        print(f"  Walltime: {walltime}")
+        
+        # Create job data string for initial runs
+        job_data_lines = []
+        for i, job_info in enumerate(initial_job_infos):
+            line = f"{i}|{job_info['work_dir']}|{job_info['rotated_name']}"
+            job_data_lines.append(line)
+        
+        jobs_data = '\n'.join(job_data_lines)
+        
+        # Create initial job script
+        batch_id = "1"
+        job_script = PBS_INITIAL_TEMPLATE.format(
+            batch_id=batch_id,
+            queue=queue,
+            num_nodes=num_nodes,
+            walltime=walltime,
+            jobs_data=jobs_data,
+            total_jobs=len(initial_job_infos),
+            pbs_jobs_dir=str(PBS_JOBS_DIR),
+            tasks_per_simulation=TASKS_PER_SIMULATION,
+            cores_per_node=CORES_PER_NODE
+        )
+        
+        # Save job script
+        job_file = PBS_JOBS_DIR / f"rans_initial_{batch_id}.pbs"
+        with open(job_file, 'w') as f:
+            f.write(job_script)
+        
+        job_file.chmod(0o755)
+        job_files.append(('initial', job_file))
     
-    jobs_data = '\n'.join(job_data_lines)
+    # Create restart runs job if needed
+    if restart_job_infos:
+        print(f"\nCreating PBS job for {len(restart_job_infos)} restart simulations")
+        
+        # Create job data string for restart runs
+        job_data_lines = []
+        for i, job_info in enumerate(restart_job_infos):
+            line = f"{i}|{job_info['work_dir']}|{job_info['rotated_name']}|{job_info['reynolds']}|{job_info['initial_dir']}"
+            job_data_lines.append(line)
+        
+        jobs_data = '\n'.join(job_data_lines)
+        
+        # Create restart job script
+        batch_id = "1"
+        job_script = PBS_RESTART_TEMPLATE.format(
+            batch_id=batch_id,
+            queue=queue,
+            num_nodes=num_nodes,
+            walltime=walltime,
+            jobs_data=jobs_data,
+            total_jobs=len(restart_job_infos),
+            pbs_jobs_dir=str(PBS_JOBS_DIR),
+            tasks_per_simulation=TASKS_PER_SIMULATION,
+            cores_per_node=CORES_PER_NODE
+        )
+        
+        # Save job script
+        job_file = PBS_JOBS_DIR / f"rans_restart_{batch_id}.pbs"
+        with open(job_file, 'w') as f:
+            f.write(job_script)
+        
+        job_file.chmod(0o755)
+        job_files.append(('restart', job_file))
     
-    # Create job script
-    batch_id = "1"
-    job_script = PBS_TEMPLATE.format(
-        batch_id=batch_id,
-        queue=queue,
-        num_nodes=num_nodes,
-        walltime=walltime,
-        jobs_data=jobs_data,
-        total_jobs=len(all_job_infos),
-        pbs_jobs_dir=str(PBS_JOBS_DIR),
-        tasks_per_simulation=TASKS_PER_SIMULATION,
-        cores_per_node=CORES_PER_NODE
-    ) 
-    # Save job script
-    job_file = PBS_JOBS_DIR / f"rans_batch_{batch_id}.pbs"
-    with open(job_file, 'w') as f:
-        f.write(job_script)
-    
-    # Make script executable
-    job_file.chmod(0o755)
-    
-    return [job_file]
+    return job_files
 
 def prepare_all_simulations(airfoil_name, df):
-    """Prepare all simulations for an airfoil."""
+    """Prepare initial and restart simulations for an airfoil."""
     print(f"\n{'='*60}")
     print(f"Preparing simulations for: {airfoil_name}")
     print(f"{'='*60}")
 
-    reynolds_to_angles = get_angles_and_reynolds(airfoil_name, df)
-    job_infos = []
+    reynolds_to_angles, all_angles = get_angles_and_reynolds(airfoil_name, df)
+    initial_job_infos = []
+    restart_job_infos = []
+    
+    # Track initial directories for each angle
+    angle_to_initial_dir = {}
 
-    # First pass: rotate airfoils and convert to RE2
+    # First: Prepare all rotated airfoils and RE2 files
     print("\nPhase 1: Rotating airfoils and converting to RE2...")
-    for reynolds, angles in reynolds_to_angles.items():
-        for angle in angles:
-            print(f"  Preparing {airfoil_name} at {angle}° for Re={reynolds}")
-            rotated_name = rotate_airfoil(airfoil_name, angle)
-            convert_to_re2(rotated_name)
+    for angle in all_angles:
+        print(f"  Preparing {airfoil_name} at {angle}°")
+        rotated_name = rotate_airfoil(airfoil_name, angle)
+        convert_to_re2(rotated_name)
 
-    # Second pass: prepare simulation directories
-    print("\nPhase 2: Preparing simulation directories...")
-    for reynolds, angles in reynolds_to_angles.items():
-        for angle in angles:
-            rans_dir = create_rans_directory(airfoil_name, angle, reynolds)
-            rotated_name = prepare_simulation_files(rans_dir, airfoil_name, angle, reynolds)
+    # Second: Prepare initial runs (one per angle)
+    print("\nPhase 2: Preparing initial runs at Re=10000...")
+    for angle in all_angles:
+        initial_dir = create_initial_directory(airfoil_name, angle)
+        rotated_name = prepare_initial_simulation_files(initial_dir, airfoil_name, angle)
+        
+        angle_to_initial_dir[angle] = initial_dir
+        
+        initial_job_info = {
+            'airfoil': airfoil_name,
+            'angle': angle,
+            'rotated_name': rotated_name,
+            'work_dir': str(initial_dir)
+        }
+        
+        initial_job_infos.append(initial_job_info)
+        print(f"  Prepared initial simulation: {rotated_name}")
 
-            job_info = {
+    # Third: Prepare restart runs (for all reynolds numbers)
+    print("\nPhase 3: Preparing restart runs...")
+    for reynolds, angles in reynolds_to_angles.items():
+        # Skip if this is the initial Reynolds number
+        if reynolds == INITIAL_REYNOLDS:
+            continue
+            
+        for angle in angles:
+            restart_dir = create_restart_directory(airfoil_name, angle, reynolds)
+            
+            if angle == 0:
+                rotated_name = airfoil_name
+            else:
+                rotated_name = f"{airfoil_name}_rot{angle}"
+            
+            restart_job_info = {
                 'airfoil': airfoil_name,
                 'angle': angle,
                 'reynolds': reynolds,
                 'rotated_name': rotated_name,
-                'work_dir': str(rans_dir)
+                'work_dir': str(restart_dir),
+                'initial_dir': str(angle_to_initial_dir[angle])
             }
+            
+            restart_job_infos.append(restart_job_info)
+            print(f"  Prepared restart simulation: {rotated_name} at Re={reynolds}")
 
-            job_infos.append(job_info)
-            print(f"  Prepared simulation: {rotated_name} at Re={reynolds}")
+    return initial_job_infos, restart_job_infos
 
-    return job_infos
-
-def submit_jobs(job_files):
-    """Submit PBS jobs."""
-    job_ids = []
-
-    for job_file in job_files:
-        cmd = ["qsub", str(job_file)]
-
+def submit_jobs(job_files, submit_restart_after_initial=True):
+    """Submit PBS jobs with optional dependency."""
+    job_ids = {}
+    
+    for job_type, job_file in job_files:
+        cmd = ["qsub"]
+        
+        # If this is a restart job and we have an initial job, add dependency
+        if job_type == 'restart' and 'initial' in job_ids and submit_restart_after_initial:
+            cmd.extend(["-W", f"depend=afterok:{job_ids['initial']}"])
+        
+        cmd.append(str(job_file))
+        
         result = run_command(cmd, check=False)
-
+        
         if result and result.returncode == 0:
-            # Extract job ID from output
             job_id = result.stdout.strip()
-            job_ids.append(job_id)
-            print(f"Submitted job {job_file.name} with ID: {job_id}")
+            job_ids[job_type] = job_id
+            print(f"Submitted {job_type} job {job_file.name} with ID: {job_id}")
+            if job_type == 'restart' and 'initial' in job_ids and submit_restart_after_initial:
+                print(f"  (Will start after initial job {job_ids['initial']} completes)")
         else:
-            print(f"Failed to submit job {job_file.name}")
+            print(f"Failed to submit {job_type} job {job_file.name}")
             if result:
                 print(f"Error: {result.stderr}")
-
+    
     return job_ids
 
 def main():
     """Main function to orchestrate the workflow."""
-    print("Parallelized RANS Simulation Automation Script for Polaris")
-    print("========================================================")
+    print("Optimized Parallelized RANS Simulation Automation Script for Polaris")
+    print("===================================================================")
 
     # Create necessary directories
-    RANS_RUNS_DIR.mkdir(exist_ok=True)
+    INITIAL_RANS_RUNS_DIR.mkdir(exist_ok=True)
+    RESTART_RANS_RUNS_DIR.mkdir(exist_ok=True)
     PBS_JOBS_DIR.mkdir(exist_ok=True)
 
     # Load CSV data
     print(f"Loading data from {CSV_FILE}...")
     df = pd.read_csv(CSV_FILE)
 
-    all_job_infos = []
+    all_initial_job_infos = []
+    all_restart_job_infos = []
 
     # Prepare all simulations
     for airfoil_name in AIRFOILS_TO_PROCESS:
         if check_airfoil_exists(airfoil_name, df):
-            job_infos = prepare_all_simulations(airfoil_name, df)
-            all_job_infos.extend(job_infos)
+            initial_jobs, restart_jobs = prepare_all_simulations(airfoil_name, df)
+            all_initial_job_infos.extend(initial_jobs)
+            all_restart_job_infos.extend(restart_jobs)
         else:
             print(f"\nSkipping {airfoil_name}: Not found in both CSV and database")
 
-    if all_job_infos:
+    if all_initial_job_infos or all_restart_job_infos:
         print(f"\n{'='*60}")
-        print(f"Prepared {len(all_job_infos)} simulations")
+        print(f"Prepared {len(all_initial_job_infos)} initial simulations")
+        print(f"Prepared {len(all_restart_job_infos)} restart simulations")
+        print(f"Total: {len(all_initial_job_infos) + len(all_restart_job_infos)} simulations")
         print(f"{'='*60}")
         
         # Ask user about job configuration
@@ -559,35 +699,57 @@ def main():
             if walltime_input:
                 walltime = walltime_input
 
-        # Create batch job
-        batch_files = create_batch_jobs(all_job_infos, num_nodes=num_nodes, 
-                                       walltime=walltime, queue=queue)
+        # Create batch jobs
+        batch_files = create_batch_jobs(all_initial_job_infos, all_restart_job_infos,
+                                       num_nodes=num_nodes, walltime=walltime, queue=queue)
         
         print(f"\nBatch job configuration:")
-        print(f"  - {len(all_job_infos)} simulations")
-        print(f"  - {num_nodes} nodes")
+        if all_initial_job_infos:
+            print(f"  - {len(all_initial_job_infos)} initial simulations")
+        if all_restart_job_infos:
+            print(f"  - {len(all_restart_job_infos)} restart simulations")
+        print(f"  - {num_nodes} nodes per job")
         print(f"  - Queue: {queue}")
         print(f"  - Walltime: {walltime}")
 
         # Ask user about job submission
-        response = input("\nSubmit batch job to PBS? (y/n): ").lower()
+        response = input("\nSubmit batch jobs to PBS? (y/n): ").lower()
         if response == 'y':
-            print("\nSubmitting job...")
-            job_ids = submit_jobs(batch_files)
+            # Ask about dependency
+            submit_with_dependency = True
+            if all_initial_job_infos and all_restart_job_infos:
+                dep_response = input("Submit restart job with dependency on initial job? (y/n, default=y): ").lower()
+                submit_with_dependency = dep_response != 'n'
+            
+            print("\nSubmitting jobs...")
+            job_ids = submit_jobs(batch_files, submit_restart_after_initial=submit_with_dependency)
 
             print(f"\n{'='*60}")
-            print(f"Submitted batch job successfully!")
+            print(f"Submitted batch jobs successfully!")
             print("Monitor progress with: qstat -u $USER")
             print(f"Check outputs in: {PBS_JOBS_DIR}/")
-            print(f"  - Output: rans_batch_1.o")
-            print(f"  - Errors: rans_batch_1.e")
-            print(f"  - Status: status_1.txt")
-            print(f"  - Results: completed_1.txt")
+            
+            if 'initial' in job_ids:
+                print(f"\nInitial runs:")
+                print(f"  - Output: rans_initial_1.o")
+                print(f"  - Errors: rans_initial_1.e")
+                print(f"  - Status: initial_status_1.txt")
+                print(f"  - Results: initial_completed_1.txt")
+            
+            if 'restart' in job_ids:
+                print(f"\nRestart runs:")
+                print(f"  - Output: rans_restart_1.o")
+                print(f"  - Errors: rans_restart_1.e")
+                print(f"  - Status: restart_status_1.txt")
+                print(f"  - Results: restart_completed_1.txt")
+            
             print(f"{'='*60}")
         else:
-            print("\nBatch job script created but not submitted.")
-            print(f"To submit manually, run: qsub {batch_files[0]}")
-            print(f"Batch script is in: {PBS_JOBS_DIR}")
+            print("\nBatch job scripts created but not submitted.")
+            print(f"To submit manually:")
+            for job_type, job_file in batch_files:
+                print(f"  qsub {job_file}")
+            print(f"Scripts are in: {PBS_JOBS_DIR}")
     else:
         print("\nNo simulations to run.")
 
