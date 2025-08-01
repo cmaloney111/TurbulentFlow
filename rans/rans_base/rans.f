@@ -1,0 +1,429 @@
+
+      include "experimental/rans_komg.f"
+c-----------------------------------------------------------------------c
+      subroutine userchk()
+
+c      implicit none
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      integer e
+
+      common /cdsmag/ ediff(lx1,ly1,lz1,lelv)
+
+      real x0(3)
+      data x0 /0.0, 0.0, 0.0/
+      save x0
+
+c     Save the boundary ID(1) with the iobj_wall so it can be used to compute wall shear
+      integer bIDs(1)
+      save iobj_wall
+
+
+c     This creates the object iobj_wall
+      if (istep.eq.0) then
+         bIDs(1) = 5
+         call create_obj(iobj_wall,bIDs,1)
+         nm = iglsum(nmember(iobj_wall),1)
+         if(nid.eq.0) write(6,*) 'obj_wall nmem:', nm 
+         call prepost(.true.,'   ')
+      endif
+
+      scale = 2.0 ! CD = F/(.5 rho U^2 ) = 2*F using scale=2 gives us the coefficients      
+
+c     Computes drag over wall
+      if (istep.eq.0) call set_obj
+      call torque_calc(scale,x0,.true.,.false.)
+      dragx_avg = dragx(1)
+      dragy_avg = dragy(1)
+      drag_px = dragpx(1)
+      drag_py = dragpy(1)
+      drag_vx = dragvx(1)
+      drag_vy = dragvy(1)
+
+      open(unit=57,file='drag.txt')
+
+      if (mod(istep,5000).lt.5) then
+      write(57,*) 'Time = ', time,
+     +            'Fx_p=', drag_px, 'Fx_v=', drag_vx, 'Fx=', dragx_avg,
+     +            'Fy_p=', drag_py, 'Fy_v=', drag_vy, 'Fy=', dragy_avg
+      endif
+c      nintv = 40000
+
+c      if(istep.eq.0.or.(mod(istep,nintv).eq.0)) call write_soln(nintv)
+
+      return
+      end
+c-----------------------------------------------------------------------c
+
+
+
+c-----------------------------------------------------------------------c
+      subroutine set_obj
+c
+      include 'SIZE'
+      include 'TOTAL'
+      integer e,f
+
+c     Define new objects
+
+      nobj = 1                  ! for Periodic
+      iobj = 0
+      do ii=nhis+1,nhis+nobj
+         iobj = iobj+1
+         hcode(10,ii) = 'I'
+         hcode( 1,ii) = 'F' ! 'F'
+         hcode( 2,ii) = 'F' ! 'F'
+         hcode( 3,ii) = 'F' ! 'F'
+         lochis(1,ii) = iobj
+      enddo
+      nhis = nhis + nobj
+
+      if (maxobj.lt.nobj) write(6,*) 'increase maxobj in SIZEu. rm *.o'
+      if (maxobj.lt.nobj) call exitt
+
+      nxyz = nx1*ny1*nz1
+      do e=1,nelv
+      do f=1,2*ndim
+         id_face = boundaryID(f,e)
+          if (id_face.eq.5) then
+            iobj = 1
+             if (iobj.gt.0) then
+               nmember(iobj) = nmember(iobj) + 1
+               mem = nmember(iobj)
+               ieg = lglel(e)
+               object(iobj,mem,1) = ieg
+               object(iobj,mem,2) = f
+c              write(6,1) iobj,mem,f,ieg,e,nid,' OBJ'
+    1          format(6i9,a4)
+            endif
+
+         endif
+      enddo
+      enddo
+c     write(6,*) 'number',(nmember(k),k=1,4)
+
+      return
+      end
+
+c-----------------------------------------------------------------------c
+      subroutine write_soln(nintv)
+      include 'SIZE'
+      include 'TOTAL'
+
+      parameter (lt=lx1*ly1*lz1*lelv)
+      common /cdsmag/ ediff(lx1,ly1,lz1,lelv)
+      common /shear/ shs(lt,3),sh(lt,1)
+
+      integer e
+      character*72 fname,fname1
+
+           itt = istep/nintv
+
+           if(itt.lt.40000)then
+              write(fname,'("soln.",i3.3,".",i5.5,".dat")')
+     &              nid,itt
+            endif
+
+        open(unit=10,file=fname,status='unknown',form='formatted')
+
+        do e = 1,nelv
+
+        write(10,*)'VARIABLES = "X","Y","Z","U","V","W","P","T","NuT"'
+     &                          
+
+        write(10,'(a7,a1,i3,a2,3(a2,i2,a1),a21)')
+     $      "ZONE T=",'"',e,'",',"I=",lx1,",","J=",ly1,",","K=",lz1,","
+     $  ," DATAPACKING=POINT"
+
+         do kk = 1,nz1
+         do i = 1,nx1
+         do j = 1,ny1
+
+         write(10,'(8(1x,e15.5))')
+     $     (xm1(i,j,kk,e)),(ym1(i,j,kk,e)),(zm1(i,j,kk,e)),
+     $     (vx(i,j,kk,e)),(vy(i,j,kk,e)),(vz(i,j,kk,e)),
+     $     (pr(i,j,kk,e)), (t(i,j,kk,e,1)), (ediff(i,j,kk,e))
+
+
+         enddo
+         enddo
+         enddo
+
+         enddo
+         close(unit=10)
+
+c! ------ Finished Solution ----- !
+
+      return
+      end
+
+
+C----------------------------------------------------------------------
+      subroutine uservp (ix,iy,iz,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer e,ix,iy,iz,eg
+c      common /rans_usr/ ifld_tke, ifld_tau, m_id
+c      integer ifld_tke, ifld_tau, m_id
+
+      real rans_mut,rans_mutsk,rans_mutso,rans_turbPrandtl
+      real mu_t,Pr_t 
+     
+      e = gllel(eg)
+      
+      Pr_t=rans_turbPrandtl()
+      mu_t=rans_mut(ix,iy,iz,e)
+      
+      if(ifield.eq.1) then
+        t(ix,iy,iz,e,4)=mu_t/cpfld(ifield,1) !store eddy viscosity for post processing
+        udiff  = cpfld(ifield,1)+mu_t
+        utrans = cpfld(ifield,2)
+      else if(ifield.eq.2) then
+        udiff  = cpfld(ifield,1)+mu_t*cpfld(ifield,2)/(Pr_t*cpfld(1,2))
+        utrans = cpfld(ifield,2)
+      else if(ifield.eq.3) then !use rho and mu from field 1
+        udiff  = cpfld(1,1)+rans_mutsk(ix,iy,iz,e)
+        utrans = cpfld(1,2)
+      else if(ifield.eq.4) then !use rho and mu from field 1
+        udiff  = cpfld(1,1)+rans_mutso(ix,iy,iz,e)
+        utrans = cpfld(1,2)
+      end if
+      
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine userf  (ix,iy,iz,eg)
+
+      include 'SIZE'
+      include 'TSTEP'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,e,eg
+
+      ffx = 0.0
+      ffy = 0.0
+      ffz = 0.0
+
+      return
+      end
+
+C-----------------------------------------------------------------------
+      subroutine userq  (ix,iy,iz,eg)
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+c      common /rans_usr/ ifld_tke, ifld_tau, m_id
+c      integer ifld_tke,ifld_tau, m_id
+
+      real rans_kSrc,rans_omgSrc
+      real rans_kDiag,rans_omgDiag
+
+      integer ie,ix,iy,iz,eg
+      ie = gllel(eg)
+
+      if (ifield.eq.3) then
+        qvol = rans_kSrc  (ix,iy,iz,ie)
+        avol = rans_kDiag (ix,iy,iz,ie)
+      else if (ifield.eq.4) then
+        qvol = rans_omgSrc (ix,iy,iz,ie)
+        avol = rans_omgDiag(ix,iy,iz,ie)
+      else
+        qvol = 0.0
+      end if
+
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine userbc (ix,iy,iz,iside,eg)
+C     NOTE ::: This subroutine MAY NOT be called by every process
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,iside,e,eg
+      character*3 cb1	
+  
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+
+      e = gllel(eg)
+      cb1 = cbc(iside,e,1) !velocity boundary condition
+      
+      ux=1.0
+      uy=0.0
+      uz=0.0
+      temp=0.0
+      
+c      if(cb1.eq.'W  ') then
+c        if(ifield.eq.ifld_tke) then
+c          temp = 0.0
+c        else if(ifield.eq.ifld_tau) then
+c          temp = 0.0
+c        end if
+c      end if
+      
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine useric (ix,iy,iz,eg) !how does this change for restart?
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+      integer ix,iy,iz,e,eg
+
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+      
+      e = gllel(eg)
+
+      ux=1.0 !Maybe this should be 0.0? Or 1.0?
+      uy=0.0
+      uz=0.0
+      temp=0.0
+
+      if(ifield.eq.3) temp = 0.01
+      if(ifield.eq.4) temp = 0.2
+      
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine usrdat
+
+      include 'SIZE'
+      include 'TOTAL'
+      include 'NEKUSE'
+
+c      do i=1,nelt
+c      	do j=1,2*ndim
+c      	 if(bc(5,j,i,1).eq.4) then
+c      	  cbc(j,i,1)='v  '
+c         elseif(bc(5,j,i,1).eq.2) then
+c       	  cbc(j,i,1)='O  '
+c         elseif(bc(5,j,i,1).eq.3) then
+c          cbc(j,i,1)='SYM'
+c         elseif(bc(5,j,i,1).eq.1) then
+c          cbc(j,i,1)='W  '
+c         elseif(bc(5,j,i,1).eq.5) then
+c          cbc(j,i,1)='W  '
+c         endif
+c        enddo
+c      enddo 
+
+      return
+      end
+C-----------------------------------------------------------------------
+      subroutine usrdat2
+
+      implicit none
+      include 'SIZE'
+      include 'TOTAL'
+
+      real wd
+      common /walldist/ wd(lx1,ly1,lz1,lelv)
+
+      common /rans_usr/ ifld_tke, ifld_tau, m_id
+      integer ifld_tke,ifld_tau, m_id
+      real xmin,xmax,ymin,ymax,scaley,scalex
+      real glmin,glmax
+      
+      integer w_id
+      integer n
+      real coeffs(30) !array for passing your own coeffs
+      logical ifcoeffs
+
+
+
+      n=nx1*ny1*nz1*nelv
+
+
+C     rescale the domain BEFORE calling rans_init --- probably don't do this!
+c      xmin=glmin(xm1,n)
+c      xmax=glmax(xm1,n)
+c      ymin=glmin(ym1,n)
+c      ymax=glmax(ym1,n)
+
+c      scalex=3.0/8.0/(xmax-xmin) !make the elements square on average
+c      scaley=1.0/(ymax-ymin)
+
+c      call cmult(xm1,scalex,n)
+c      call cmult(ym1,scaley,n) !unclear if this was necessary, but we will try it
+
+      
+      ifld_tke = 3 !address of tke equation in t array
+      ifld_tau = 4 !address of omega equation in t array
+      ifcoeffs =.false. !set to true to pass your own coeffs
+
+C     Supported models:
+c     m_id = 0 !regularized standard k-omega (no wall functions)
+c     m_id = 1 !regularized low-Re k-omega (no wall functions)
+c     m_id = 2 !regularized standard k-omega SST (no wall functions)
+c     m_id = 3 !Not supported
+      m_id = 4 !standard k-tau
+c     m_id = 5 !low Re k-tau 
+c     m_id = 6 !standard k-tau SST
+
+C     Wall distance function:
+c     w_id = 0 ! user specified
+c     w_id = 1 ! cheap_dist (path to wall, may work better for periodic boundaries)
+      w_id = 2 ! distf (coordinate difference, provides smoother function)
+
+c      set velocity BCsc BEFORE calling rans_init!!!!
+      call setbc(4,1,'v  ') ! inflow
+      call setbc(2,1,'O  ') ! outflow
+      call setbc(3,1,'SYM') ! bottom
+      call setbc(1,1,'SYM') ! top -- unclear if we want SYM or W
+      call setbc(5,1,'W  ') ! airfoil
+
+
+
+
+      call rans_init(ifld_tke,ifld_tau,ifcoeffs,coeffs,w_id,wd,m_id)
+
+      return
+      end
+      
+C-----------------------------------------------------------------------
+      subroutine usrdat3
+
+      include 'SIZE'
+      include 'TOTAL'
+
+      
+      return
+      end
+C-----------------------------------------------------------------------
+
+c automatically added by makenek
+      subroutine usrdat0() 
+
+      return
+      end
+
+c automatically added by makenek
+      subroutine usrsetvert(glo_num,nel,nx,ny,nz) ! to modify glo_num
+      integer*8 glo_num(1)
+
+      return
+      end
+
+c automatically added by makenek
+      subroutine userqtl
+
+      call userqtl_scig
+
+      return
+      end

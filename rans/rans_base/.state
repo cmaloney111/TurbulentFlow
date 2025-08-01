@@ -1,9 +1,9 @@
-NEK_SOURCE_ROOT=/home/cmaloney1/Nek5000
-FC=mpif77
-FFLAGS=-fPIC -fixed -assume dummy_aliases -check noarg_temp_created -warn nounused
-FCPP=-fpp
-FR8=-r8 -fpconstant
-FF77=
+NEK_SOURCE_ROOT=/home/cmaloney111/Nek5000
+FC=mpif90
+FFLAGS=-fPIC
+FCPP=-cpp
+FR8=-fdefault-real-8 -fdefault-double-8
+FF77=-w -std=legacy
 CC=mpicc
 CFLAGS=-fPIC
 PPLIST= MPI UNDERSCORE TIMER
