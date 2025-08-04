@@ -420,6 +420,8 @@ def prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg):
     """Prepare files for initial simulation at Re=10000."""
     # Copy all files from rans_base
     for file in RANS_BASE_DIR.iterdir():
+        if (initial_dir / file).exists():
+            return airfoil_name
         if file.is_file():
             shutil.copy2(file, initial_dir)
 
@@ -544,7 +546,7 @@ def prepare_all_simulations(airfoil_name, df):
     print(f"\n{'='*60}")
     print(f"Preparing simulations for: {airfoil_name}")
     print(f"{'='*60}")
-
+    
     reynolds_to_angles, all_angles = get_angles_and_reynolds(airfoil_name, df)
     initial_job_infos = []
     restart_job_infos = []
@@ -648,6 +650,8 @@ def main():
     for airfoil_name in AIRFOILS_TO_PROCESS:
         if check_airfoil_exists(airfoil_name, df):
             initial_jobs, restart_jobs = prepare_all_simulations(airfoil_name, df)
+            if initial_jobs == None and restart_jobs == None:
+                continue
             all_initial_job_infos.extend(initial_jobs)
             all_restart_job_infos.extend(restart_jobs)
         else:
