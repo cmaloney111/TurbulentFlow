@@ -38,12 +38,12 @@ def scan_all(base_dir, output_file):
                     if not os.path.isdir(angle_path):
                         continue
                     for fname in os.listdir(angle_path):
-                        if fname.startswith(f"nek_{sys.argv[1]}_") and fname.endswith(".log"):
+                        if fname.startswith(f"nek_restart") and fname.endswith(".log"):
                             log_path = os.path.join(angle_path, fname)
                             step = find_last_step(log_path)
                             out.write(f"{airfoil},{reynolds},{angle},{step}\n")
                             break
 
-scan_all("rans_runs", "output.csv")
+scan_all("restart_rans_runs", "output.csv")
 print(f"Highest step: {max_all} at {max_logpath}")
 print(f"Lowest step: {min_all} at {min_logpath}")
