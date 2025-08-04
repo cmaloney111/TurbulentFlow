@@ -17,7 +17,7 @@ import math
 from collections import defaultdict
 
 # Configuration - List of airfoils to process
-AIRFOILS_TO_PROCESS = ['aquila', 'clark-y', 'dae51', 'df101', 'df102', 'e193', 'fx60-100', 'j5012', 'mb253515', 'miley', 's2048', 's3010', 's3014']
+AIRFOILS_TO_PROCESS = ['aquila', 'clark-y', 'dae52', 'df101', 'df102', 'e193', 'fx60-100', 'j5012', 'mb253515', 's2048', 's3010', 's3014', 'miley']
 
 # Directory paths
 SCRIPT_DIR = Path(__file__).parent.absolute()
@@ -320,6 +320,7 @@ def run_command(cmd, cwd=None, input_text=None, check=True):
                               input=input_text)
         if check and result.returncode != 0:
             print(f"Error running command: {result.stderr}")
+            print(result.stdout)
             sys.exit(1)
         return result
     except Exception as e:
@@ -406,9 +407,10 @@ def modify_usr_file_for_angle(usr_file, angle_deg):
 def prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg):
     """Prepare files for initial simulation at Re=10000."""
     # Copy all files from rans_base
-    for file in RANS_BASE_DIR.iterdir():
-        if (initial_dir / file).exists():
+    if (initial_dir / 'nek5000').exists():
             return airfoil_name
+
+    for file in RANS_BASE_DIR.iterdir():
         if file.is_file():
             shutil.copy2(file, initial_dir)
 
