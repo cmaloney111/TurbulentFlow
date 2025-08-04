@@ -17,9 +17,7 @@ import math
 from collections import defaultdict
 
 # Configuration - List of airfoils to process
-AIRFOILS_TO_PROCESS = ['aquila', 'clark-y', 'dae51', 'df101', 'df102', 'e193', 'fx60-100', 'j5012', 'mb253515', 's2048', 's3010', 's3014', 'miley']
-
-AIRFOILS_TO_PROCESS = ['clark-y']
+AIRFOILS_TO_PROCESS = ['aquila', 'clark-y', 'df101', 'dae51', 'df102', 'e193', 'fx60-100', 'j5012', 'mb253515', 's2048', 's3010', 's3014', 'miley']
 
 # Directory paths
 SCRIPT_DIR = Path(__file__).parent.absolute()
@@ -124,6 +122,9 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
                     echo "$job_id|FAILED|genmap failed" >> "$COMPLETED_FILE"
                     exit 1
                 fi
+               
+                # Clean up directory before initial run
+                find . ! \\( -name "*.ma2" -o -name "*.f00001" -o -name "*.re2" -o -name "*.par" -o -name "nek5000" \\) -delete 
                 
                 # Initial run at Re=10000
                 echo "[Job ${{job_id}}] Starting initial run at Re=10000..." >> "${{STATUS_FILE}}"
@@ -478,6 +479,8 @@ def prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg):
             if old_par.exists():
                 shutil.copy2(old_par, new_par)
                 old_par.unlink()
+            if (initial_dir / f"{airfoil_name}0.f00002").exists():
+                return None
             return airfoil_name
 
     for file in RANS_BASE_DIR.iterdir():
@@ -622,8 +625,10 @@ def prepare_all_simulations(airfoil_name, df):
     for angle_deg in all_angles:
         initial_dir = create_initial_directory(airfoil_name, angle_deg)
         airfoil_name_used = prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg)
-        
         angle_to_initial_dir[angle_deg] = initial_dir
+        
+        if airfoil_name_used == None:
+            continue
         
         initial_job_info = {
             'airfoil': airfoil_name,
