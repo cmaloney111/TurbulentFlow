@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Optimized Parallelized RANS Simulation Automation Script for Polaris
-Separates initial runs (Re=10k) from restart runs to avoid redundant computations
+Modified to rotate velocity instead of airfoil mesh
 """
 
 import os
@@ -17,17 +17,9 @@ import math
 from collections import defaultdict
 
 # Configuration - List of airfoils to process
-AIRFOILS_TO_PROCESS = [
-    "aquila",
-    "clark-y",
-    "dae51",
-    "df101",
-    "df102",
-    "e193",
-    "fx60-100",
-    "j5012",
-    "mb253515",
-]
+AIRFOILS_TO_PROCESS = ['aquila', 'clark-y', 'dae51', 'df101', 'df102', 'e193', 'fx60-100', 'j5012', 'mb253515', 's2048', 's3010', 's3014', 'miley']
+
+AIRFOILS_TO_PROCESS = ['clark-y']
 
 # Directory paths
 SCRIPT_DIR = Path(__file__).parent.absolute()
@@ -41,7 +33,7 @@ CSV_FILE = SCRIPT_DIR / "training_data_stec8.csv"
 PBS_JOBS_DIR = SCRIPT_DIR / "pbs_jobs"
 
 CORES_PER_NODE = 128
-TASKS_PER_SIMULATION = 2
+TASKS_PER_SIMULATION = 16
 MAX_NODES = 184  # Maximum for workq-route
 DEFAULT_NODES = 2  # Default number of nodes to request
 DEFAULT_WALLTIME = "00:05:00"  # Default walltime
@@ -111,9 +103,9 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
             fi
             
             # Parse job information
-            IFS='|' read -r job_id work_dir rotated_name <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
+            IFS='|' read -r job_id work_dir airfoil_name <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
             
-            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting initial job $job_id: $rotated_name on $NODE"
+            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting initial job $job_id: $airfoil_name on $NODE"
             
             # Launch the initial simulation
             (
@@ -128,31 +120,57 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
                 genmap < genmap_input.txt > genmap_${{job_id}}.log 2>&1
                 
                 if [ $? -ne 0 ]; then
-                    echo "[Job $job_id] ERROR: genmap failed for $rotated_name" | tee -a "$STATUS_FILE"
+                    echo "[Job $job_id] ERROR: genmap failed for $airfoil_name" | tee -a "$STATUS_FILE"
                     echo "$job_id|FAILED|genmap failed" >> "$COMPLETED_FILE"
                     exit 1
                 fi
                 
                 # Initial run at Re=10000
-                echo "[Job $job_id] Starting initial run at Re=10000..." >> "$STATUS_FILE"
-                echo $rotated_name > SESSION.NAME
-                echo `pwd`'/' >> SESSION.NAME
-                
+                echo "[Job ${{job_id}}] Starting initial run at Re=10000..." >> "${{STATUS_FILE}}"
+                echo ${{airfoil_name}} > SESSION.NAME
+                echo $(pwd)'/' >> SESSION.NAME
+
                 # Create a hostfile for this specific simulation
-                echo "$NODE" > hostfile_job_${{job_id}}
-                
+                echo "${{NODE}}" > hostfile_job_${{job_id}}
+
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
-                
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_initial.log 2>&1
-                
-                if [ $? -ne 0 ]; then
-                    echo "[Job $job_id] ERROR: Initial run failed for $rotated_name" | tee -a "$STATUS_FILE"
-                    echo "$job_id|FAILED|Initial run failed" >> "$COMPLETED_FILE"
+
+                # Create a named pipe (FIFO)
+                pipe=$(mktemp -u)
+                mkfifo "${{pipe}}"
+
+                # Start nek5000, writing output to the pipe
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 ${{airfoil_name}} > "${{pipe}}" 2>&1 &
+                nek_pid=$!
+
+                # Read from the pipe, keep only last 20 lines
+                tail -n +0 -f "${{pipe}}" | awk '
+                {{
+                    lines[NR % 20] = $0
+                    count = (count < 20) ? count + 1 : 20
+                    print "" > "nek_initial.log"
+                    for (i = 0; i < count; i++) {{
+                        idx = (NR - count + i) % 20
+                        if (idx < 0) idx += 20
+                        print lines[idx] >> "nek_initial.log"
+                    }}
+                    close("nek_initial.log")
+                }}' &
+                tail_pid=$!
+
+                wait ${{nek_pid}}
+                kill ${{tail_pid}} 2>/dev/null
+                # Clean up
+                rm "${{pipe}}"
+
+                if [ ${{?}} -ne 0 ]; then
+                    echo "[Job ${{job_id}}] ERROR: Initial run failed for ${{airfoil_name}}" | tee -a "${{STATUS_FILE}}"
+                    echo "${{job_id}}|FAILED|Initial run failed" >> "${{COMPLETED_FILE}}"
                     rm -f hostfile_job_${{job_id}}
                     exit 1
                 fi
-                
-                echo "[Job $job_id] Initial simulation completed successfully: $rotated_name" | tee -a "$STATUS_FILE"
+
+                echo "[Job $job_id] Initial simulation completed successfully: $airfoil_name" | tee -a "$STATUS_FILE"
                 echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
                 
                 # Clean up hostfile
@@ -239,36 +257,46 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
             fi
             
             # Parse job information
-            IFS='|' read -r job_id work_dir rotated_name reynolds initial_dir <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
+            IFS='|' read -r job_id work_dir airfoil_name reynolds initial_dir <<< "${{JOBS_ARRAY[$JOB_INDEX]}}"
             
-            echo "[Node $((NODE_INDEX + 1)), Sim $sim_on_node] Starting restart job $job_id: $rotated_name at Re=$reynolds on $NODE"
+            echo "[Node $((NODE_INDEX + 1)), Sim ${{sim_on_node}}] Starting restart job ${{job_id}}: ${{airfoil_name}} at Re=${{reynolds}} on ${{NODE}}"
             
             # Launch the restart simulation
             (
-                cd "$work_dir" || {{
-                    echo "[Job $job_id] ERROR: Cannot access directory $work_dir" | tee -a "$STATUS_FILE"
-                    echo "$job_id|FAILED|Cannot access directory" >> "$COMPLETED_FILE"
+                cd "${{work_dir}}" || {{
+                    echo "[Job ${{job_id}}] ERROR: Cannot access directory ${{work_dir}}" | tee -a "${{STATUS_FILE}}"
+                    echo "${{job_id}}|FAILED|Cannot access directory" >> "${{COMPLETED_FILE}}"
                     exit 1
                 }}
-                
-                # Copy files from initial run
-                echo "[Job $job_id] Copying files from initial run..." >> "$STATUS_FILE"
-                cp -r "$initial_dir"/* . 2>/dev/null || true
-                
+
+                echo "[Job ${{job_id}}] Linking files from initial run..." >> "${{STATUS_FILE}}"
+
+                # Save current path to initial_dir and return later
+                initial_abs=$(cd "${{initial_dir}}" && pwd)
+
+                # Recreate directory structure
+                cd "${{initial_abs}}"
+                rm "${{airfoil_name}}0.f00001"
+                find . -type d | while read dir; do mkdir -p "${{work_dir}}/$dir"; done
+                find . -type f ! -name '*.par' | while read file; do ln -s "${{initial_abs}}/$file" "${{work_dir}}/$file"; done
+                find . -type f -name '*.par' | while read file; do cp "${{initial_abs}}/$file" "${{work_dir}}/$file"; done
+                # Return to work_dir (important!)
+                cd "${{work_dir}}"
+
                 # Update par file for restart
-                echo "[Job $job_id] Updating par file for restart at Re=$reynolds..." >> "$STATUS_FILE"
+                echo "[Job ${{job_id}}] Updating par file for restart at Re=${{reynolds}}..." >> "${{STATUS_FILE}}"
                 python3 << EOF
 import re
 
-par_file = '${{rotated_name}}.par'
+par_file = '${{airfoil_name}}.par'
 with open(par_file, 'r') as f:
     content = f.read()
 
 # Update for restart
-content = re.sub(r'-10000.0', '-${{reynolds}}', content)
+content = re.sub(r'-10000.0', '-${{reynolds}}', content)i
 content = re.sub(r'-10000', '-${{reynolds}}', content)
-content = re.sub(r'dt = 5.0e-7', 'dt = 1.0e-4', content)
-content = re.sub(r'#startFrom = rans0.f00002', 'startFrom = ${{rotated_name}}0.f00002', content)
+content = re.sub(r'dt = 5.0e-6', 'dt = 1.0e-4', content)
+content = re.sub(r'#startFrom = rans0.f00002', 'startFrom = ${{airfoil_name}}0.f00002', content)
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
 content = re.sub(r'#targetCFL = 3.5.', 'targetCFL = 3.5.', content)
@@ -280,26 +308,53 @@ with open(par_file, 'w') as f:
 EOF
                 
                 # Restart run
-                echo "[Job $job_id] Starting restart run at Re=$reynolds..." >> "$STATUS_FILE"
-                echo $rotated_name > SESSION.NAME
-                echo `pwd`'/' >> SESSION.NAME
-                
+                echo "[Job ${{job_id}}] Starting restart run at Re=${{reynolds}}..." >> "${{STATUS_FILE}}"
+                echo ${{airfoil_name}} > SESSION.NAME
+                echo $(pwd)'/' >> SESSION.NAME 
+
                 # Create a hostfile for this specific simulation
-                echo "$NODE" > hostfile_job_${{job_id}}
-                
+                echo "${{NODE}}" > hostfile_job_${{job_id}}
+
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
-                
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $rotated_name > nek_restart.log 2>&1
-                
+
+                # Create a named pipe (FIFO)
+                pipe=$(mktemp -u)
+                mkfifo "${{pipe}}"
+
+                # Start nek5000, writing output to the pipe
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 ${{airfoil_name}} > "${{pipe}}" 2>&1 &
+                nek_pid=$!
+
+                # Read from the pipe, keep only last 20 lines
+                tail -n +0 -f "${{pipe}}" | awk '
+                {{
+                    lines[NR % 20] = $0
+                    count = (count < 20) ? count + 1 : 20
+                    print "" > "nek_restart.log"
+                    for (i = 0; i < count; i++) {{
+                        idx = (NR - count + i) % 20
+                        if (idx < 0) idx += 20
+                        print lines[idx] >> "nek_restart.log"
+                    }}
+                    close("nek_restart.log")
+                }}' &
+                tail_pid=$!
+
+                wait ${{nek_pid}}
+                kill ${{tail_pid}} 2>/dev/null
+
+                # Clean up
+                rm "${{pipe}}"
+
                 if [ $? -ne 0 ]; then
-                    echo "[Job $job_id] ERROR: Restart run failed for $rotated_name" | tee -a "$STATUS_FILE"
-                    echo "$job_id|FAILED|Restart run failed" >> "$COMPLETED_FILE"
+                    echo "[Job ${{job_id}}] ERROR: Restart run failed for ${{airfoil_name}}" | tee -a "${{STATUS_FILE}}"
+                    echo "${{job_id}}|FAILED|Restart run failed" >> "${{COMPLETED_FILE}}"
                     rm -f hostfile_job_${{job_id}}
                     exit 1
-                fi
-                
-                echo "[Job $job_id] Restart simulation completed successfully: $rotated_name at Re=$reynolds" | tee -a "$STATUS_FILE"
-                echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
+                fi              
+
+                echo "[Job ${{job_id}}] Restart simulation completed successfully: ${{airfoil_name}} at Re=${{reynolds}}" | tee -a "${{STATUS_FILE}}"
+                echo "${{job_id}}|SUCCESS|Completed" >> "${{COMPLETED_FILE}}"
                 
                 # Clean up hostfile
                 rm -f hostfile_job_${{job_id}}
@@ -330,6 +385,7 @@ def run_command(cmd, cwd=None, input_text=None, check=True):
                               input=input_text)
         if check and result.returncode != 0:
             print(f"Error running command: {result.stderr}")
+            print(result.stdout)
             sys.exit(1)
         return result
     except Exception as e:
@@ -354,30 +410,11 @@ def get_angles_and_reynolds(airfoil_name, df):
     for reynolds in airfoil_data['reynolds_number'].unique():
         reynolds_data = airfoil_data[airfoil_data['reynolds_number'] == reynolds]
         angles_rad = reynolds_data['angle_of_attack'].unique()
-        angles_deg = [int(np.floor(angle)) for angle in angles_rad]
-        reynolds_to_angles[reynolds] = sorted(angles_deg)
-        all_angles.update(angles_deg)
+        # Keep the actual angle values for velocity calculation
+        reynolds_to_angles[reynolds] = sorted(angles_rad)
+        all_angles.update(angles_rad)
 
     return reynolds_to_angles, sorted(all_angles)
-
-def rotate_airfoil(airfoil_name, angle):
-    """Rotate an airfoil using rotate_dat.py."""
-    if angle == 0:
-        return airfoil_name
-
-    rotated_name = f"{airfoil_name}_rot{angle}"
-    rotated_file = AIRFOIL_DB_DIR / f"{rotated_name}.dat"
-
-    if not rotated_file.exists():
-        cmd = [
-            "python",
-            str(GENAIRFOILS_DIR / "rotate_dat.py"),
-            "--airfoil", airfoil_name,
-            str(angle)
-        ]
-        run_command(cmd, cwd=GENAIRFOILS_DIR)
-
-    return rotated_name
 
 def convert_to_re2(airfoil_name):
     """Convert airfoil to RE2 format using test_gen.py."""
@@ -393,49 +430,88 @@ def convert_to_re2(airfoil_name):
 
 def create_initial_directory(airfoil_name, angle):
     """Create directory structure for initial RANS run."""
-    angle_dir = str(angle).replace("-", "neg")
+    # Format: multiply by 100 and round to get unique names like 1135 for 11.35
+    angle_dir = str(int(round(angle * 100)))
+    if angle < 0:
+        angle_dir = "neg" + angle_dir[1:]  # Remove minus sign and prepend "neg"
     initial_dir = INITIAL_RANS_RUNS_DIR / airfoil_name / angle_dir
     initial_dir.mkdir(parents=True, exist_ok=True)
     return initial_dir
 
 def create_restart_directory(airfoil_name, angle, reynolds):
     """Create directory structure for restart RANS run."""
-    angle_dir = str(angle).replace("-", "neg")
+    # Use floor for directory names
+    angle_dir = str(int(np.floor(angle))).replace("-", "neg")
     restart_dir = RESTART_RANS_RUNS_DIR / airfoil_name / f"Re{int(reynolds)}" / angle_dir
     restart_dir.mkdir(parents=True, exist_ok=True)
     return restart_dir
 
-def prepare_initial_simulation_files(initial_dir, airfoil_name, angle):
+def modify_usr_file_for_angle(usr_file, angle_deg):
+    """Modify the rans.usr file to set velocity components based on angle."""
+    # Calculate velocity components
+    angle_rad = math.radians(angle_deg)
+    ux_value = math.cos(angle_rad)
+    uy_value = math.sin(angle_rad)
+    
+    # Read the usr file
+    with open(usr_file, 'r') as f:
+        content = f.read()
+    
+    # Replace ux=1.0 with ux=cos(angle)
+    content = re.sub(r'ux\s*=\s*1\.0', f'ux={ux_value:.16f}', content)
+    
+    # Replace uy=0.0 with uy=sin(angle)
+    content = re.sub(r'uy\s*=\s*0\.0', f'uy={uy_value:.16f}', content)
+    
+    # Write back the modified content
+    with open(usr_file, 'w') as f:
+        f.write(content)
+    
+    print(f"  Modified rans.usr: ux={ux_value:.6f}, uy={uy_value:.6f} (angle={angle_deg:.2f}°)")
+
+def prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg):
     """Prepare files for initial simulation at Re=10000."""
     # Copy all files from rans_base
+    if (initial_dir / 'nek5000').exists():
+            old_par = initial_dir / "rans.par"
+            new_par = initial_dir / f"{airfoil_name}.par"
+            if old_par.exists():
+                shutil.copy2(old_par, new_par)
+                old_par.unlink()
+            return airfoil_name
+
     for file in RANS_BASE_DIR.iterdir():
         if file.is_file():
             shutil.copy2(file, initial_dir)
 
-    # Determine the RE2 filename
-    if angle == 0:
-        re2_name = f"{airfoil_name}.re2"
-        rotated_name = airfoil_name
-    else:
-        rotated_name = f"{airfoil_name}_rot{angle}"
-        re2_name = f"{rotated_name}.re2"
-
-    # Copy RE2 file
-    re2_source = RE2_FILES_DIR / re2_name
+    # Copy RE2 file (use unrotated mesh)
+    re2_source = RE2_FILES_DIR / f"{airfoil_name}.re2"
     shutil.copy2(re2_source, initial_dir)
+
+    # Modify the usr file for the angle
+    usr_file = initial_dir / "rans.usr"
+    modify_usr_file_for_angle(usr_file, angle_deg)
+
+    # Compile the modified code
+    print(f"  Compiling for angle {angle_deg:.2f}°...")
+    compile_result = run_command(["make"], cwd=initial_dir, check=False)
+    if compile_result.returncode != 0:
+        print(f"ERROR: Compilation failed in {initial_dir}")
+        print(compile_result.stderr)
+        sys.exit(1)
 
     # Create genmap input file
     genmap_input_file = initial_dir / "genmap_input.txt"
     with open(genmap_input_file, 'w') as f:
-        f.write(f"{rotated_name}\n0.05\n")
+        f.write(f"{airfoil_name}\n0.05\n")
 
     # Prepare initial par file (with Re=10000)
     old_par = initial_dir / "rans.par"
-    new_par = initial_dir / f"{rotated_name}.par"
+    new_par = initial_dir / f"{airfoil_name}.par"
     shutil.copy2(old_par, new_par)
     old_par.unlink()
 
-    return rotated_name
+    return airfoil_name  # Always return the base airfoil name
 
 def create_batch_jobs(initial_job_infos, restart_job_infos, num_nodes=None, 
                      walltime=None, queue="workq-route"):
@@ -461,7 +537,7 @@ def create_batch_jobs(initial_job_infos, restart_job_infos, num_nodes=None,
         # Create job data string for initial runs
         job_data_lines = []
         for i, job_info in enumerate(initial_job_infos):
-            line = f"{i}|{job_info['work_dir']}|{job_info['rotated_name']}"
+            line = f"{i}|{job_info['work_dir']}|{job_info['airfoil_name']}"
             job_data_lines.append(line)
         
         jobs_data = '\n'.join(job_data_lines)
@@ -495,7 +571,7 @@ def create_batch_jobs(initial_job_infos, restart_job_infos, num_nodes=None,
         # Create job data string for restart runs
         job_data_lines = []
         for i, job_info in enumerate(restart_job_infos):
-            line = f"{i}|{job_info['work_dir']}|{job_info['rotated_name']}|{job_info['reynolds']}|{job_info['initial_dir']}"
+            line = f"{i}|{job_info['work_dir']}|{job_info['airfoil_name']}|{job_info['reynolds']}|{job_info['initial_dir']}"
             job_data_lines.append(line)
         
         jobs_data = '\n'.join(job_data_lines)
@@ -529,7 +605,7 @@ def prepare_all_simulations(airfoil_name, df):
     print(f"\n{'='*60}")
     print(f"Preparing simulations for: {airfoil_name}")
     print(f"{'='*60}")
-
+    
     reynolds_to_angles, all_angles = get_angles_and_reynolds(airfoil_name, df)
     initial_job_infos = []
     restart_job_infos = []
@@ -537,30 +613,27 @@ def prepare_all_simulations(airfoil_name, df):
     # Track initial directories for each angle
     angle_to_initial_dir = {}
 
-    # First: Prepare all rotated airfoils and RE2 files
-    print("\nPhase 1: Rotating airfoils and converting to RE2...")
-    for angle in all_angles:
-        print(f"  Preparing {airfoil_name} at {angle}°")
-        rotated_name = rotate_airfoil(airfoil_name, angle)
-        convert_to_re2(rotated_name)
+    # First: Convert airfoil to RE2 (only once, no rotation)
+    print("\nPhase 1: Converting airfoil to RE2...")
+    convert_to_re2(airfoil_name)
 
     # Second: Prepare initial runs (one per angle)
     print("\nPhase 2: Preparing initial runs at Re=10000...")
-    for angle in all_angles:
-        initial_dir = create_initial_directory(airfoil_name, angle)
-        rotated_name = prepare_initial_simulation_files(initial_dir, airfoil_name, angle)
+    for angle_deg in all_angles:
+        initial_dir = create_initial_directory(airfoil_name, angle_deg)
+        airfoil_name_used = prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg)
         
-        angle_to_initial_dir[angle] = initial_dir
+        angle_to_initial_dir[angle_deg] = initial_dir
         
         initial_job_info = {
             'airfoil': airfoil_name,
-            'angle': angle,
-            'rotated_name': rotated_name,
+            'angle': angle_deg,
+            'airfoil_name': airfoil_name_used,
             'work_dir': str(initial_dir)
         }
         
         initial_job_infos.append(initial_job_info)
-        print(f"  Prepared initial simulation: {rotated_name}")
+        print(f"  Prepared initial simulation: {airfoil_name_used} at {angle_deg:.2f}°")
 
     # Third: Prepare restart runs (for all reynolds numbers)
     print("\nPhase 3: Preparing restart runs...")
@@ -569,25 +642,20 @@ def prepare_all_simulations(airfoil_name, df):
         if reynolds == INITIAL_REYNOLDS:
             continue
             
-        for angle in angles:
-            restart_dir = create_restart_directory(airfoil_name, angle, reynolds)
-            
-            if angle == 0:
-                rotated_name = airfoil_name
-            else:
-                rotated_name = f"{airfoil_name}_rot{angle}"
+        for angle_deg in angles:
+            restart_dir = create_restart_directory(airfoil_name, angle_deg, reynolds)
             
             restart_job_info = {
                 'airfoil': airfoil_name,
-                'angle': angle,
+                'angle': angle_deg,
                 'reynolds': reynolds,
-                'rotated_name': rotated_name,
+                'airfoil_name': airfoil_name,
                 'work_dir': str(restart_dir),
-                'initial_dir': str(angle_to_initial_dir[angle])
+                'initial_dir': str(angle_to_initial_dir[angle_deg])
             }
             
             restart_job_infos.append(restart_job_info)
-            print(f"  Prepared restart simulation: {rotated_name} at Re={reynolds}")
+            print(f"  Prepared restart simulation: {airfoil_name} at {angle_deg:.2f}° and Re={reynolds}")
 
     return initial_job_infos, restart_job_infos
 
@@ -622,6 +690,7 @@ def submit_jobs(job_files, submit_restart_after_initial=True):
 def main():
     """Main function to orchestrate the workflow."""
     print("Optimized Parallelized RANS Simulation Automation Script for Polaris")
+    print("Modified to rotate velocity instead of airfoil mesh")
     print("===================================================================")
 
     # Create necessary directories
@@ -640,6 +709,8 @@ def main():
     for airfoil_name in AIRFOILS_TO_PROCESS:
         if check_airfoil_exists(airfoil_name, df):
             initial_jobs, restart_jobs = prepare_all_simulations(airfoil_name, df)
+            if initial_jobs == None and restart_jobs == None:
+                continue
             all_initial_job_infos.extend(initial_jobs)
             all_restart_job_infos.extend(restart_jobs)
         else:

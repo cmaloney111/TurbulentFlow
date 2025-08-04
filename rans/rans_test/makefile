@@ -1,8 +1,8 @@
-### makefile automatically created by makenek 07/18/2025 17:33:23 ###
+### makefile automatically created by makenek 07/31/2025 20:26:10 ###
 BINNAME=nek5000
 CASENAME:=rans
-CASEDIR:=/home/davidgp10/TurbulentFlow/rans/rans_test
-S:=/home/davidgp10/Nek5000
+CASEDIR:=/home/cmaloney111/TurbulentFlow/rans/rans_test
+S:=/home/cmaloney111/Nek5000
 OPT_INCDIR=./ 
 OBJDIR=$(CASEDIR)/obj
 LIB=$(OBJDIR)/libnek5000.a
@@ -10,7 +10,7 @@ LIB=$(OBJDIR)/libnek5000.a
 LD=mpif90
 FC=mpif90
 CC=mpicc
-FFLAGS+=-cpp -fdefault-real-8 -fdefault-double-8 -w -std=legacy -fPIC
+FFLAGS+=-eZ -sreal64  -fPIC
 CFLAGS+=-fPIC
 LDFLAGS+=-Wl,--no-relax -Wl,--allow-multiple-definition
 

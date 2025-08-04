@@ -28,7 +28,11 @@ def find_last_step(log_path):
 def scan_initial_runs(base_dir, output_file):
     with open(output_file, "w") as out:
         out.write("airfoil,angle,step\n")
-        for airfoil in sorted(os.listdir(base_dir)):
+        if len(sys.argv) == 1:
+            airfoils = sorted(os.listdir(base_dir))
+        else:
+            airfoils = sys.argv[1:]
+        for airfoil in airfoils:
             airfoil_path = os.path.join(base_dir, airfoil)
             if not os.path.isdir(airfoil_path):
                 continue
