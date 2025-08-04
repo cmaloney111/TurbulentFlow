@@ -17,20 +17,7 @@ import math
 from collections import defaultdict
 
 # Configuration - List of airfoils to process
-AIRFOILS_TO_PROCESS = [
-    "aquila",
-    "clark-y",
-    "dae51",
-    "df101",
-    "df102",
-    "e193",
-    "fx60-100",
-    "j5012",
-    "mb253515",
-]
-AIRFOILS_TO_PROCESS = [
-    "aquila",
-]
+AIRFOILS_TO_PROCESS = ['aquila', 'clark-y', 'dae51', 'df101', 'df102', 'e193', 'fx60-100', 'j5012', 'mb253515', 'miley', 's2048', 's3010', 's3014']
 
 # Directory paths
 SCRIPT_DIR = Path(__file__).parent.absolute()
@@ -44,7 +31,7 @@ CSV_FILE = SCRIPT_DIR / "training_data_stec8.csv"
 PBS_JOBS_DIR = SCRIPT_DIR / "pbs_jobs"
 
 CORES_PER_NODE = 128
-TASKS_PER_SIMULATION = 2
+TASKS_PER_SIMULATION = 16
 MAX_NODES = 184  # Maximum for workq-route
 DEFAULT_NODES = 2  # Default number of nodes to request
 DEFAULT_WALLTIME = "00:05:00"  # Default walltime
