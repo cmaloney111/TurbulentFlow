@@ -7,9 +7,9 @@
 
 [GENERAL]
 #startFrom = rans0.f00002 #UNCOMMENT WHEN RESTARTING THE FLOW AT HIGHER RE. Create kickstart.fld by renaming the last .f0000.. file 
-dt = 5.0e-6 #when running at high Re, can change this to 1.0e-4
-numsteps = 10000 #can play around with this
-writeInterval = 10000  #can change 2500
+dt = 5.0e-7 #when running at high Re, can change this to 1.0e-4
+numsteps = 100000 #can play around with this
+writeInterval = 100000  #can change 2500
 #timeStepper = BDF2 #UNCOMMENT FOR HIGH RE
 #extrapolation = OIFS  #UNCOMMENT FOR HIGH RE
 #targetCFL = 3.5. #UNCOMMENT FOR HIGH RE

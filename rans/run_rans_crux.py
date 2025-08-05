@@ -50,6 +50,8 @@ PBS_INITIAL_TEMPLATE = """#!/bin/bash
 
 # Change to submission directory
 cd $PBS_O_WORKDIR
+./save_memory.sh &
+SAVE_MEMORY_PID=$!
 
 echo "=============================================="
 echo "Starting INITIAL runs on {num_nodes} nodes"
@@ -136,34 +138,8 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
 
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
 
-                # Create a named pipe (FIFO)
-                pipe=$(mktemp -u)
-                mkfifo "${{pipe}}"
-
-                # Start nek5000, writing output to the pipe
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 ${{airfoil_name}} > "${{pipe}}" 2>&1 &
-                nek_pid=$!
-
-                # Read from the pipe, keep only last 20 lines
-                tail -n +0 -f "${{pipe}}" | awk '
-                {{
-                    lines[NR % 20] = $0
-                    count = (count < 20) ? count + 1 : 20
-                    print "" > "nek_initial.log"
-                    for (i = 0; i < count; i++) {{
-                        idx = (NR - count + i) % 20
-                        if (idx < 0) idx += 20
-                        print lines[idx] >> "nek_initial.log"
-                    }}
-                    close("nek_initial.log")
-                }}' &
-                tail_pid=$!
-
-                wait ${{nek_pid}}
-                kill ${{tail_pid}} 2>/dev/null
-                # Clean up
-                rm "${{pipe}}"
-
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $airfoil_name > nek_initial.log 2>&1
+                
                 if [ ${{?}} -ne 0 ]; then
                     echo "[Job ${{job_id}}] ERROR: Initial run failed for ${{airfoil_name}}" | tee -a "${{STATUS_FILE}}"
                     echo "${{job_id}}|FAILED|Initial run failed" >> "${{COMPLETED_FILE}}"
@@ -174,8 +150,9 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
                 echo "[Job $job_id] Initial simulation completed successfully: $airfoil_name" | tee -a "$STATUS_FILE"
                 echo "$job_id|SUCCESS|Completed" >> "$COMPLETED_FILE"
                 
-                # Clean up hostfile
-                rm -f hostfile_job_${{job_id}}
+                # Clean up
+                rm -f hostfile_job_${{job_id}} ${{airfoil_name}}0.f00001 drag.txt nek_initial.log
+                echo "Step     -1,\n" > nek_initial.log
             ) &
             
             JOB_INDEX=$((JOB_INDEX + 1))
@@ -188,6 +165,9 @@ done
 # Wait for all simulations to complete
 echo "Waiting for all initial simulations to complete..."
 wait
+
+# Stop save_memory.sh
+kill $SAVE_MEMORY_PID 2>/dev/null || true
 
 echo "=============================================="
 echo "All initial simulations completed"
@@ -207,6 +187,10 @@ PBS_RESTART_TEMPLATE = """#!/bin/bash
 
 # Change to submission directory
 cd $PBS_O_WORKDIR
+
+# Start save_memory.sh in background
+./save_memory.sh &
+SAVE_MEMORY_PID=$!
 
 echo "=============================================="
 echo "Starting RESTART runs on {num_nodes} nodes"
@@ -294,15 +278,15 @@ with open(par_file, 'r') as f:
     content = f.read()
 
 # Update for restart
-content = re.sub(r'-10000.0', '-${{reynolds}}', content)i
+content = re.sub(r'-10000.0', '-${{reynolds}}', content)
 content = re.sub(r'-10000', '-${{reynolds}}', content)
-content = re.sub(r'dt = 5.0e-6', 'dt = 1.0e-4', content)
+content = re.sub(r'dt = 5.0e-7', 'dt = 5.0e-7', content)
 content = re.sub(r'#startFrom = rans0.f00002', 'startFrom = ${{airfoil_name}}0.f00002', content)
 content = re.sub(r'#timeStepper = BDF2', 'timeStepper = BDF2', content)
 content = re.sub(r'#extrapolation = OIFS', 'extrapolation = OIFS', content)
 content = re.sub(r'#targetCFL = 3.5.', 'targetCFL = 3.5.', content)
-content = re.sub(r'numsteps = 10000', 'numsteps = 50000', content)
-content = re.sub(r'writeInterval = 10000', 'writeInterval = 50000', content)
+content = re.sub(r'numsteps = 100000', 'numsteps = 1000000', content)
+content = re.sub(r'writeInterval = 100000', 'writeInterval = 1000000', content)
 
 with open(par_file, 'w') as f:
     f.write(content)
@@ -318,34 +302,8 @@ EOF
 
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
 
-                # Create a named pipe (FIFO)
-                pipe=$(mktemp -u)
-                mkfifo "${{pipe}}"
 
-                # Start nek5000, writing output to the pipe
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 ${{airfoil_name}} > "${{pipe}}" 2>&1 &
-                nek_pid=$!
-
-                # Read from the pipe, keep only last 20 lines
-                tail -n +0 -f "${{pipe}}" | awk '
-                {{
-                    lines[NR % 20] = $0
-                    count = (count < 20) ? count + 1 : 20
-                    print "" > "nek_restart.log"
-                    for (i = 0; i < count; i++) {{
-                        idx = (NR - count + i) % 20
-                        if (idx < 0) idx += 20
-                        print lines[idx] >> "nek_restart.log"
-                    }}
-                    close("nek_restart.log")
-                }}' &
-                tail_pid=$!
-
-                wait ${{nek_pid}}
-                kill ${{tail_pid}} 2>/dev/null
-
-                # Clean up
-                rm "${{pipe}}"
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $airfoil_name > nek_restart.log 2>&1
 
                 if [ $? -ne 0 ]; then
                     echo "[Job ${{job_id}}] ERROR: Restart run failed for ${{airfoil_name}}" | tee -a "${{STATUS_FILE}}"
@@ -371,6 +329,9 @@ done
 # Wait for all simulations to complete
 echo "Waiting for all restart simulations to complete..."
 wait
+
+# Stop save_memory.sh
+kill $SAVE_MEMORY_PID 2>/dev/null || true
 
 echo "=============================================="
 echo "All restart simulations completed"
@@ -474,11 +435,17 @@ def prepare_initial_simulation_files(initial_dir, airfoil_name, angle_deg):
     """Prepare files for initial simulation at Re=10000."""
     # Copy all files from rans_base
     if (initial_dir / 'nek5000').exists():
+            for file in RANS_BASE_DIR.iterdir():
+                if file.is_file() and file.name == "rans.par":
+                    shutil.copy2(file, initial_dir)
             old_par = initial_dir / "rans.par"
             new_par = initial_dir / f"{airfoil_name}.par"
             if old_par.exists():
                 shutil.copy2(old_par, new_par)
                 old_par.unlink()
+            genmap_input_file = initial_dir / "genmap_input.txt"
+            with open(genmap_input_file, 'w') as f:
+                f.write(f"{airfoil_name}\n0.05\n")
             if (initial_dir / f"{airfoil_name}0.f00002").exists():
                 return None
             return airfoil_name
@@ -674,7 +641,8 @@ def submit_jobs(job_files, submit_restart_after_initial=True):
         # If this is a restart job and we have an initial job, add dependency
         if job_type == 'restart' and 'initial' in job_ids and submit_restart_after_initial:
             cmd.extend(["-W", f"depend=afterok:{job_ids['initial']}"])
-        
+        elif job_type == 'restart':
+            continue
         cmd.append(str(job_file))
         
         result = run_command(cmd, check=False)

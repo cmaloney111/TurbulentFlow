@@ -11,10 +11,12 @@ def find_last_step(log_path):
     global max_all, max_logpath, min_all, min_logpath
     try:
         with open(log_path, "r") as f:
-            steps = [int(m.group(1)) for m in re.finditer(r"Step\s+(\d+),", f.read())]
+            steps = [int(m.group(1)) for m in re.finditer(r"Step\s+(-?\d+),", f.read())]
             if not steps:
                 return None
             max_step = max(steps)
+            if max_step == -1:
+                return max_step
             if max_step > max_all:
                 max_all = max_step
                 max_logpath = log_path
@@ -41,7 +43,7 @@ def scan_initial_runs(base_dir, output_file):
                 if not os.path.isdir(angle_path):
                     continue
                 for fname in os.listdir(angle_path):
-                    if fname.startswith("nek_initial") and fname.endswith(".log"):
+                    if fname == "nek_initial.log":
                         log_path = os.path.join(angle_path, fname)
                         step = find_last_step(log_path)
                         out.write(f"{airfoil},{angle},{step}\n")
