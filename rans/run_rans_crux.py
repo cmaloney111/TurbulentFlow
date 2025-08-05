@@ -138,7 +138,7 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
 
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
 
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $airfoil_name
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $airfoil_name > /dev/null 2>&1
                 
                 if [ ${{?}} -ne 0 ]; then
                     echo "[Job ${{job_id}}] ERROR: Initial run failed for ${{airfoil_name}}" | tee -a "${{STATUS_FILE}}"
@@ -303,7 +303,7 @@ EOF
                 MPI_ARG="-n ${{NRANKS_PER_NODE}} --ppn ${{NRANKS_PER_NODE}} --depth=${{NDEPTH}} --cpu-bind depth"
 
 
-                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $airfoil_name
+                mpiexec ${{MPI_ARG}} --hostfile hostfile_job_${{job_id}} ./nek5000 $airfoil_name > /dev/null 2>&1
 
                 if [ $? -ne 0 ]; then
                     echo "[Job ${{job_id}}] ERROR: Restart run failed for ${{airfoil_name}}" | tee -a "${{STATUS_FILE}}"
