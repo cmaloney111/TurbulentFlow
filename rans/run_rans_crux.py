@@ -640,7 +640,7 @@ def submit_jobs(job_files, submit_restart_after_initial=True):
         
         # If this is a restart job and we have an initial job, add dependency
         if job_type == 'restart' and 'initial' in job_ids and submit_restart_after_initial:
-            cmd.extend(["-W", f"depend=afterok:{job_ids['initial']}"])
+            cmd.extend(["-W", f"depend=afterany:{job_ids['initial']}"])
         elif job_type == 'restart':
             continue
         cmd.append(str(job_file))
