@@ -33,8 +33,8 @@ PBS_JOBS_DIR = SCRIPT_DIR / "pbs_jobs"
 CORES_PER_NODE = 128
 TASKS_PER_SIMULATION = 16
 MAX_NODES = 184  # Maximum for workq-route
-DEFAULT_NODES = 2  # Default number of nodes to request
-DEFAULT_WALLTIME = "00:05:00"  # Default walltime
+DEFAULT_NODES = 176  # Default number of nodes to request
+DEFAULT_WALLTIME = "24:00:00"  # Default walltime
 INITIAL_REYNOLDS = 10000  # Reynolds number for initial runs
 
 PBS_INITIAL_TEMPLATE = """#!/bin/bash
@@ -45,7 +45,7 @@ PBS_INITIAL_TEMPLATE = """#!/bin/bash
 #PBS -A UncertaintyDL
 #PBS -l select={num_nodes}
 #PBS -l place=scatter
-#PBS -l walltime={walltime}
+#PBS -l walltime=15:00:00
 #PBS -l filesystems=home
 
 # Change to submission directory
@@ -153,6 +153,7 @@ while [ $JOB_INDEX -lt $TOTAL_JOBS ]; do
                 # Clean up
                 rm -f hostfile_job_${{job_id}} ${{airfoil_name}}0.f00001 drag.txt nek_initial.log
                 echo "Step     100000,\n" > nek_initial.log
+
             ) &
             
             JOB_INDEX=$((JOB_INDEX + 1))
@@ -172,6 +173,8 @@ kill $SAVE_MEMORY_PID 2>/dev/null || true
 echo "=============================================="
 echo "All initial simulations completed"
 echo "=============================================="
+
+exit 0
 """
 
 PBS_RESTART_TEMPLATE = """#!/bin/bash
@@ -722,7 +725,7 @@ def main():
             # Queue selection
             print("\nAvailable queues:")
             print("  1. debug (1-8 nodes, 5min-2hr)")
-            print("  2. workq-route (1-184 nodes, 45min-24hr)")
+            print("  2. workq-route (1-184 nodes, 5min-24hr)")
             print("  3. preemptable (1-10 nodes, 5min-72hr, can be killed)")
             queue_choice = input("Select queue (1-3, default=2): ").strip()
             
