@@ -126,4 +126,3 @@ clean::
 .PHONY: all clean lib usr 
 
 $(NOBJS) : ./SIZE
-

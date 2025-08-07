@@ -3,8 +3,6 @@
 c-----------------------------------------------------------------------c
       subroutine userchk()
 
-c      implicit none
-
       include 'SIZE'
       include 'TOTAL'
 
@@ -15,22 +13,41 @@ c      implicit none
       real x0(3)
       data x0 /0.0, 0.0, 0.0/
       save x0
-
 c     Save the boundary ID(1) with the iobj_wall so it can be used to compute wall shear
       integer bIDs(1)
       save iobj_wall
 
+c     Add file tracking flag
+      logical first
+      save first
+      data first / .true. /
+
+      integer ios
+
+      write(6,*) '=== userchk running ==='
+
+c     Open drag.txt once if not already open
+      if (first .and. nid.eq.0) then
+         open(unit=57, file='drag.txt', status='unknown', iostat=ios)
+         if (ios.ne.0) then
+            write(6,*) 'Error opening drag.txt, iostat=', ios
+         else
+            write(6,*) 'Successfully opened drag.txt'
+         endif
+         first = .false.
+      endif
 
 c     This creates the object iobj_wall
       if (istep.eq.0) then
          bIDs(1) = 5
          call create_obj(iobj_wall,bIDs,1)
          nm = iglsum(nmember(iobj_wall),1)
-         if(nid.eq.0) write(6,*) 'obj_wall nmem:', nm 
+         if(nid.eq.0) write(6,*) 'obj_wall nmem:', nm
          call prepost(.true.,'   ')
       endif
 
-      scale = 2.0 ! CD = F/(.5 rho U^2 ) = 2*F using scale=2 gives us the coefficients      
+      scale = 2.0 ! CD = F/(.5 rho U^2 ) = 2*F using scale=2 gives us the coefficients
+      if (nid.eq.0) write(6,*) 'istep=', istep
 
 c     Computes drag over wall
       if (istep.eq.0) call set_obj
@@ -42,20 +59,22 @@ c     Computes drag over wall
       drag_vx = dragvx(1)
       drag_vy = dragvy(1)
 
-      open(unit=57,file='drag.txt')
-
-      if (mod(istep,5000).lt.5) then
-      write(57,*) 'Time = ', time,
-     +            'Fx_p=', drag_px, 'Fx_v=', drag_vx, 'Fx=', dragx_avg,
-     +            'Fy_p=', drag_py, 'Fy_v=', drag_vy, 'Fy=', dragy_avg
+      if (mod(istep,2500).lt.5) then
+      write(57,*) 'istep = ', istep
+      write(57,'(A,F12.5)') 'Time = ', time
+      write(57,'(A,F12.5)') 'drag_px = ', drag_px
+      write(57,'(A,F12.5)') 'drag_vx = ', drag_vx
+      write(57,'(A,F12.5)') 'drag_py = ', drag_py
+      write(57,'(A,F12.5)') 'drag_vy = ', drag_vy
+      write(57,'(A,F12.5)') 'dragx_avg = ', dragx_avg
+      write(57,'(A,F12.5)') 'dragy_avg = ', dragy_avg
+      write(57,*)
       endif
-c      nintv = 40000
 
-c      if(istep.eq.0.or.(mod(istep,nintv).eq.0)) call write_soln(nintv)
+      flush(57)
 
       return
       end
-c-----------------------------------------------------------------------c
 
 
 
@@ -259,8 +278,8 @@ C     NOTE ::: This subroutine MAY NOT be called by every process
       e = gllel(eg)
       cb1 = cbc(iside,e,1) !velocity boundary condition
       
-      ux=1.0
-      uy=0.0
+      ux=0.9999950652018582
+      uy=0.0031415874858796
       uz=0.0
       temp=0.0
       
@@ -289,8 +308,8 @@ C-----------------------------------------------------------------------
       
       e = gllel(eg)
 
-      ux=1.0 !Maybe this should be 0.0? Or 1.0?
-      uy=0.0
+      ux=0.9999950652018582 !Maybe this should be 0.0? Or 1.0?
+      uy=0.0031415874858796
       uz=0.0
       temp=0.0
 
