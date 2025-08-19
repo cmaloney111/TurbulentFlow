@@ -8,7 +8,6 @@ GenAirfoils/airfoil_database/
 GenAirfoils/airfoil_database_test/
 GenAirfoils/airfoil_rot_database/
 .DS_Store
-*.csv
 visit/
 GenAirfoils/gmsh2nek
 rans/GenAirfoils/airfoil.geo
@@ -26,3 +25,4 @@ rans/rans_test/SESSION.NAME
 rans/pbs_jobs/
 rans/rans_batch_1.o
 rans/rans_batch_1.e*
+*.csv
