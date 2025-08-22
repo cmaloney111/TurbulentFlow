@@ -107,6 +107,6 @@ conda install -c conda-forge libglu
 
 # TO RUN 
 ```
-vim run_rans.py       	#change airfoils to process to whichever ones you want
+vim run_rans.py       	#change airfoils_to_process to whichever ones you want
 python run_rans.py
 ```
